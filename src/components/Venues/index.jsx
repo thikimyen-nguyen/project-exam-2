@@ -4,6 +4,7 @@ import useVenuesStore from "../../store/venues";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 import VenueCard from "./venueCard";
+import Banner from "./holidaze-banner-4.jpg";
 
 export function VenuesList() {
   const { venues, isError, isLoading, fetchVenues } = useVenuesStore();
@@ -46,6 +47,10 @@ export function VenuesList() {
 
   return (
     <div>
+      <div className="mb-5 mt-0 relative h-[300px]">
+        <div  className="absolute inset-0 bg-cover bg-top bg-right" style={{backgroundImage: `url('${Banner}')`}}></div>
+        {/* <img src={Banner} alt="Holidaze banner"  /> */}
+      </div>
       <div className="mb-8 text-center">
         <input
           type="text"
@@ -56,7 +61,7 @@ export function VenuesList() {
         />
       </div>
       {searchInput === "" ? (
-        <h1 className="font-bold mb-4">All Venues</h1>
+        <h1 className="font-bold mb-4 text-center">All Venues</h1>
       ) : (
         <h1 className="font-bold mb-4">Search Results</h1>
       )}
