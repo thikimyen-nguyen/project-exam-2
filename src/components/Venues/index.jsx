@@ -5,7 +5,7 @@ import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 import VenueCard from "./venueCard";
 
-export function ProductsList() {
+export function VenuesList() {
   const { venues, isError, isLoading, fetchVenues } = useVenuesStore();
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -49,10 +49,10 @@ export function ProductsList() {
       <div className="mb-8 text-center">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search venues..."
           value={searchInput}
           onChange={handleSearchChange}
-          className="w-3/4 md:w-1/2 lg:w-1/3 p-3 border border-primary text-white bg-black rounded-lg"
+          className="w-3/4 md:w-1/2 lg:w-1/3 p-3 border border-darkGreen text-black bg-lightGreen rounded-lg"
         />
       </div>
       {searchInput === "" ? (

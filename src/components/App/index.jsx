@@ -2,13 +2,13 @@ import "./index.css";
 import { Layout } from "../Layout";
 import { Routes, Route } from "react-router-dom";
 import { ContactForm } from "../ContactForm";
-import { ProductsList } from "../Products";
 import { CartDetail } from "../CartDetail";
 import CheckoutSuccess from "../CheckoutMessage";
-import SingleProduct from "../Products/Product";
+import { VenuesList } from "../Venues";
+import SingleVenue from "../Venues/Venue";
 
 function HomePage() {
-  return <ProductsList />;
+  return <VenuesList />;
 }
 function ContactPage() {
   return <ContactForm />;
@@ -19,8 +19,8 @@ function CheckoutPage() {
 function CheckoutSuccessPage() {
   return <CheckoutSuccess />;
 }
-function ProductPage() {
-  return <SingleProduct />;
+function VenuePage() {
+  return <SingleVenue />;
 }
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
           <Route path="contact" element={<ContactPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="checkoutSuccess" element={<CheckoutSuccessPage />} />
-          <Route path=":id" element={<ProductPage />} />
+          <Route path=":id" element={<VenuePage />} />
         </Route>
       </Routes>
     </div>

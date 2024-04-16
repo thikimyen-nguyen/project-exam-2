@@ -5,7 +5,7 @@ import Loader from "../../Loader";
 import { PrimaryButton } from "../../Buttons";
 import useVenuesStore from "../../../store/venues";
 
-function SingleProduct() {
+function SingleVenue() {
   const { singleVenue, isError, isLoading, fetchVenueById } = useVenuesStore();
 
   let { id } = useParams();
@@ -32,11 +32,13 @@ function SingleProduct() {
       <div className="container mx-auto">
         <div className="lg:w-4/5 mx-auto md:flex ">
           <div className="w-80 mx-auto">
-            <img
-              src={singleVenue?.media[0].url}
-              alt={singleVenue?.name}
-              className="w-full"
-            />
+            {singleVenue.media && (
+              <img
+                src={singleVenue?.media[0].url}
+                alt={singleVenue?.name}
+                className="w-full"
+              />
+            )}
           </div>
           <div className="w-full px-6 md:flex-1 mt-5">
             <h1 className=" mb-5">{singleVenue?.name}</h1>
@@ -72,4 +74,4 @@ function SingleProduct() {
   );
 }
 
-export default SingleProduct;
+export default SingleVenue;

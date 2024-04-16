@@ -1,6 +1,6 @@
 .primaryButton {
-    background-color: #75BFAA;
-    color: #15231E;
+    background-color: #325249;
+    color: #E7F4EE;
     padding: 0.5em 1em;
     font-size: 1.3rem;
     border-radius: 10px;
@@ -23,4 +23,8 @@
   }
   .secondaryButton:hover {
     background-color: lighten(black, 20%);
+  }
+  .primaryButton:hover {
+    background-color: #75BFAA;
+    color: #325249;
   }
