@@ -1,13 +1,15 @@
 import React from "react";
-import { PrimaryButton } from "../Buttons";
+import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { Link } from "react-router-dom";
 import Discount from "../DiscountNote";
 
-function VenueCard({
-  product: { id, name, price, media },
-}) {
+function VenueCard({ product: { id, name, price, media, location, rating, meta } }) {
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4 relative">
+    <Link
+      key={id}
+      to={`/${id}`}
+      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4 relative"
+    >
       <div
         id={id}
         className="p-3 group flex flex-col rounded-lg overflow-hidden bg-white border-2 border-primary hover:shadow-md transition duration-300"
@@ -17,22 +19,23 @@ function VenueCard({
           alt={name}
           className="w-full h-48 object-cover object-center group-hover:opacity-75"
         />
-        <h2 className="mt-4 text-primary">{name}</h2>
-        <div className="my-3 flex items-center">
-          <p className="m-2 text-lg font-medium">Nok {price}</p>
-         
+        <div className="flex justify-between content-center mt-3">
+          <h2 className=" text-darkGreen">{name}</h2>
+          <p className="bg-primary px-2 self-center rounded">{rating}/5</p>
         </div>
-
-        <Link key={id} to={`/${id}`} className="text-center">
-          <PrimaryButton label="View" />
-        </Link>
+        <p>
+          {location.city}, {location.country}
+        </p>
+        <div className="flex justify-end">
+        {meta.breakfast && (
+          <div className="text-sm bg-lightGreen self-center p-1 rounded">Breakfast          
+          </div>
+        )}
+        <p className="m-2 text-xl font-medium text-end">Nok {price}</p>
+        </div>
+       
       </div>
-      {/* {price !== discountedPrice && (
-        <div className="absolute top-0 right-0">
-          <Discount price={price} discountedPrice={discountedPrice} />
-        </div>
-      )} */}
-    </div>
+    </Link>
   );
 }
 
