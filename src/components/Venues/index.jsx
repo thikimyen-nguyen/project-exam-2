@@ -47,9 +47,17 @@ export function VenuesList() {
 
   return (
     <div>
+ 
       <div className="mb-5 mt-0 relative h-[300px]">
-        <div  className="absolute inset-0 bg-cover bg-top bg-right" style={{backgroundImage: `url('${Banner}')`}}></div>
-        {/* <img src={Banner} alt="Holidaze banner"  /> */}
+        <div
+          className="absolute inset-0 bg-cover bg-bottom bg-right "
+          style={{ backgroundImage: `url('${Banner}')` }}
+        >
+     
+          <div className="text-darkGreen content-center text-center text-xl bg-lightGreen bg-opacity-65 font-bold absolute h-1/3 right-0 top-1/2 w-1/2">
+           
+          YOUR STAY, OUR PLEASURE!</div>
+        </div>
       </div>
       <div className="mb-8 text-center">
         <input
@@ -57,7 +65,7 @@ export function VenuesList() {
           placeholder="Search venues..."
           value={searchInput}
           onChange={handleSearchChange}
-          className="w-3/4 md:w-1/2 lg:w-1/3 p-3 border border-darkGreen text-black bg-lightGreen rounded-lg"
+          className="w-3/4 md:w-1/2 lg:w-1/3 p-3 border-2 border-primary text-black  rounded-lg"
         />
       </div>
       {searchInput === "" ? (
