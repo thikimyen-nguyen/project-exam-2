@@ -1,0 +1,13 @@
+
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    color: #15231E;
+    min-height: 100vh;
+    
+}
+.pageBody {
+    flex-grow: 1;
+    padding: 2rem;
+}

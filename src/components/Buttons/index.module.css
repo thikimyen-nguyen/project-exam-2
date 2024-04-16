@@ -1,0 +1,26 @@
+.primaryButton {
+    background-color: #75BFAA;
+    color: #15231E;
+    padding: 0.5em 1em;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+   margin-right: 0.3em;
+  }
+ 
+  .secondaryButton {
+    background-color: white;
+    color: #15231E;
+    padding: 0.5em 1em;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #325249;
+    margin-right: 0.3em;
+
+  }
+  .secondaryButton:hover {
+    background-color: lighten(black, 20%);
+  }
