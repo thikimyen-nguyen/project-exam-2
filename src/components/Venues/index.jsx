@@ -36,27 +36,28 @@ export function VenuesList() {
     const input = event.target.value;
     setSearchInput(input);
 
-    const filteredProducts = venues.filter(
+    const filteredVenues = venues.filter(
       (venue) =>
-        venue.name.toLowerCase().includes(input.toLowerCase()) ||
-        venue.description.toLowerCase().includes(input.toLowerCase()) ||
-        (venue.location + "").toLowerCase().includes(input.toLowerCase()) // Convert to string before calling toLowerCase()
+        venue.name?.toLowerCase().includes(input.toLowerCase()) ||
+        venue.description?.toLowerCase().includes(input.toLowerCase()) ||
+        venue.location?.address?.toLowerCase().includes(input.toLowerCase()) ||
+        venue.location?.city?.toLowerCase().includes(input.toLowerCase()) ||
+        venue.location?.country?.toLowerCase().includes(input.toLowerCase()) ||
+        venue.location?.continent?.toLowerCase().includes(input.toLowerCase())
     );
-    setSearchResults(filteredProducts);
+    setSearchResults(filteredVenues);
   };
 
   return (
     <div>
- 
       <div className="mb-5 mt-0 relative h-[300px]">
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-right "
           style={{ backgroundImage: `url('${Banner}')` }}
         >
-     
           <div className="text-darkGreen content-center text-center text-xl bg-lightGreen bg-opacity-65 font-bold absolute h-1/3 right-0 top-1/2 w-1/2">
-           
-          YOUR STAY, OUR PLEASURE!</div>
+            YOUR STAY, OUR PLEASURE!
+          </div>
         </div>
       </div>
       <div className="mb-8 text-center">
@@ -71,7 +72,7 @@ export function VenuesList() {
       {searchInput === "" ? (
         <h1 className="font-bold mb-4 text-center">All Venues</h1>
       ) : (
-        <h1 className="font-bold mb-4">Search Results</h1>
+        <h1 className="font-bold mb-4 text-center">Search Results</h1>
       )}
 
       <div className="flex flex-wrap">

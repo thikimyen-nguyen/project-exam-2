@@ -91,7 +91,7 @@ function SingleVenue() {
 
             <div>
               <h2>Our Facilities</h2>
-              <div className="flex">
+              <div className="flex my-3">
                 {singleVenue?.meta?.breakfast && (
                   <div className="text-sm bg-lightGreen self-center p-1 rounded mr-2 flex items-center">
                     <svg
@@ -160,10 +160,24 @@ function SingleVenue() {
                 )}
               </div>
             </div>
-
+            <div className="flex items-center my-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#325249"
+                  d="M12 8a4 4 0 1 1 8 0a4 4 0 0 1-8 0m-3.5 8c0-1.152.433-2.204 1.146-3H6a3 3 0 0 0-3 3v3.5a1 1 0 0 0 1 1h4.5zm15 0a4.48 4.48 0 0 0-1.146-3H26a3 3 0 0 1 3 3v3.5a1 1 0 0 1-1 1h-4.5zM3 23.5A1.5 1.5 0 0 1 4.5 22h23a1.5 1.5 0 0 1 1.5 1.5a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 23.5m1-15a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0m17 0a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0M10 16a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4.5H10z"
+                />
+              </svg>
+              <p className="ml-2">Max {singleVenue?.maxGuests} Guests</p>
+            </div>
             <div className="m-auto my-5 flex items-center justify-between">
               <div className="text-xl text-darkGreen font-bold">
-                PRICE: <span className="font-medium">Nok {singleVenue.price}</span>
+                PRICE:{" "}
+                <span className="font-medium">Nok {singleVenue.price}</span>
               </div>
 
               <div>
