@@ -45,7 +45,7 @@ function SingleVenue() {
     <section className="overflow-hidden ">
       <div className="container mx-auto">
         <div className="lg:w-4/5 mx-auto">
-          <div className="w-80 mx-auto">
+          <div className="w-3/4 mx-auto">
             {singleVenue.media && (
               <img
                 src={singleVenue?.media[0].url}
@@ -180,7 +180,7 @@ function SingleVenue() {
             <div className="m-auto my-5 flex items-center justify-between">
               <div className="text-xl text-darkGreen font-bold">
                 PRICE:{" "}
-                <span className="font-medium">Nok {singleVenue.price}</span>
+                <span className="font-medium">NOK {singleVenue.price}</span>
               </div>
 
               <div>

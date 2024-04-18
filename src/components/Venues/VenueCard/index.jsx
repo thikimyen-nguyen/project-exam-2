@@ -62,7 +62,7 @@ function VenueCard({
             </div>
           )}
           <p className="m-2 text-xl font-medium text-end">
-            Nok {price.toFixed()}
+            NOK {price.toFixed()}
           </p>
         </div>
       </div>
