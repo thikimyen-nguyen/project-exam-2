@@ -149,11 +149,14 @@ const renderCalendar = () => {
       const isAvailable = availableDates.some(
         availableDate => availableDate.getTime() === currentDate.getTime()
       );
+      const isBooked = bookings.some(
+        booking => currentDate >= new Date(booking.dateFrom) && currentDate <= new Date(booking.dateTo)
+      );
       calendarDays.push(
         <div
           key={i}
           className={`p-2 text-center ${
-            isPastDate ? 'text-lightGreen' : isAvailable ? 'bg-lightGreen cursor-pointer' : 'bg-darkGreen'
+            isPastDate ? 'text-lightGreen' : isBooked ? 'bg-lightGreen line-through  cursor-not-allowed' : isAvailable ? 'bg-darkGreen text-lightGreen cursor-pointer' : 'bg-darkGreen'
           }`}
           
         >
@@ -189,9 +192,9 @@ const renderCalendar = () => {
               onChange={handleYearChange}
               className="ml-2 px-2 py-1 border rounded"
             >
-              {Array.from({ length: 10 }).map((_, index) => (
-                <option key={index} value={new Date().getFullYear() - 5 + index}>
-                  {new Date().getFullYear() - 5 + index}
+              {Array.from({ length: 5 }).map((_, index) => (
+                <option key={index} value={new Date().getFullYear() + index}>
+                  {new Date().getFullYear() + index}
                 </option>
               ))}
             </select>
