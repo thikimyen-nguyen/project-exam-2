@@ -12,17 +12,17 @@ export function Header() {
   };
   return (
     <header className="text-black sticky top-0 z-10 bg-white">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <Link to="/" className="self-center">
           <img src={logo} alt="Holidaze Logo" className="size-24" />
         </Link>
         <div className="flex">
           <nav>
             <ul className="p-4 flex" id="navbar">
-              <li className="p-4 text-xl">
+              <li className="text-xl hover:bg-lightGreen ml-2">
                 <NavLink to="/">HOME</NavLink>
               </li>
-              <li className="p-4 text-xl">
+              <li className="text-xl hover:bg-lightGreen ml-2">
                 <NavLink to="/contact">SIGN IN</NavLink>
               </li>
             </ul>

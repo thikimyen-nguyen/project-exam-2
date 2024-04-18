@@ -3,7 +3,7 @@ import { allVenuesUrl } from "../../api";
 import useVenuesStore from "../../store/venues";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import VenueCard from "./venueCard";
+import VenueCard from "./VenueCard";
 import Banner from "./holidaze-banner-4.jpg";
 
 export function VenuesList() {

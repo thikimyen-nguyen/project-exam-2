@@ -1,7 +1,7 @@
 import React from "react";
-import { PrimaryButton, SecondaryButton } from "../Buttons";
+import { PrimaryButton, SecondaryButton } from "../../Buttons";
 import { Link } from "react-router-dom";
-import Discount from "../DiscountNote";
+import Discount from "../../DiscountNote";
 
 function VenueCard({
   product: { id, name, price, media, location, rating, meta },

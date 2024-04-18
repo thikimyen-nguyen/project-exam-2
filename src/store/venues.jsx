@@ -7,7 +7,7 @@ const useVenuesStore = create((set, get) => ({
   singleVenue: {},
   isLoading: false,
   isError: false,
-  
+  bookings: [],
   fetchVenues: async (url) => {
     set({ isLoading: true, isError: false });
     try {
@@ -22,13 +22,15 @@ const useVenuesStore = create((set, get) => ({
     }
   },
   fetchVenueById: async (id) => {
-    const singleVenueUrl = `${allVenuesUrl}/${id}`;
+    const singleVenueUrl = `${allVenuesUrl}/${id}?_bookings=true`;
     set({ isLoading: true, isError: false });
     try {
       const response = await fetch(singleVenueUrl);
       const json = await response.json();
       set((state) => ({ ...state, singleVenue: json.data }));
+      set((state) => ({ ...state, bookings: json.data.bookings }));
       localStorage.setItem("currentVenue", JSON.stringify(json.data));
+      console.log(json.data)
     } catch (error) {
       set({ isError: true });
     } finally {

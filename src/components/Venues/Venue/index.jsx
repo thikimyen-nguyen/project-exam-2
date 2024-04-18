@@ -4,9 +4,10 @@ import ErrorHandling from "../../ErrorHandle";
 import Loader from "../../Loader";
 import { PrimaryButton } from "../../Buttons";
 import useVenuesStore from "../../../store/venues";
+import VenueCalendar from "../../BookingCalendar";
 
 function SingleVenue() {
-  const { singleVenue, isError, isLoading, fetchVenueById } = useVenuesStore();
+  const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
   const [mapsUrl, setMapsUrl] = useState("");
 
   let { id } = useParams();
@@ -24,6 +25,7 @@ function SingleVenue() {
       );
     }
   }, [singleVenue]);
+  
   if (isError) {
     return (
       <div>
@@ -53,8 +55,8 @@ function SingleVenue() {
             )}
           </div>
           <div className="w-full px-6 md:flex-1 mt-5">
-            <div className="flex justify-between content-center my-5">
-              <h1>{singleVenue?.name}</h1>
+            <div className="flex items-center my-5">
+              <h1 className="mr-5">{singleVenue?.name}</h1>
 
               <p className="bg-primary px-2 self-center rounded">
                 {singleVenue?.rating}/5
@@ -174,6 +176,7 @@ function SingleVenue() {
               </svg>
               <p className="ml-2">Max {singleVenue?.maxGuests} Guests</p>
             </div>
+           
             <div className="m-auto my-5 flex items-center justify-between">
               <div className="text-xl text-darkGreen font-bold">
                 PRICE:{" "}
@@ -183,6 +186,10 @@ function SingleVenue() {
               <div>
                 <PrimaryButton label="Reserve" />
               </div>
+            </div>
+            <div>
+              <h2>Our Availability</h2>
+              <VenueCalendar bookings={bookings} />
             </div>
           </div>
         </div>
