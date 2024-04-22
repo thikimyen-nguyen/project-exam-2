@@ -19,11 +19,12 @@ code {
 h1 {
   font-size: 2em;
   color: #325249;
- 
+ font-weight: 600;
 }
 h2 {
   font-size: 1.5em;
   color: #325249;
+  font-weight: 500;
 }
 
 

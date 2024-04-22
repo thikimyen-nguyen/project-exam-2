@@ -41,16 +41,16 @@ export function ContactForm() {
   }
 
   return (
-    <div>
-      <h1 className="text-center">Contact Form</h1>
+    <div className="m-5">
+      <h1 className="text-center">Sign In</h1>
       {submitSuccess && (
-        <p className="text-black bg-green p-1">
+        <p className="text-black bg-lightGreen p-1">
           Your message was sent successfully!
         </p>
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col md:w-2/4 content-center mx-auto"
+        className="flex-col md:w-3/4 lg:w-1/2 content-center mx-auto items-center p-3 border-2 border-darkGreen rounded"
       >
         <div className="mb-4">
           <label htmlFor="fullName" className="font-semibold">
@@ -61,7 +61,7 @@ export function ContactForm() {
             id="fullName"
             {...register("fullName")}
             className={`mt-1 p-2 text-black ${
-              errors.fullName ? "error-border" : "border-gray-300"
+              errors.fullName ? "error-border" : "border-red"
             } rounded w-full`}
             placeholder="John Smith"
           />

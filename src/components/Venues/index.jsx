@@ -70,9 +70,9 @@ export function VenuesList() {
         />
       </div>
       {searchInput === "" ? (
-        <h1 className="font-bold mb-4 text-center">All Venues</h1>
+        <h1 className="mb-4 text-center">All Venues</h1>
       ) : (
-        <h1 className="font-bold mb-4 text-center">Search Results</h1>
+        <h1 className="mb-4 text-center">Search Results</h1>
       )}
 
       <div className="flex flex-wrap">
