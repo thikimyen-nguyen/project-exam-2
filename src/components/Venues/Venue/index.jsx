@@ -177,8 +177,8 @@ function SingleVenue() {
               <p className="ml-2">Max {singleVenue?.maxGuests} Guests</p>
             </div>
            
-            <div className="m-auto my-5 flex items-center justify-between">
-              <div className="text-xl text-darkGreen font-bold">
+            <div className="m-auto my-5 flex items-center justify-center">
+              <div className="text-xl text-darkGreen font-bold mr-5">
                 PRICE:{" "}
                 <span className="font-medium">NOK {singleVenue.price}</span>
               </div>

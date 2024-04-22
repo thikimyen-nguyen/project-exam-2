@@ -25,7 +25,6 @@
     background-color: lighten(black, 20%);
   }
   .primaryButton:hover {
-    background-color: #E7F4EE;
-    color: #325249;
-    border: 0.5px solid #325249;
+    background-color: #325249;
+    color: #E7F4EE;
   }
