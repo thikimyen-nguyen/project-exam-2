@@ -63,13 +63,13 @@ export function Header() {
               <p>Close</p>
             </div>
             <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/signin">Sign In</NavLink>
+              <NavLink to="/signin" onClick={closeMenu}>Sign In</NavLink>
             </li>
             <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/register">Register</NavLink>
+              <NavLink to="/register" onClick={closeMenu}>Register</NavLink>
             </li>
             <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/admin">Manage Venues</NavLink>
+              <NavLink to="/admin" onClick={closeMenu}>Manage Venues</NavLink>
             </li>
           </ul>
         </nav>

@@ -78,6 +78,7 @@ export function SignInForm() {
           </label>
           <input
             id="password"
+            type="password"
             {...register("password")}
             className={`mt-1 p-2 text-black ${
               errors.password? "error-border" : "border-primary"

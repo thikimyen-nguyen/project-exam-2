@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { useState } from "react";
 import SuccessAlert from "../SuccessAlert";
+import useVenuesStore from "../../store/venues";
+import { registerUrl } from "../../api";
 
 const schema = yup
   .object({
@@ -39,12 +41,18 @@ export function RegisterForm() {
     resolver: yupResolver(schema),
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  function onSubmit(data) {
+  const fetchRegisterAccount = useVenuesStore(state => state.fetchRegisterAccount); 
+
+  async function onSubmit(data) {
     console.log(data);
     reset();
 
-    setSubmitSuccess(true);
-    
+    try {
+      await fetchRegisterAccount(registerUrl, data); 
+      setSubmitSuccess(true);
+    } catch (error) {
+      console.error("Error registering account:", error);
+    }
   }
   function closeAlert() {
     setSubmitSuccess(false);
@@ -96,6 +104,7 @@ export function RegisterForm() {
           </label>
           <input
             id="password"
+            type="password"
             {...register("password")}
             className={`mt-1 p-2 text-black ${
               errors.password ? "error-border" : "border-primary"
