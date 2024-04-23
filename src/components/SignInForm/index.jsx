@@ -4,6 +4,9 @@ import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { useState } from "react";
 import SuccessAlert from "../SuccessAlert";
+import useVenuesStore from "../../store/venues";
+import useProfileStore from "../../store/profile";
+import { signInUrl } from "../../api";
 
 function validateEmailDomain(email) {
   return email.endsWith("@stud.noroff.no");
@@ -36,11 +39,17 @@ export function SignInForm() {
     resolver: yupResolver(schema),
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  function onSubmit(data) {
+  const fetchSignIn = useProfileStore(state => state.fetchSignIn);
+  async function onSubmit(data) {
     console.log(data);
     reset();
 
-    setSubmitSuccess(true);
+    try {
+      await fetchSignIn(signInUrl, data); 
+      setSubmitSuccess(true);
+    } catch (error) {
+      console.error("Error registering account:", error);
+    }
   }
   function closeAlert() {
     setSubmitSuccess(false);

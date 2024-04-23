@@ -4,8 +4,8 @@ import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { useState } from "react";
 import SuccessAlert from "../SuccessAlert";
-import useVenuesStore from "../../store/venues";
 import { registerUrl } from "../../api";
+import useProfileStore from "../../store/profile";
 
 const schema = yup
   .object({
@@ -41,7 +41,7 @@ export function RegisterForm() {
     resolver: yupResolver(schema),
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const fetchRegisterAccount = useVenuesStore(state => state.fetchRegisterAccount); 
+  const fetchRegisterAccount = useProfileStore(state => state.fetchRegisterAccount); 
 
   async function onSubmit(data) {
     console.log(data);
