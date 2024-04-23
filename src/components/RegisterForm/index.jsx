@@ -3,20 +3,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { useState } from "react";
-
-function validateEmailDomain(email) {
-  return email.endsWith("@stud.noroff.no");
-}
+import SuccessAlert from "../SuccessAlert";
 
 const schema = yup
   .object({
+    name: yup
+      .string()
+      .matches(
+        /^[a-zA-Z0-9_]+$/,
+        "Username must not contain punctuation symbols apart from underscore (_)."
+      )
+      .required("Please enter your username."),
     email: yup
       .string()
       .email("Please enter a valid email address.")
-      .test(
-        "valid-domain",
-        "Please enter your email @stud.noroff.no.",
-        validateEmailDomain
+
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/,
+        "Please enter a valid email address with @stud.noroff.no domain."
       )
       .required("Please enter your email @stud.noroff.no."),
     password: yup
@@ -40,20 +44,37 @@ export function RegisterForm() {
     reset();
 
     setSubmitSuccess(true);
+    
   }
-
+  function closeAlert() {
+    setSubmitSuccess(false);
+    window.location.href = '/signin'; 
+  }
   return (
     <div className="m-5">
       <h1 className="text-center">Register New Account</h1>
       {submitSuccess && (
-        <p className="text-black bg-lightGreen p-1">
-          Your message was sent successfully!
-        </p>
+        <SuccessAlert message="Your account was registered successfully! Please Sign In." onClose={closeAlert} />
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex-col md:w-3/4 lg:w-1/2 content-center mx-auto items-center p-3 "
       >
+        <div className="mb-4">
+          <label htmlFor="name" className="block font-semibold">
+            Username
+          </label>
+          <input
+            type="text"
+            id="name"
+            {...register("name")}
+            className={`mt-1 p-2 text-black ${
+              errors.name? "error-border" : "border-primary"
+            } rounded w-full`}
+            placeholder="Your username"
+          />
+          <p className="text-red">{errors.name?.message}</p>
+        </div>
         <div className="mb-4">
           <label htmlFor="email" className="block font-semibold">
             Email

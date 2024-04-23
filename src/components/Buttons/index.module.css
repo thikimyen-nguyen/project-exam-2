@@ -22,9 +22,9 @@
 
   }
   .secondaryButton:hover {
-    background-color: lighten(black, 20%);
+    background-color: #E7F4EE;
   }
   .primaryButton:hover {
     background-color: #325249;
-    color: #E7F4EE;
+    color: E7F4EE;
   }

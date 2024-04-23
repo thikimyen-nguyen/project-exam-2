@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { useState } from "react";
+import SuccessAlert from "../SuccessAlert";
 
 function validateEmailDomain(email) {
   return email.endsWith("@stud.noroff.no");
@@ -41,14 +42,16 @@ export function SignInForm() {
 
     setSubmitSuccess(true);
   }
+  function closeAlert() {
+    setSubmitSuccess(false);
+    window.location.href = '/'; 
+  }
 
   return (
     <div className="m-5">
       <h1 className="text-center">Sign In</h1>
       {submitSuccess && (
-        <p className="text-black bg-lightGreen p-1">
-          Your message was sent successfully!
-        </p>
+        <SuccessAlert message="You are sign in successfully." onClose={closeAlert} />
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
