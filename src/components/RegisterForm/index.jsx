@@ -25,7 +25,7 @@ const schema = yup
       .required("Please enter correct password."),
   })
   .required();
-export function SignInForm() {
+export function RegisterForm() {
   const {
     register,
     handleSubmit,
@@ -44,7 +44,7 @@ export function SignInForm() {
 
   return (
     <div className="m-5">
-      <h1 className="text-center">Sign In</h1>
+      <h1 className="text-center">Register New Account</h1>
       {submitSuccess && (
         <p className="text-black bg-lightGreen p-1">
           Your message was sent successfully!
@@ -77,21 +77,22 @@ export function SignInForm() {
             id="password"
             {...register("password")}
             className={`mt-1 p-2 text-black ${
-              errors.password? "error-border" : "border-primary"
+              errors.password ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="Your password"
           ></input>
           <p className="text-red">{errors.password?.message}</p>
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Sign In" />
+          <PrimaryButton label="Register" />
         </div>
       </form>
       <div className="text-center">
-        <p className="mb-4">Don't have an account?</p>
-        <a href="/register">
-          <SecondaryButton label="Register" />
+        <p className="mb-4">Already have an account?</p>
+        <a href="/signin">
+          <SecondaryButton label="Sign In" />
         </a>
-      </div>    </div>
+      </div>
+    </div>
   );
 }

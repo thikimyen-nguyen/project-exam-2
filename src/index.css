@@ -29,6 +29,8 @@ h2 {
 
 
 .error-border {
-  border: solid 2px red;
+  border: solid 2px #A50303;
 }
-
+input {
+  border: 0.5px solid #325249
+}

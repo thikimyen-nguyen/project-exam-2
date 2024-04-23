@@ -21,7 +21,7 @@ export function Header() {
         </Link>
         <div className="flex">
           <nav className="mr-4 text-darkGreen font-semibold">
-            <ul className=" flex items-center" id="navbar">
+            <ul className=" flex items-center" >
               <li className="text-xl hover:bg-lightGreen">
                 <NavLink to="/">Home</NavLink>
               </li>
@@ -47,7 +47,7 @@ export function Header() {
 
       {isOpen && (
         <nav className="text-end relative">
-          <ul className="bg-white border-2 rounded border-darkGreen p-4 w-fit fixed right-4">
+          <ul className="bg-white border-2 rounded border-darkGreen p-4 w-fit fixed right-4" id="navbar">
             <div className="flex items-center cursor-pointer hover:bg-lightGreen" onClick={closeMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,10 +63,13 @@ export function Header() {
               <p>Close</p>
             </div>
             <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/contact">Sign In</NavLink>
+              <NavLink to="/signin">Sign In</NavLink>
             </li>
             <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink>Manage Venues</NavLink>
+              <NavLink to="/register">Register</NavLink>
+            </li>
+            <li className="p-4 text-xl hover:bg-lightGreen">
+              <NavLink to="/admin">Manage Venues</NavLink>
             </li>
           </ul>
         </nav>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { PrimaryButton } from "../Buttons"
 
 
-function CheckoutSuccess() {
+function ManageVenues() {
   return (
     <div className="text-center">
         <h1>CHECKOUT SUCCESSFULLY!</h1>
@@ -12,4 +12,4 @@ function CheckoutSuccess() {
   )
 }
 
-export default CheckoutSuccess
+export default ManageVenues
