@@ -7,6 +7,7 @@ import SuccessAlert from "../SuccessAlert";
 import useVenuesStore from "../../store/venues";
 import useProfileStore from "../../store/profile";
 import { signInUrl } from "../../api";
+import { HomeNav } from "../HomeNav";
 
 function validateEmailDomain(email) {
   return email.endsWith("@stud.noroff.no");
@@ -58,6 +59,7 @@ export function SignInForm() {
 
   return (
     <div className="m-5">
+      <HomeNav />
       <h1 className="text-center">Sign In</h1>
       {submitSuccess && (
         <SuccessAlert message="You are sign in successfully." onClose={closeAlert} />

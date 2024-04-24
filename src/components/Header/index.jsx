@@ -22,8 +22,8 @@ export function Header() {
         <div className="flex">
           <nav className="mr-4 text-darkGreen font-semibold">
             <ul className=" flex items-center" >
-              <li className="text-xl hover:bg-lightGreen">
-                <NavLink to="/">Home</NavLink>
+              <li className="text-lg hover:bg-lightGreen border border-primary px-2">
+                <NavLink to="admin">Manage Venues</NavLink>
               </li>
               <li className="text-xl hover:bg-lightGreen ml-5">
                 <NavLink onClick={toggleMenu}>
@@ -68,9 +68,9 @@ export function Header() {
             <li className="p-4 text-xl hover:bg-lightGreen">
               <NavLink to="/register" onClick={closeMenu}>Register</NavLink>
             </li>
-            <li className="p-4 text-xl hover:bg-lightGreen">
+            {/* <li className="p-4 text-xl hover:bg-lightGreen">
               <NavLink to="/admin" onClick={closeMenu}>Manage Venues</NavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
       )}

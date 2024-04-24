@@ -5,6 +5,7 @@ import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { registerUrl } from "../../api";
 import useProfileStore from "../../store/profile";
 import Alert from "../SuccessAlert";
+import { HomeNav } from "../HomeNav";
 
 const schema = yup
   .object({
@@ -63,6 +64,7 @@ export function RegisterForm() {
   }
   return (
     <div className="m-5">
+        <HomeNav />
       <h1 className="text-center">Register New Account</h1>
       {submitSuccess && (
         <Alert

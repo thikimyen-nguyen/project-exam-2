@@ -5,6 +5,7 @@ import Loader from "../../Loader";
 import { PrimaryButton } from "../../Buttons";
 import useVenuesStore from "../../../store/venues";
 import VenueCalendar from "../../BookingCalendar";
+import { HomeNav } from "../../HomeNav";
 
 function SingleVenue() {
   const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
@@ -43,6 +44,7 @@ function SingleVenue() {
 
   return (
     <section className="overflow-hidden ">
+      <HomeNav />
       <div className="container mx-auto">
         <div className="lg:w-4/5 mx-auto">
           <div className="w-3/4 mx-auto">
