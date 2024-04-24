@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import { useState } from "react";
-import SuccessAlert from "../SuccessAlert";
 import { registerUrl } from "../../api";
 import useProfileStore from "../../store/profile";
+import Alert from "../SuccessAlert";
 
 const schema = yup
   .object({
@@ -40,29 +39,43 @@ export function RegisterForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const fetchRegisterAccount = useProfileStore(state => state.fetchRegisterAccount); 
+  const fetchRegisterAccount = useProfileStore(
+    (state) => state.fetchRegisterAccount
+  );
+  const { isError, submitSuccess } = useProfileStore();
 
   async function onSubmit(data) {
     console.log(data);
     reset();
 
     try {
-      await fetchRegisterAccount(registerUrl, data); 
-      setSubmitSuccess(true);
+      await fetchRegisterAccount(registerUrl, data);
     } catch (error) {
       console.error("Error registering account:", error);
+      useProfileStore.setState({ isError: true });
     }
   }
-  function closeAlert() {
-    setSubmitSuccess(false);
-    window.location.href = '/signin'; 
+  function closeSuccessAlert() {
+    window.location.href = "/signin";
+  }
+  function closeErrorAlert() {
+    window.location.href = "/register";
   }
   return (
     <div className="m-5">
       <h1 className="text-center">Register New Account</h1>
       {submitSuccess && (
-        <SuccessAlert message="Your account was registered successfully! Please Sign In." onClose={closeAlert} />
+        <Alert
+          message="Your account was registered successfully! Please Sign In."
+          onClose={closeSuccessAlert}
+        />
+      )}
+      {isError && (
+        <Alert
+          textColor="text-red"
+          message="Error Registering Account. Your account may exist. Please try again or Sign In."
+          onClose={closeErrorAlert}
+        />
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -77,7 +90,7 @@ export function RegisterForm() {
             id="name"
             {...register("name")}
             className={`mt-1 p-2 text-black ${
-              errors.name? "error-border" : "border-primary"
+              errors.name ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="Your username"
           />
