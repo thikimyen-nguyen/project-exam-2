@@ -6,6 +6,7 @@ import { registerUrl } from "../../api";
 import useProfileStore from "../../store/profile";
 import Alert from "../SuccessAlert";
 import { HomeNav } from "../HomeNav";
+import { useState } from "react";
 
 const schema = yup
   .object({
@@ -44,17 +45,25 @@ export function RegisterForm() {
     (state) => state.fetchRegisterAccount
   );
   const { isError, registerSuccess } = useProfileStore();
+  const [isVenueManager, setIsVenueManager] = useState(false);
 
   async function onSubmit(data) {
-    console.log(data);
     reset();
 
     try {
-      await fetchRegisterAccount(registerUrl, data);
+        const requestData = isVenueManager
+        ? { ...data, venueManager: true }
+        : data;
+        console.log(requestData);
+
+      await fetchRegisterAccount(registerUrl, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
       useProfileStore.setState({ isError: true });
     }
+  }
+  function handleVenueManagerToggle() {
+    setIsVenueManager(!isVenueManager);
   }
   function closeSuccessAlert() {
     window.location.href = "/signin";
@@ -127,6 +136,22 @@ export function RegisterForm() {
             placeholder="Your password"
           ></input>
           <p className="text-red">{errors.password?.message}</p>
+        </div>
+        <div className="my-6 ">
+            <p>You can be our Partner to list and manage your Venues on Holidaze</p>
+            <div className="flex items-center">
+            <label htmlFor="venueManager" className="block font-semibold mr-4">
+            Register as Venue Manager
+          </label>
+          <input
+            type="checkbox"
+            id="venueManager"
+            checked={isVenueManager}
+            onChange={handleVenueManagerToggle}
+            className="text-2xl"
+          />
+            </div>
+         
         </div>
         <div className="mt-4 text-center">
           <PrimaryButton label="Register" />

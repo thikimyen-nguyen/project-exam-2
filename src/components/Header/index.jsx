@@ -8,19 +8,31 @@ import Alert from "../SuccessAlert";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSignOut, setIsSignOut] = useState(false);
+
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  
-  
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
   const closeMenu = () => {
     setIsOpen(false);
   };
-function signOutHandle() {
-  localStorage.clear();
-  
-}
+  function signOutHandle() {
+    localStorage.clear();
+    setIsSignOut(true);
+  }
+  function returnHome() {
+    window.location.href = "/";
+  }
+  if (isSignOut) {
+    return (
+      <Alert
+        message="You are signed out sucessfully!"
+        onClose={returnHome}
+      />
+    );
+  }
   return (
     <header className="text-black sticky top-0 z-10 bg-white">
       <div className="flex justify-between items-center">
@@ -73,33 +85,34 @@ function signOutHandle() {
             </svg>
             <p className="text-sm">Close</p>
           </div>
-          {!currentUser ? (<ul id="navbar">
-            <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/signin" onClick={closeMenu}>
-                Sign In
-              </NavLink>
-            </li>
-            <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/register" onClick={closeMenu}>
-                Register
-              </NavLink>
-            </li>
-            
-          </ul>) : (<ul id="navbar">
-            
-            <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/profile" onClick={closeMenu}>
-                Profile
-              </NavLink>
-            </li>
-            <li className="p-4 text-xl hover:bg-lightGreen">
-              <NavLink to="/" onClick={signOutHandle}>
+          {!currentUser ? (
+            <ul id="navbar">
+              <li className="p-4 text-xl hover:bg-lightGreen">
+                <NavLink to="/signin" onClick={closeMenu}>
+                  Sign In
+                </NavLink>
+              </li>
+              <li className="p-4 text-xl hover:bg-lightGreen">
+                <NavLink to="/register" onClick={closeMenu}>
+                  Register
+                </NavLink>
+              </li>
+            </ul>
+          ) : (
+            <ul id="navbar">
+              <li className="p-4 text-xl hover:bg-lightGreen">
+                <NavLink to="/profile" onClick={closeMenu}>
+                  Profile
+                </NavLink>
+              </li>
+              <li
+                className="p-4 text-xl hover:bg-lightGreen cursor-pointer"
+                onClick={signOutHandle}
+              >
                 Sign Out
-              </NavLink>
-            </li>
-            
-          </ul>)}
-          
+              </li>
+            </ul>
+          )}
         </nav>
       )}
     </header>
