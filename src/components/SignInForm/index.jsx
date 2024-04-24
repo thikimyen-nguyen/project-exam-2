@@ -8,6 +8,7 @@ import useVenuesStore from "../../store/venues";
 import useProfileStore from "../../store/profile";
 import { signInUrl } from "../../api";
 import { HomeNav } from "../HomeNav";
+import Alert from "../SuccessAlert";
 
 function validateEmailDomain(email) {
   return email.endsWith("@stud.noroff.no");
@@ -16,18 +17,18 @@ function validateEmailDomain(email) {
 const schema = yup
   .object({
     email: yup
-      .string()
-      .email("Please enter a valid email address.")
-      .test(
-        "valid-domain",
-        "Please enter your email @stud.noroff.no.",
-        validateEmailDomain
-      )
-      .required("Please enter your email @stud.noroff.no."),
-    password: yup
-      .string()
-      .min(8, "Password must be at least 8 characters.")
-      .required("Please enter correct password."),
+    .string()
+    .email("Please enter a valid email address.")
+
+    .matches(
+      /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/,
+      "Please enter a valid email address with @stud.noroff.no domain."
+    )
+    .required("Please enter your email @stud.noroff.no."),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters.")
+    .required("Please enter correct password."),
   })
   .required();
 export function SignInForm() {
@@ -39,30 +40,41 @@ export function SignInForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const fetchSignIn = useProfileStore(state => state.fetchSignIn);
+  const {logInSuccess, isError} = useProfileStore();
   async function onSubmit(data) {
-    console.log(data);
     reset();
 
     try {
       await fetchSignIn(signInUrl, data); 
-      setSubmitSuccess(true);
     } catch (error) {
       console.error("Error registering account:", error);
+      useProfileStore.setState({ isError: true });
+
     }
   }
-  function closeAlert() {
-    setSubmitSuccess(false);
+  function closeSuccessAlert() {
     window.location.href = '/'; 
   }
-
+  function closeErrorAlert() {
+    window.location.href = '/signin'; 
+  }
   return (
     <div className="m-5">
       <HomeNav />
       <h1 className="text-center">Sign In</h1>
-      {submitSuccess && (
-        <SuccessAlert message="You are sign in successfully." onClose={closeAlert} />
+      {logInSuccess && (
+        <Alert
+          message="You are signed in successfully!"
+          onClose={closeSuccessAlert}
+        />
+      )}
+      {isError && (
+        <Alert
+          textColor="text-red"
+          message="Wrong email or password. Please try again."
+          onClose={closeErrorAlert}
+        />
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}

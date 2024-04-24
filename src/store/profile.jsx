@@ -5,7 +5,8 @@ const useProfileStore = create((set, get) => ({
   loginAccount: {},
   isLoading: false,
   isError: false,
-  submitSuccess: false,
+  registerSuccess: false,
+  logInSuccess: false,
   fetchRegisterAccount: async (url, data) => {
     set({ isLoading: true, isError: false });
 
@@ -19,10 +20,11 @@ const useProfileStore = create((set, get) => ({
       };
       const response = await fetch(url, postOption);
       const json = await response.json();
-      console.log(json.data);
       set((state) => ({ ...state, registerAccount: json.data }));
+      console.log(json.data);
+
       if (response.ok) {
-        set({ submitSuccess: true });
+        set({ registerSuccess: true });
       } else {
         set({ isError: true });
       }
@@ -46,7 +48,14 @@ const useProfileStore = create((set, get) => ({
       const json = await response.json();
       console.log(json.data);
       set((state) => ({ ...state, loginAccount: json.data }));
-      localStorage.setItem("token", JSON.stringify(json.data.accessToken));
+      if (response.ok) {
+        set({ logInSuccess: true });
+      } else {
+        set({ isError: true });
+      }
+      localStorage.setItem("accessToken", JSON.stringify(json.data.accessToken));
+      localStorage.setItem("currentUser", JSON.stringify(json.data));
+
     } catch (error) {
       set({ isError: true });
     } finally {

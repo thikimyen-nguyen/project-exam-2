@@ -43,7 +43,7 @@ export function RegisterForm() {
   const fetchRegisterAccount = useProfileStore(
     (state) => state.fetchRegisterAccount
   );
-  const { isError, submitSuccess } = useProfileStore();
+  const { isError, registerSuccess } = useProfileStore();
 
   async function onSubmit(data) {
     console.log(data);
@@ -66,7 +66,7 @@ export function RegisterForm() {
     <div className="m-5">
         <HomeNav />
       <h1 className="text-center">Register New Account</h1>
-      {submitSuccess && (
+      {registerSuccess && (
         <Alert
           message="Your account was registered successfully! Please Sign In."
           onClose={closeSuccessAlert}
