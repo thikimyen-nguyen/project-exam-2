@@ -2,10 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import { useState } from "react";
-import SuccessAlert from "../SuccessAlert";
-import useVenuesStore from "../../store/venues";
-import useProfileStore from "../../store/profile";
+import useAuthStore from "../../store/auth";
 import { signInUrl } from "../../api";
 import { HomeNav } from "../HomeNav";
 import Alert from "../SuccessAlert";
@@ -40,16 +37,16 @@ export function SignInForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const fetchSignIn = useProfileStore(state => state.fetchSignIn);
-  const {logInSuccess, isError} = useProfileStore();
+  const fetchSignIn = useAuthStore(state => state.fetchSignIn);
+  const {logInSuccess, isError} = useAuthStore();
   async function onSubmit(data) {
     reset();
 
     try {
       await fetchSignIn(signInUrl, data); 
     } catch (error) {
-      console.error("Error registering account:", error);
-      useProfileStore.setState({ isError: true });
+      console.error("Error signing in:", error);
+      useAuthStore.setState({ isError: true });
 
     }
   }

@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { registerUrl } from "../../api";
-import useProfileStore from "../../store/profile";
+import useAuthStore from "../../store/auth";
 import Alert from "../SuccessAlert";
 import { HomeNav } from "../HomeNav";
 import { useState } from "react";
@@ -41,10 +41,10 @@ export function RegisterForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const fetchRegisterAccount = useProfileStore(
+  const fetchRegisterAccount = useAuthStore(
     (state) => state.fetchRegisterAccount
   );
-  const { isError, registerSuccess } = useProfileStore();
+  const { isError, registerSuccess } = useAuthStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
 
   async function onSubmit(data) {
@@ -59,7 +59,7 @@ export function RegisterForm() {
       await fetchRegisterAccount(registerUrl, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
-      useProfileStore.setState({ isError: true });
+      useAuthStore.setState({ isError: true });
     }
   }
   function handleVenueManagerToggle() {

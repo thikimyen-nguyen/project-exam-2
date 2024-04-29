@@ -6,6 +6,7 @@ import {  RegisterForm } from "../RegisterForm";
 import { VenuesList } from "../Venues";
 import SingleVenue from "../Venues/Venue";
 import ManageVenues from "../ManageVenues";
+import CurrentProfile from "../Profile";
 
 function HomePage() {
   return <VenuesList />;
@@ -22,7 +23,9 @@ function AdminPage() {
 function VenuePage() {
   return <SingleVenue />;
 }
-
+function ProfilePage() {
+  return <CurrentProfile />;
+}
 function App() {
   return (
     <div className="bg-gray">
@@ -33,6 +36,8 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route path="admin" element={<AdminPage />} />
           <Route path=":id" element={<VenuePage />} />
+          <Route path="profile" element={<ProfilePage />} />
+
         </Route>
       </Routes>
     </div>

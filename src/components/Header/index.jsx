@@ -3,14 +3,13 @@ import logo from "./Holidaze-logo-ver.png";
 import { CartIcon } from "../CartIcon";
 import { Link, NavLink } from "react-router-dom";
 import "./index.css";
-import useProfileStore from "../../store/profile";
 import Alert from "../SuccessAlert";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignOut, setIsSignOut] = useState(false);
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUserName = JSON.parse(localStorage.getItem("currentUserName"));
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -59,7 +58,7 @@ export function Header() {
                     />
                   </svg>
                 </NavLink>
-                {currentUser && <p>{currentUser.name}</p>}
+                {currentUserName && <p>{currentUserName}</p>}
               </li>
             </ul>
           </nav>
@@ -85,7 +84,7 @@ export function Header() {
             </svg>
             <p className="text-sm">Close</p>
           </div>
-          {!currentUser ? (
+          {!currentUserName ? (
             <ul id="navbar">
               <li className="p-4 text-xl hover:bg-lightGreen">
                 <NavLink to="/signin" onClick={closeMenu}>
