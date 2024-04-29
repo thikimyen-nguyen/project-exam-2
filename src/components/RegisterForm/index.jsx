@@ -23,7 +23,7 @@ const schema = yup
 
       .matches(
         /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/,
-        "Please enter a valid email address with @stud.noroff.no domain."
+        "Please enter a valid email address @stud.noroff.no."
       )
       .required("Please enter your email @stud.noroff.no."),
     password: yup
