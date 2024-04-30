@@ -2,27 +2,42 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import { registerUrl } from "../../api";
-import useAuthStore from "../../store/auth";
+import  { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../SuccessAlert";
-import { HomeNav } from "../HomeNav";
-import { useState } from "react";
+import {  useState } from "react";
+import useProfileStore from "../../store/profile";
 
-const schema = yup
-  .object({
-    bio: yup
-      .string()
-      .max(160, "Your Bio must be less than 160 characters."),
+const schema = yup.object({
+    bio: yup.string().max(160, "Your Bio must be less than 160 characters."),
     avatar: yup
-      .string(),
-      
-      
+      .string()
+      .url("Avatar must be a valid URL") 
+      .test("is-url", "Avatar must be a valid and accessible URL", (value) => {
+        if (!value) return true; 
+        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(value);
+      }),
     banner: yup
       .string()
-      
-  })
-  .required();
-export function EditProfileForm() {
+      .url("Banner must be a valid URL") 
+      .test("is-url", "Banner must be a valid and accessible URL", (value) => {
+        if (!value) return true; 
+        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(value);
+      }),
+    venueManager: yup.boolean(), // Venue Manager field
+  }).test(
+    "at-least-one-filled",
+    "At least one input field must be filled", // Error message if condition not met
+    (value) => {
+      const { bio, avatar, banner, venueManager } = value;
+      // Check if at least one of the fields has a value
+      return bio || avatar || banner || venueManager;
+    }
+  );
+  
+  
+export function EditProfileForm({ onClose }) {
   const {
     register,
     handleSubmit,
@@ -31,52 +46,66 @@ export function EditProfileForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const fetchRegisterAccount = useAuthStore(
-    (state) => state.fetchRegisterAccount
+  const fetchUpdateProfile = useProfileStore(
+    (state) => state.fetchUpdateProfile
   );
-  const { isError, registerSuccess } = useAuthStore();
+  const { isError, updateSuccess, currentProfile} = useProfileStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
+  const { apiKey } = useProfileStore();
+
+  
 
   async function onSubmit(data) {
     reset();
-
-    try {
-        const requestData = isVenueManager
-        ? { ...data, venueManager: true }
-        : data;
-        console.log(requestData);
-
-      await fetchRegisterAccount(registerUrl, requestData);
-    } catch (error) {
-      console.error("Error registering account:", error);
-      useAuthStore.setState({ isError: true });
+    if (apiKey) {
+        try {
+            const requestData = isVenueManager
+              ? { ...data, venueManager: true }
+              : data;
+              console.log(requestData);
+            await fetchUpdateProfile(
+              currentUserName,
+              apiKey,
+              accessToken,
+              requestData
+            );
+      
+          } catch (error) {
+            console.error("Error updating profile", error);
+            useProfileStore.setState({ isError: true });
+          }
     }
+   
   }
   function handleVenueManagerToggle() {
     setIsVenueManager(!isVenueManager);
   }
   function closeSuccessAlert() {
-    window.location.href = "/signin";
+    window.location.href = "/profile";
   }
   function closeErrorAlert() {
-    window.location.href = "/register";
+    window.location.href = "/profile";
   }
   return (
     <div className="m-5">
       <h1 className="text-center">Edit Profile</h1>
-      {registerSuccess && (
+      {updateSuccess && (
         <Alert
-          message="Your account was registered successfully! Please Sign In."
+          message="Your Profile is now updated."
           onClose={closeSuccessAlert}
         />
       )}
       {isError && (
         <Alert
           textColor="text-red"
-          message="Error Registering Account. Your account may exist. Please try again or Sign In."
+          message="Error Updating Profile. You can try again later."
           onClose={closeErrorAlert}
         />
       )}
+      <div className="text-end">
+        <SecondaryButton label="X Close" onClick={onClose} />
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex-col md:w-3/4 lg:w-1/2 content-center mx-auto items-center p-3 "
@@ -127,30 +156,26 @@ export function EditProfileForm() {
           <p className="text-red">{errors.banner?.message}</p>
         </div>
         <div className="my-6 ">
-            <p>You can be our Partner to list and manage your Venues on Holidaze</p>
-            <div className="flex items-center">
+          <p>
+            You can be our Partner to list and manage your Venues on Holidaze
+          </p>
+          <div className="flex items-center">
             <label htmlFor="venueManager" className="block font-semibold mr-4">
-            Register as Venue Manager
-          </label>
-          <input
-            type="checkbox"
-            id="venueManager"
-            checked={isVenueManager}
-            onChange={handleVenueManagerToggle}
-            className="text-2xl"
-          />
-            </div>
-         
+              Register as Venue Manager
+            </label>
+            <input
+              type="checkbox"
+              id="venueManager"
+              checked={isVenueManager}
+              onChange={handleVenueManagerToggle}
+              className="text-2xl"
+            />
+          </div>
         </div>
         <div className="mt-4 text-center">
-          
-          <SecondaryButton label="Cancel" />
-        
-        <PrimaryButton label="Submit" />
-
+          <PrimaryButton label="Submit" />
         </div>
       </form>
-     
     </div>
   );
 }
