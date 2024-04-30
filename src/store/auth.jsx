@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { apiKeyUrl } from "../api";
+export const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+export   const currentUserName = JSON.parse(localStorage.getItem("currentUserName"));
 
 const useAuthStore = create((set, get) => ({
   registerAccount: {},
@@ -8,7 +10,7 @@ const useAuthStore = create((set, get) => ({
   isError: false,
   registerSuccess: false,
   logInSuccess: false,
-  
+  apiKey: "",
   fetchRegisterAccount: async (url, data) => {
     set({ isLoading: true, isError: false });
 
@@ -65,7 +67,23 @@ const useAuthStore = create((set, get) => ({
     }
   },
   
-  
+  fetchApiKey: async () => {
+    try {
+        const postOption = {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        };
+        const response = await fetch(apiKeyUrl, postOption);
+        const json = await response.json();
+        set((state) => ({ ...state, apiKey: json.data.key }));
+
+    } catch (error) {
+        console.error("Error fetching API key:", error);
+    }
+  },
 }));
+
 
 export default useAuthStore;

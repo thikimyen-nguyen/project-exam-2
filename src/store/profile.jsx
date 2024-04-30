@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { apiKeyUrl, singleProfileUrl } from "../api";
+import { singleProfileUrl } from "../api";
 
 
 
@@ -20,8 +20,8 @@ const useProfileStore = create((set, get) => ({
             "X-Noroff-API-Key": apiKey,
           }
         };
-        const url = `${singleProfileUrl}/${userName}`;
-        const response = await fetch(url, getOption);
+        const currentProfileUrl = `${singleProfileUrl}/${userName}`;
+        const response = await fetch( currentProfileUrl, getOption);
         const json = await response.json();
         set((state) => ({ ...state, currentProfile: json.data }));
         localStorage.setItem("currentUser", JSON.stringify(json.data));
