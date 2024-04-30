@@ -7,9 +7,7 @@ import { signInUrl } from "../../api";
 import { HomeNav } from "../HomeNav";
 import Alert from "../SuccessAlert";
 
-function validateEmailDomain(email) {
-  return email.endsWith("@stud.noroff.no");
-}
+
 
 const schema = yup
   .object({
@@ -39,19 +37,24 @@ export function SignInForm() {
   });
   const fetchSignIn = useAuthStore(state => state.fetchSignIn);
   const {logInSuccess, isError} = useAuthStore();
+
   async function onSubmit(data) {
     reset();
 
     try {
       await fetchSignIn(signInUrl, data); 
+
+   
+ 
     } catch (error) {
       console.error("Error signing in:", error);
       useAuthStore.setState({ isError: true });
 
     }
+
   }
   function closeSuccessAlert() {
-    window.location.href = '/'; 
+    window.location.href = '/profile'; 
   }
   function closeErrorAlert() {
     window.location.href = '/signin'; 

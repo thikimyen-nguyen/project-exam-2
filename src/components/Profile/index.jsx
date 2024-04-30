@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
-import useAuthStore, { accessToken, currentUserName } from "../../store/auth";
+import  { accessToken, currentUserName } from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import { PrimaryButton, SecondaryButton } from "../Buttons";
+import {  SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 
 function CurrentProfile() {
-  const { currentProfile, fetchSingleProfile, isError, isLoading } =
+  const { currentProfile, fetchSingleProfile, isError, isLoading, apiKey, fetchApiKey } =
     useProfileStore();
-  const { fetchApiKey, apiKey } = useAuthStore();
-
-  useEffect(() => {
-    fetchApiKey();
-  }, [fetchApiKey]);
+    useEffect(() => {
+        if (accessToken) {
+         fetchApiKey();
+        }
+      }, []);
   useEffect(() => {
     if (apiKey) {
       fetchSingleProfile(currentUserName, apiKey, accessToken);
@@ -54,7 +54,7 @@ function CurrentProfile() {
               className="border-2 rounded-full border-primary"
             />
             <p className="text-center text-lg font-bold">
-              {currentProfile.name}
+              {currentProfile?.name}
             </p>
           </div>
           {currentProfile?.bio ? (

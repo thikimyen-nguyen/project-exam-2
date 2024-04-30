@@ -33,7 +33,7 @@ export function Header() {
     );
   }
   return (
-    <header className="text-black sticky top-0 z-10 bg-white">
+    <header className="text-black sticky top-0 z-20 bg-white">
       <div className="flex justify-between items-center">
         <Link to="/" className="self-center">
           <img src={logo} alt="Holidaze Logo" className="size-24" />
