@@ -2,31 +2,33 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import  { accessToken, currentUserName } from "../../store/profile";
+import { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../SuccessAlert";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
 
-const schema = yup.object({
+const schema = yup
+  .object({
     bio: yup.string().max(160, "Your Bio must be less than 160 characters."),
     avatar: yup
       .string()
-      .url("Avatar must be a valid URL") 
+      .url("Avatar must be a valid URL")
       .test("is-url", "Avatar must be a valid and accessible URL", (value) => {
-        if (!value) return true; 
+        if (!value) return true;
         const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
         return urlRegex.test(value);
       }),
     banner: yup
       .string()
-      .url("Banner must be a valid URL") 
+      .url("Banner must be a valid URL")
       .test("is-url", "Banner must be a valid and accessible URL", (value) => {
-        if (!value) return true; 
+        if (!value) return true;
         const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
         return urlRegex.test(value);
       }),
     venueManager: yup.boolean(), // Venue Manager field
-  }).test(
+  })
+  .test(
     "at-least-one-filled",
     "At least one input field must be filled", // Error message if condition not met
     (value) => {
@@ -35,8 +37,7 @@ const schema = yup.object({
       return bio || avatar || banner || venueManager;
     }
   );
-  
-  
+
 export function EditProfileForm({ onClose }) {
   const {
     register,
@@ -49,33 +50,54 @@ export function EditProfileForm({ onClose }) {
   const fetchUpdateProfile = useProfileStore(
     (state) => state.fetchUpdateProfile
   );
-  const { isError, updateSuccess, currentProfile} = useProfileStore();
+  const { isError, updateSuccess, currentProfile } = useProfileStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
-  const { apiKey } = useProfileStore();
-
-  
+  const { apiKey, fetchApiKey } = useProfileStore();
 
   async function onSubmit(data) {
     reset();
-    if (apiKey) {
-        try {
-            const requestData = isVenueManager
-              ? { ...data, venueManager: true }
-              : data;
-              console.log(requestData);
-            await fetchUpdateProfile(
-              currentUserName,
-              apiKey,
-              accessToken,
-              requestData
-            );
-      
-          } catch (error) {
-            console.error("Error updating profile", error);
-            useProfileStore.setState({ isError: true });
-          }
+
+    try {
+      await fetchApiKey();
+    } catch (error) {
+      console.error("Error fetching API key", error);
+      // Handle error appropriately
     }
-   
+
+    console.log(apiKey);
+
+    if (apiKey) {
+      try {
+        const requestData = {
+          bio: data.bio,
+          venueManager: isVenueManager,
+        };
+
+        if (data.avatar) {
+          requestData.avatar = {
+            url: data.avatar,
+            alt: "",
+          };
+        }
+
+        if (data.banner) {
+          requestData.banner = {
+            url: data.banner,
+            alt: "",
+          };
+        }
+        console.log(requestData);
+        await fetchUpdateProfile(
+          currentUserName,
+          apiKey,
+          accessToken,
+          requestData
+        );
+      } catch (error) {
+        console.error("Error updating profile", error);
+        useProfileStore.setState({ isError: true });
+      }
+    }
   }
   function handleVenueManagerToggle() {
     setIsVenueManager(!isVenueManager);
@@ -156,12 +178,9 @@ export function EditProfileForm({ onClose }) {
           <p className="text-red">{errors.banner?.message}</p>
         </div>
         <div className="my-6 ">
-          <p>
-            You can be our Partner to list and manage your Venues on Holidaze
-          </p>
           <div className="flex items-center">
             <label htmlFor="venueManager" className="block font-semibold mr-4">
-              Register as Venue Manager
+              Want to be Venue Manager
             </label>
             <input
               type="checkbox"

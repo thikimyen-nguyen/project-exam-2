@@ -51,7 +51,7 @@ function CurrentProfile() {
             <img
               src={currentProfile?.avatar?.url}
               alt={currentProfile?.name}
-              className="border-2 rounded-full border-primary"
+              className="border-2 rounded-full border-primary h-44"
             />
             <p className="text-center text-lg font-bold">
               {currentProfile?.name}

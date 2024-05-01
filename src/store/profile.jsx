@@ -61,30 +61,30 @@ const useProfileStore = create((set, get) => ({
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
-            "X-Noroff-API-Key": apiKey,
+            "X-Noroff-API-Key": apiKey
           },
           body: JSON.stringify(data),
-
         };
+        console.log(putOption);          
+
         const currentProfileUrl = `${singleProfileUrl}/${userName}`;
-        const response = await fetch( currentProfileUrl, putOption);
+        const response = await fetch(currentProfileUrl, putOption);
         const json = await response.json();
-        set((state) => ({ ...state, currentProfile: json.data }));
         if (response.ok) {
-          set({ updateSuccess: true });
+          set((state) => ({ ...state, currentProfile: json.data, updateSuccess: true }));
+          localStorage.removeItem("currentProfile");
+          localStorage.setItem("currentProfile", JSON.stringify(json.data));
         } else {
           set({ isError: true });
         }
-        localStorage.removeItem("currentUser");
-
-        localStorage.setItem("currentUser", JSON.stringify(json.data));
-
       } catch (error) {
-        set((state) => ({ ...state, isError: true }));
+        console.error("Error updating profile", error);
+        set({ isError: true });
       } finally {
         set({ isLoading: false });
       }
     },
+    
   }));
   
   export default useProfileStore;
