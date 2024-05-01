@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { registerUrl } from "../../api";
 import useAuthStore from "../../store/auth";
-import Alert from "../SuccessAlert";
+import Alert from "../Alert";
 import { HomeNav } from "../HomeNav";
 import { useState } from "react";
 

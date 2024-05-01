@@ -5,7 +5,7 @@ import { PrimaryButton, SecondaryButton } from "../Buttons";
 import useAuthStore from "../../store/auth";
 import { signInUrl } from "../../api";
 import { HomeNav } from "../HomeNav";
-import Alert from "../SuccessAlert";
+import Alert from "../Alert";
 
 
 
@@ -54,7 +54,10 @@ export function SignInForm() {
 
   }
   function closeSuccessAlert() {
+
     window.location.href = '/profile'; 
+
+
   }
   function closeErrorAlert() {
     window.location.href = '/signin'; 

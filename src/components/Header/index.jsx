@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "./Holidaze-logo-ver.png";
-import { CartIcon } from "../CartIcon";
 import { Link, NavLink } from "react-router-dom";
 import "./index.css";
-import Alert from "../SuccessAlert";
+import Alert from "../Alert";
+import useProfileStore, {
+  accessToken,
+  currentUserName,
+} from "../../store/profile";
+
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignOut, setIsSignOut] = useState(false);
-
-  const currentUserName = JSON.parse(localStorage.getItem("currentUserName"));
-
+  const currentProfile = JSON.parse(localStorage.getItem("currentProfile"));
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+ 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -20,17 +24,49 @@ export function Header() {
   function signOutHandle() {
     localStorage.clear();
     setIsSignOut(true);
+    handleVenueManagerClick(); 
   }
+  
   function returnHome() {
     window.location.href = "/";
   }
+
   if (isSignOut) {
     return (
-      <Alert
-        message="You are signed out sucessfully!"
-        onClose={returnHome}
-      />
+      <Alert message="You are signed out sucessfully!" onClose={returnHome} />
     );
+  }
+  
+  
+  // Updated handleVenueManagerClick function
+  const handleVenueManagerClick = () => {
+    if (currentProfile?.venueManager === true) {
+      setShowErrorAlert(false);
+      window.location.href = "/admin";
+    } else if (currentProfile?.venueManager === false) {
+      setShowErrorAlert(true);
+    } else if (!accessToken) {
+      window.location.href = "/signin";
+    }
+  };
+  // function handleVenueManagerClick() {
+  //   if (currentProfile?.venueManager === true) {
+  //     setShowErrorAlert(false);
+  //     window.location.href = "/admin";
+
+  //   } 
+  //   if (currentProfile?.venueManager === false) {
+  //     setShowErrorAlert(true);
+
+  //   } 
+  //   if (!accessToken) {
+  //     window.location.href = "/signin";
+
+  //   }
+  // }
+  function closeErrorAlert() {
+    setShowErrorAlert(false);
+    window.location.href = "/profile";
   }
   return (
     <header className="text-black sticky top-0 z-20 bg-white">
@@ -41,9 +77,19 @@ export function Header() {
         <div className="flex">
           <nav className="mr-4 text-darkGreen font-semibold">
             <ul className=" flex items-center">
-              <li className="text-lg hover:bg-lightGreen border border-primary px-2">
-                <NavLink to="admin">Manage Venues</NavLink>
-              </li>
+            <li className="text-lg hover:bg-lightGreen border border-primary px-2">
+                    <NavLink onClick={handleVenueManagerClick}>
+                      Manage Venues
+                    </NavLink>
+                  </li>
+             
+              {showErrorAlert && (
+                <Alert
+                  textColor="text-red"
+                  message="Please update your profile as Venue Manager!"
+                  onClose={closeErrorAlert}
+                />
+              )}
               <li className="text-xl hover:bg-lightGreen ml-5 flex items-center">
                 <NavLink onClick={toggleMenu}>
                   <svg

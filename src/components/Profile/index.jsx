@@ -12,6 +12,7 @@ function CurrentProfile() {
     useEffect(() => {
         if (accessToken) {
          fetchApiKey();
+
         }
       }, []);
   useEffect(() => {
@@ -19,7 +20,7 @@ function CurrentProfile() {
       fetchSingleProfile(currentUserName, apiKey, accessToken);
     }
   }, [fetchSingleProfile, apiKey]);
-  
+
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
   const handleEditProfile = () => {
@@ -29,7 +30,6 @@ function CurrentProfile() {
   const handleCloseEditForm = () => {
     setIsEditFormOpen(false);
   };
-  console.log(currentProfile);
   if (isLoading) {
     return <Loader />;
   }

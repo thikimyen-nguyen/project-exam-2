@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { accessToken, currentUserName } from "../../store/profile";
-import Alert from "../SuccessAlert";
+import Alert from "../Alert";
 import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
 
