@@ -7,19 +7,8 @@ import {  SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 
 function CurrentProfile() {
-  const { currentProfile, fetchSingleProfile, isError, isLoading, apiKey, fetchApiKey } =
+  const { currentProfile, isError, isLoading} =
     useProfileStore();
-    useEffect(() => {
-        if (accessToken) {
-         fetchApiKey();
-
-        }
-      }, []);
-  useEffect(() => {
-    if (apiKey) {
-      fetchSingleProfile(currentUserName, apiKey, accessToken);
-    }
-  }, [fetchSingleProfile, apiKey]);
 
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 

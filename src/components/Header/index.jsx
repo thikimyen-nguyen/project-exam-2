@@ -12,9 +12,20 @@ import useProfileStore, {
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignOut, setIsSignOut] = useState(false);
-  const currentProfile = JSON.parse(localStorage.getItem("currentProfile"));
   const [showErrorAlert, setShowErrorAlert] = useState(false);
- 
+  const { currentProfile, fetchSingleProfile, apiKey, fetchApiKey } =
+    useProfileStore();
+    useEffect(() => {
+        if (accessToken) {
+         fetchApiKey();
+
+        }
+      }, []);
+  useEffect(() => {
+    if (apiKey) {
+      fetchSingleProfile(currentUserName, apiKey, accessToken);
+    }
+  }, [fetchSingleProfile, apiKey]);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -38,7 +49,6 @@ export function Header() {
   }
   
   
-  // Updated handleVenueManagerClick function
   const handleVenueManagerClick = () => {
     if (currentProfile?.venueManager === true) {
       setShowErrorAlert(false);
@@ -49,21 +59,7 @@ export function Header() {
       window.location.href = "/signin";
     }
   };
-  // function handleVenueManagerClick() {
-  //   if (currentProfile?.venueManager === true) {
-  //     setShowErrorAlert(false);
-  //     window.location.href = "/admin";
-
-  //   } 
-  //   if (currentProfile?.venueManager === false) {
-  //     setShowErrorAlert(true);
-
-  //   } 
-  //   if (!accessToken) {
-  //     window.location.href = "/signin";
-
-  //   }
-  // }
+  
   function closeErrorAlert() {
     setShowErrorAlert(false);
     window.location.href = "/profile";

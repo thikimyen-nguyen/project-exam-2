@@ -52,41 +52,41 @@ export function EditProfileForm({ onClose }) {
   );
   const { isError, updateSuccess, currentProfile } = useProfileStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
-  const { apiKey, fetchApiKey } = useProfileStore();
-
+  const { apiKey } = useProfileStore();
+  useEffect(() => {
+    if (currentProfile?.venueManager) {
+      setIsVenueManager(true);
+    }
+  }, [currentProfile]);
   async function onSubmit(data) {
     reset();
 
-    try {
-      await fetchApiKey();
-    } catch (error) {
-      console.error("Error fetching API key", error);
-      // Handle error appropriately
-    }
-
-    console.log(apiKey);
-
     if (apiKey) {
       try {
-        const requestData = {
-          bio: data.bio,
-          venueManager: isVenueManager,
-        };
+        const requestData = {};
 
+        if (data.venueManager !== undefined && data.venueManager !== isVenueManager) {
+          requestData.venueManager = data.venueManager;
+        }
+  
+        if (data.bio) {
+          requestData.bio = data.bio;
+        }
+  
         if (data.avatar) {
           requestData.avatar = {
             url: data.avatar,
             alt: "",
           };
         }
-
+  
         if (data.banner) {
           requestData.banner = {
             url: data.banner,
             alt: "",
           };
         }
-        console.log(requestData);
+        console.log( requestData);
         await fetchUpdateProfile(
           currentUserName,
           apiKey,
@@ -100,8 +100,10 @@ export function EditProfileForm({ onClose }) {
     }
   }
   function handleVenueManagerToggle() {
-    setIsVenueManager(!isVenueManager);
+    const newValue = !isVenueManager;
+    setIsVenueManager(newValue);
   }
+  
   function closeSuccessAlert() {
     window.location.href = "/profile";
   }
