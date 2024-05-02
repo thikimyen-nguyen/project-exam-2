@@ -1,15 +1,13 @@
 import { create } from "zustand";
 import { allVenuesUrl } from "../api";
 
-
+export const currentVenue = JSON.parse(localStorage.getItem('currentVenue'));
 const useVenuesStore = create((set, get) => ({
   venues: [],
   singleVenue: {},
   isLoading: false,
   isError: false,
   bookings: [],
-  registerAccount: {},
-  loginAccount: {},
   fetchVenues: async (url) => {
     set({ isLoading: true, isError: false });
     try {
@@ -39,46 +37,7 @@ const useVenuesStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
-  fetchRegisterAccount: async (url, data) => {
-    set({  isError: false });
-    try {
-      const postOption = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
-      const response = await fetch(url, postOption);
-      const json = await response.json();
-      console.log(json.data)
-      set((state) => ({ ...state, registerAccount: json.data }));
-    } catch (error) {
-      set({ isError: true });
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-  fetchSignIn: async (url, data) => {
-    set({ isError: false });
-    try {
-      const postOption = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
-      const response = await fetch(url, postOption);
-      const json = await response.json();
-      console.log(json.data)
-      set((state) => ({ ...state, loginAccount: json.data }));
-    } catch (error) {
-      set({ isError: true });
-    } finally {
-      set({ isLoading: false });
-    }
-  },
+  
 }));
 
 export default useVenuesStore;

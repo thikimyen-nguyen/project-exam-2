@@ -11,7 +11,7 @@ function CurrentProfile() {
 
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
-  const handleEditProfile = () => {
+  const handleOpenEditForm = () => {
     setIsEditFormOpen(true);
   };
 
@@ -75,7 +75,7 @@ function CurrentProfile() {
               <span style={{ marginLeft: "5px" }}>Edit Profile</span>
             </div>
           }
-          onClick={handleEditProfile}
+          onClick={handleOpenEditForm}
         />
       </div>
       <div className="mx-2">

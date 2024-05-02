@@ -139,7 +139,7 @@ export function EditProfileForm({ onClose }) {
             id="bio"
             {...register("bio")}
             className={`mt-1 p-2 text-black ${
-              errors.name ? "error-border" : "border-primary"
+              errors.bio ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="Bio Description"
           />
@@ -154,7 +154,7 @@ export function EditProfileForm({ onClose }) {
             id="avatar"
             {...register("avatar")}
             className={`mt-1 p-2 text-black ${
-              errors.email ? "error-border" : "border-primary"
+              errors.avatar ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="It must be a valid and accessible URL"
           />
@@ -169,7 +169,7 @@ export function EditProfileForm({ onClose }) {
             type="url"
             {...register("banner")}
             className={`mt-1 p-2 text-black ${
-              errors.password ? "error-border" : "border-primary"
+              errors.banner? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="It must be a valid and accessible URL"
           ></input>

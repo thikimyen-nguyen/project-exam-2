@@ -6,10 +6,12 @@ import { PrimaryButton } from "../../Buttons";
 import useVenuesStore from "../../../store/venues";
 import VenueCalendar from "../../BookingCalendar";
 import { HomeNav } from "../../HomeNav";
+import { BookingVenueForm } from "../../BookingForm";
 
 function SingleVenue() {
   const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
   const [mapsUrl, setMapsUrl] = useState("");
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
 
   let { id } = useParams();
   useEffect(() => {
@@ -41,7 +43,13 @@ function SingleVenue() {
       </div>
     );
   }
+  const handleOpenBookingForm = () => {
+    setIsBookingFormOpen(true);
+  };
 
+  const handleCloseBookingForm = () => {
+    setIsBookingFormOpen(false);
+  };
   return (
     <section className="overflow-hidden ">
       <HomeNav />
@@ -154,9 +162,9 @@ function SingleVenue() {
                     >
                       <path
                         fill="#325249"
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M8.171 3.108a2.169 2.169 0 0 1 1.94-1.2h.733a.25.25 0 0 1 .25.25v2.22l2.708.902a.25.25 0 0 1 .17.237v.96a2.169 2.169 0 0 1-2.168 2.168h-1.67v.002C9.11 8.43 8.35 7.853 7.8 7.173a5.662 5.662 0 0 1-.884-1.554zM5.637 5.747H4.035a3.588 3.588 0 0 1-2.242-.787L.446 3.882a.25.25 0 0 0-.406.196v8.155a1.69 1.69 0 1 0 3.378 0v-.48a.71.71 0 0 1 .71-.709h1.919a.71.71 0 0 1 .71.71v.48a1.69 1.69 0 1 0 3.378 0V9.917c-1.49-.239-2.57-1.05-3.307-1.958a6.913 6.913 0 0 1-1.19-2.213Z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                     <p className="ml-1">Pets</p>
@@ -186,7 +194,7 @@ function SingleVenue() {
               </div>
 
               <div>
-                <PrimaryButton label="Reserve" />
+                <PrimaryButton label="Reserve" onClick={handleOpenBookingForm}/>
               </div>
             </div>
             <div>
@@ -196,6 +204,13 @@ function SingleVenue() {
           </div>
         </div>
       </div>
+      {isBookingFormOpen && (
+  <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
+      <BookingVenueForm onClose={handleCloseBookingForm} />
+    </div>
+  </div>
+)}
     </section>
   );
 }
