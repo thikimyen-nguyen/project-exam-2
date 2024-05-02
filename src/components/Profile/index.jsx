@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useProfileStore from "../../store/profile";
-import  { accessToken, currentUserName } from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 import {  SecondaryButton } from "../Buttons";
@@ -28,15 +27,17 @@ function CurrentProfile() {
   }
 
   return (
-    <div>
+    <div className="-z-20">
       <h1 className="text-center">MY PROFILE</h1>
       <div className="mb-5 mt-0 relative h-[200px]">
         <div
-          className="absolute inset-0 bg-cover bg-bottom bg-right "
+          className="absolute inset-0 bg-cover bg-bottom bg-right"
           style={{ backgroundImage: `url('${currentProfile?.banner?.url}')` }}
           alt={currentProfile?.name}
         >
-          <div className="absolute w-44 left-5 top-1/4 z-10">
+          
+        </div>
+        <div className="absolute w-44 left-5 top-1/4">
             <img
               src={currentProfile?.avatar?.url}
               alt={currentProfile?.name}
@@ -47,15 +48,14 @@ function CurrentProfile() {
             </p>
           </div>
           {currentProfile?.bio ? (
-            <div className="text-darkGreen content-center text-center text-lg bg-lightGreen bg-opacity-65 absolute h-1/4 right-0 top-1/2 w-1/2">
+            <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4 ">
               {currentProfile?.bio}
             </div>
           ) : (
-            <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-65 absolute h-1/4 right-0 top-1/2 w-full">
+            <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4">
               My Bio goes here.
             </div>
           )}
-        </div>
       </div>
       <div className=" text-end">
         <SecondaryButton

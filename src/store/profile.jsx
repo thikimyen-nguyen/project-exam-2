@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { apiKeyUrl, singleProfileUrl } from "../api";
+import { boolean } from "yup";
 export  const accessToken = JSON.parse(localStorage.getItem('accessToken'));
 export   const currentUserName = JSON.parse(localStorage.getItem("currentUserName"));
 
@@ -9,7 +10,7 @@ const useProfileStore = create((set, get) => ({
     currentProfile: {},
     isLoading: false,
     isError: false,
-    updateSuccess: false,
+    updateSuccess: boolean,
     apiKey: "",
     fetchApiKey: async () => {
       try {
@@ -75,11 +76,11 @@ const useProfileStore = create((set, get) => ({
           localStorage.removeItem("currentProfile");
           localStorage.setItem("currentProfile", JSON.stringify(json.data));
         } else {
-          set({ isError: true });
+          set({ updateSuccess: false });
         }
       } catch (error) {
         console.error("Error updating profile", error);
-        set({ isError: true });
+        set({ updateSuccess: false });
       } finally {
         set({ isLoading: false });
       }

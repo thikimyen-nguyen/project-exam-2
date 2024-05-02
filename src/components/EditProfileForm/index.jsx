@@ -26,17 +26,9 @@ const schema = yup
         const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
         return urlRegex.test(value);
       }),
-    venueManager: yup.boolean(), // Venue Manager field
+    venueManager: yup.boolean(), 
   })
-  .test(
-    "at-least-one-filled",
-    "At least one input field must be filled", // Error message if condition not met
-    (value) => {
-      const { bio, avatar, banner, venueManager } = value;
-      // Check if at least one of the fields has a value
-      return bio || avatar || banner || venueManager;
-    }
-  );
+ 
 
 export function EditProfileForm({ onClose }) {
   const {
@@ -50,24 +42,30 @@ export function EditProfileForm({ onClose }) {
   const fetchUpdateProfile = useProfileStore(
     (state) => state.fetchUpdateProfile
   );
-  const { isError, updateSuccess, currentProfile } = useProfileStore();
+  const {  currentProfile, updateSuccess } = useProfileStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
+
   const { apiKey } = useProfileStore();
   useEffect(() => {
-    if (currentProfile?.venueManager) {
-      setIsVenueManager(true);
-    }
+    const currentVenueManager = currentProfile?.venueManager;
+    setIsVenueManager(currentVenueManager);
   }, [currentProfile]);
+  function handleVenueManagerToggle() {
+    setIsVenueManager(!isVenueManager);
+
+  }
+  
+  console.log(isVenueManager)
+  
   async function onSubmit(data) {
     reset();
 
     if (apiKey) {
       try {
-        const requestData = {};
+        const requestData = {
+          venueManager: isVenueManager, // Include the current state value of venueManager
+        };
 
-        if (data.venueManager !== undefined && data.venueManager !== isVenueManager) {
-          requestData.venueManager = data.venueManager;
-        }
   
         if (data.bio) {
           requestData.bio = data.bio;
@@ -93,16 +91,14 @@ export function EditProfileForm({ onClose }) {
           accessToken,
           requestData
         );
+
       } catch (error) {
         console.error("Error updating profile", error);
-        useProfileStore.setState({ isError: true });
+        useProfileStore.setState({ updateSuccess: false });
       }
     }
   }
-  function handleVenueManagerToggle() {
-    const newValue = !isVenueManager;
-    setIsVenueManager(newValue);
-  }
+ 
   
   function closeSuccessAlert() {
     window.location.href = "/profile";
@@ -113,13 +109,13 @@ export function EditProfileForm({ onClose }) {
   return (
     <div className="m-5">
       <h1 className="text-center">Edit Profile</h1>
-      {updateSuccess && (
+      {updateSuccess ===true && (
         <Alert
           message="Your Profile is now updated."
           onClose={closeSuccessAlert}
         />
       )}
-      {isError && (
+      {updateSuccess === false && (
         <Alert
           textColor="text-red"
           message="Error Updating Profile. You can try again later."
