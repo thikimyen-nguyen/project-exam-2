@@ -107,7 +107,7 @@ export function EditProfileForm({ onClose }) {
     window.location.href = "/profile";
   }
   return (
-    <div className="m-5">
+    <div className="my-20 p-5">
       <h1 className="text-center">Edit Profile</h1>
       {updateSuccess ===true && (
         <Alert
@@ -128,7 +128,7 @@ export function EditProfileForm({ onClose }) {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col md:w-3/4 lg:w-1/2 content-center mx-auto items-center p-3 "
+        className="flex-col  content-center mx-auto items-center p-3 "
       >
         <div className="mb-4">
           <label htmlFor="bio" className="block font-semibold">

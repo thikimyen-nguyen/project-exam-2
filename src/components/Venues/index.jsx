@@ -18,7 +18,7 @@ export function VenuesList() {
   if (isError) {
     return (
       <div>
-        <ErrorHandling error='Sorry! Cannot load data now.' />
+        <ErrorHandling error='Sorry! Cannot load data now. Please refresh the site.' />
       </div>
     );
   }

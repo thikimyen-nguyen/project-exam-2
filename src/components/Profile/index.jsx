@@ -23,7 +23,7 @@ function CurrentProfile() {
   }
 
   if (isError) {
-    return <ErrorHandling error="Sorry! Cannot load data now." />;
+    return <ErrorHandling error="Sorry! Cannot load data now. Try refresh the site." />;
   }
 
   return (
@@ -81,8 +81,13 @@ function CurrentProfile() {
       <div className="mx-2">
         <h2>My Bookings</h2>
       </div>
-      {isEditFormOpen && <div className="overlay"><EditProfileForm onClose={handleCloseEditForm} /></div>}
-
+      {isEditFormOpen && (
+  <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
+      <EditProfileForm onClose={handleCloseEditForm} />
+    </div>
+  </div>
+)}
     </div>
   );
 }
