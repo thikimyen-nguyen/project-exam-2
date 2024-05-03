@@ -29,7 +29,7 @@ function VenueCalendar({ bookings }) {
         date <= endDate;
         date.setDate(date.getDate() + 1)
       ) {
-        if (date >= startDate && date <= endDate) {
+        if (date.getTime() !== endDate.getTime()) { 
           const index = availableDates.findIndex(
             (availableDate) => availableDate.getTime() === date.getTime()
           );
@@ -81,8 +81,9 @@ function VenueCalendar({ bookings }) {
       const isBooked = bookings.some(
         (booking) =>
           currentDate >= new Date(booking.dateFrom) &&
-          currentDate <= new Date(booking.dateTo)
+          currentDate < new Date(booking.dateTo) 
       );
+      
       calendarDays.push(
         <div
           key={i}

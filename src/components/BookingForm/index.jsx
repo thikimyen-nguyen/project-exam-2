@@ -9,7 +9,8 @@ import useProfileStore from "../../store/profile";
 import useVenuesStore, { currentVenue } from "../../store/venues";
 import useBookingStore from "../../store/bookings";
 
-const schema = yup.object({
+const schema = yup
+  .object({
     dateFrom: yup
       .date()
       .required("Check-in date is required")
@@ -24,8 +25,9 @@ const schema = yup.object({
       .number()
       .required("Number of guests is required")
       .min(1, "Number of guests must be at least 1")
+      .max(4, "Number of guests must not be more than max Guests")
       .typeError("Please choose number of Guests"),
-  })  
+  })
   .required();
 
 export function BookingVenueForm({ onClose }) {
@@ -37,27 +39,25 @@ export function BookingVenueForm({ onClose }) {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const { fetchCreateBooking, createBookingSuccess} = useBookingStore();
+  const { fetchCreateBooking, createBookingSuccess } = useBookingStore();
   const { apiKey } = useProfileStore();
   const { bookings } = useVenuesStore();
 
-
   async function onSubmit(data) {
-   
-    reset(); 
+    reset();
     try {
-        const requestData = {
-            dateFrom: new Date(data.dateFrom).toISOString(),
-            dateTo: new Date(data.dateTo).toISOString(),
-            guests: data.guests,
-            venueId: currentVenue?.id
-          };
-        console.log(requestData);
+      const requestData = {
+        dateFrom: new Date(data.dateFrom).toISOString(),
+        dateTo: new Date(data.dateTo).toISOString(),
+        guests: data.guests,
+        venueId: currentVenue?.id,
+      };
+      console.log(requestData);
 
       await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
-    //   useAuthStore.setState({ isError: true });
+      //   useAuthStore.setState({ isError: true });
     }
   }
 
@@ -136,27 +136,23 @@ export function BookingVenueForm({ onClose }) {
               </span>
             )}
           </label>
-          <select
+
+          <input
             id="guests"
+            type="number"
             {...register("guests")}
-            className={`mt-1 p-2 text-black border ${
-              errors.guests ? "error-border" : "border-primary"
+            className={`mt-1 p-2 text-black ${
+              errors.banner ? "error-border" : "border-primary"
             } rounded w-full`}
-          >
-            {currentVenue &&
-              Array.from({ length: currentVenue?.maxGuests }, (_, index) => (
-                <option key={index + 1} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-          </select>
+            placeholder="0"
+          ></input>
           <p className="text-red">{errors.guests?.message}</p>
         </div>
 
         <div className="mt-4 text-center">
-<PrimaryButton label='Submit' />       </div>
+          <PrimaryButton label="Submit" />{" "}
+        </div>
       </form>
     </div>
   );
 }
-
