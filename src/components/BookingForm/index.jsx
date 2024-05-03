@@ -37,7 +37,7 @@ export function BookingVenueForm({ onClose }) {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const { fetchCreateBooking} = useBookingStore();
+  const { fetchCreateBooking, createBookingSuccess} = useBookingStore();
   const { apiKey } = useProfileStore();
   const { bookings } = useVenuesStore();
 
@@ -70,19 +70,19 @@ export function BookingVenueForm({ onClose }) {
   return (
     <div className="my-20 p-5">
       <h1 className="text-center">Booking</h1>
-      {/* {updateSuccess === true && (
+      {createBookingSuccess === true && (
         <Alert
-          message="Your Profile is now updated."
+          message="Your booking is completed!"
           onClose={closeSuccessAlert}
         />
       )}
-      {updateSuccess === false && (
+      {createBookingSuccess === false && (
         <Alert
           textColor="text-red"
-          message="Error Updating Profile. You can try again later."
+          message="Error booking. You can try again later."
           onClose={closeErrorAlert}
         />
-      )} */}
+      )}
       <div className="text-end">
         <SecondaryButton label="X Close" onClick={onClose} />
       </div>
@@ -144,7 +144,7 @@ export function BookingVenueForm({ onClose }) {
             } rounded w-full`}
           >
             {currentVenue &&
-              Array.from({ length: currentVenue.maxGuests }, (_, index) => (
+              Array.from({ length: currentVenue?.maxGuests }, (_, index) => (
                 <option key={index + 1} value={index + 1}>
                   {index + 1}
                 </option>
