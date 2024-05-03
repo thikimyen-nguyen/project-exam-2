@@ -9,10 +9,10 @@ import { HomeNav } from "../../HomeNav";
 import { BookingVenueForm } from "../../BookingForm";
 import { accessToken } from "../../../store/profile";
 import Alert from "../../Alert";
+import useBookingStore from "../../../store/bookings";
 
 function SingleVenue() {
-  const { singleVenue, isError, isLoading, fetchVenueById, bookings } =
-    useVenuesStore();
+  const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
   const [mapsUrl, setMapsUrl] = useState("");
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -38,14 +38,12 @@ function SingleVenue() {
       setIsSignedIn(true);
     }
   }, [accessToken]);
-  useEffect(() => {
-    console.log("isSignedIn:", isSignedIn);
-  }, [isSignedIn]);
+ 
 
   if (isError) {
     return (
       <div>
-        <ErrorHandling />
+        <ErrorHandling error='Sorry! There is error loading data. Please try agian later' />
       </div>
     );
   }
@@ -60,7 +58,7 @@ function SingleVenue() {
     if (isSignedIn) {
       setIsBookingFormOpen(true);
     } else {
-      setShowSignInAlert(true); // Show sign-in alert
+      setShowSignInAlert(true); 
     }
   };
 
@@ -236,7 +234,7 @@ function SingleVenue() {
           <Alert
             message="Please sign in to book your stay."
             textColor="text-red"
-            onClose={() => setShowSignInAlert(false)} // Close alert when clicked
+            onClose={() => setShowSignInAlert(false)} 
           />
         </div>
       )}

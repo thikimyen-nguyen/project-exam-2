@@ -23,7 +23,7 @@ function CurrentProfile() {
   }
 
   if (isError) {
-    return <ErrorHandling error="Sorry! Cannot load data now. Try refresh the site." />;
+    return <ErrorHandling error="Sorry! Cannot load data now. Try to refresh the site." />;
   }
 
   return (

@@ -90,9 +90,9 @@ function VenueCalendar({ bookings }) {
             isPastDate
               ? "text-lightGreen"
               : isBooked
-              ? "bg-lightGreen line-through text-red  cursor-not-allowed"
+              ? "bg-lightGreen line-through text-red "
               : isAvailable
-              ? "bg-darkGreen text-lightGreen cursor-pointer"
+              ? "bg-darkGreen text-lightGreen "
               : "bg-darkGreen"
           }`}
         >
@@ -158,3 +158,4 @@ function VenueCalendar({ bookings }) {
 }
 
 export default VenueCalendar;
+

@@ -7,7 +7,7 @@ const useBookingStore = create((set, get) => ({
   isError: false,
   createBookingSuccess: boolean,
 
-  fetchCreateBooking: async (apiKey, accessToken) => {
+  fetchCreateBooking: async (apiKey, accessToken, data) => {
     set({ isLoading: true, isError: false });
 
     try {
@@ -18,10 +18,13 @@ const useBookingStore = create((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
           "X-Noroff-API-Key": apiKey,
         },
+        body: JSON.stringify(data),
+
       };
       const response = await fetch(venueBookingUrl, postOption);
       const json = await response.json();
       if (response.ok) {
+        console.log(json.data)
         set((state) => ({ ...state, createBookingSuccess: true }));
       }
     } catch (error) {

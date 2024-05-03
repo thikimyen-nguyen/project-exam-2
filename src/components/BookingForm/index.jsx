@@ -6,7 +6,8 @@ import { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../Alert";
 import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
-import { currentVenue } from "../../store/venues";
+import useVenuesStore, { currentVenue } from "../../store/venues";
+import useBookingStore from "../../store/bookings";
 
 const schema = yup.object({
     dateFrom: yup
@@ -36,6 +37,9 @@ export function BookingVenueForm({ onClose }) {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const { fetchCreateBooking} = useBookingStore();
+  const { apiKey } = useProfileStore();
+  const { bookings } = useVenuesStore();
 
 
   async function onSubmit(data) {
@@ -50,7 +54,7 @@ export function BookingVenueForm({ onClose }) {
           };
         console.log(requestData);
 
-    //   await fetchRegisterAccount(registerUrl, requestData);
+      await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
     //   useAuthStore.setState({ isError: true });
@@ -155,3 +159,4 @@ export function BookingVenueForm({ onClose }) {
     </div>
   );
 }
+
