@@ -6,7 +6,7 @@ import { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../Alert";
 import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
-import useVenuesStore, { currentVenue } from "../../store/venues";
+import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";
 
 const schema = yup
@@ -41,7 +41,7 @@ export function BookingVenueForm({ onClose }) {
   });
   const { fetchCreateBooking, createBookingSuccess } = useBookingStore();
   const { apiKey } = useProfileStore();
-  const { bookings } = useVenuesStore();
+  const { singleVenue } = useVenuesStore();
 
   async function onSubmit(data) {
     reset();
@@ -50,7 +50,7 @@ export function BookingVenueForm({ onClose }) {
         dateFrom: new Date(data.dateFrom).toISOString(),
         dateTo: new Date(data.dateTo).toISOString(),
         guests: data.guests,
-        venueId: currentVenue?.id,
+        venueId: singleVenue?.id,
       };
       console.log(requestData);
 
@@ -88,9 +88,9 @@ export function BookingVenueForm({ onClose }) {
       </div>
       <div>
         <p>
-          Location: <span className="font-bold">{currentVenue?.name}</span>{" "}
+          Location: <span className="font-bold">{singleVenue?.name}</span>{" "}
           <span>
-            in {currentVenue?.location?.city}, {currentVenue?.location?.country}
+            in {singleVenue?.location?.city}, {singleVenue?.location?.country}
           </span>
         </p>
       </div>
@@ -129,10 +129,10 @@ export function BookingVenueForm({ onClose }) {
         <div className="mb-4">
           <label htmlFor="guests" className="block font-semibold">
             Number of Guests{" "}
-            {currentVenue && (
+            {singleVenue && (
               <span className="text-gray-500">
                 {" "}
-                (Max {currentVenue?.maxGuests})
+                (Max {singleVenue?.maxGuests})
               </span>
             )}
           </label>
