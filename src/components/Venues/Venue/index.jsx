@@ -7,11 +7,16 @@ import useVenuesStore from "../../../store/venues";
 import VenueCalendar from "../../BookingCalendar";
 import { HomeNav } from "../../HomeNav";
 import { BookingVenueForm } from "../../BookingForm";
+import { accessToken } from "../../../store/profile";
+import Alert from "../../Alert";
 
 function SingleVenue() {
-  const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
+  const { singleVenue, isError, isLoading, fetchVenueById, bookings } =
+    useVenuesStore();
   const [mapsUrl, setMapsUrl] = useState("");
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [showSignInAlert, setShowSignInAlert] = useState(false);
 
   let { id } = useParams();
   useEffect(() => {
@@ -28,7 +33,15 @@ function SingleVenue() {
       );
     }
   }, [singleVenue]);
-  
+  useEffect(() => {
+    if (accessToken) {
+      setIsSignedIn(true);
+    }
+  }, [accessToken]);
+  useEffect(() => {
+    console.log("isSignedIn:", isSignedIn);
+  }, [isSignedIn]);
+
   if (isError) {
     return (
       <div>
@@ -44,7 +57,11 @@ function SingleVenue() {
     );
   }
   const handleOpenBookingForm = () => {
-    setIsBookingFormOpen(true);
+    if (isSignedIn) {
+      setIsBookingFormOpen(true);
+    } else {
+      setShowSignInAlert(true); // Show sign-in alert
+    }
   };
 
   const handleCloseBookingForm = () => {
@@ -186,15 +203,17 @@ function SingleVenue() {
               </svg>
               <p className="ml-2">Max {singleVenue?.maxGuests} Guests</p>
             </div>
-           
+
             <div className="m-auto my-5 flex items-center justify-center">
               <div className="text-xl text-darkGreen font-bold mr-5">
                 PRICE:{" "}
                 <span className="font-medium">NOK {singleVenue.price}</span>
               </div>
-
               <div>
-                <PrimaryButton label="Reserve" onClick={handleOpenBookingForm}/>
+                <PrimaryButton
+                  label="Reserve"
+                  onClick={handleOpenBookingForm}
+                />
               </div>
             </div>
             <div>
@@ -205,12 +224,22 @@ function SingleVenue() {
         </div>
       </div>
       {isBookingFormOpen && (
-  <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
-    <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
-      <BookingVenueForm onClose={handleCloseBookingForm} />
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
+            <BookingVenueForm onClose={handleCloseBookingForm} />
+          </div>
+        </div>
+      )}
+
+      {showSignInAlert && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+          <Alert
+            message="Please sign in to book your stay."
+            textColor="text-red"
+            onClose={() => setShowSignInAlert(false)} // Close alert when clicked
+          />
+        </div>
+      )}
     </section>
   );
 }
