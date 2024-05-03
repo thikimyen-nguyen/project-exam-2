@@ -42,7 +42,7 @@ const useProfileStore = create((set, get) => ({
             "X-Noroff-API-Key": apiKey,
           }
         };
-        const currentProfileUrl = `${singleProfileUrl}/${userName}`;
+        const currentProfileUrl = `${singleProfileUrl}/${userName}?_bookings=true`;
         const response = await fetch( currentProfileUrl, getOption);
         const json = await response.json();
         set((state) => ({ ...state, currentProfile: json.data }));

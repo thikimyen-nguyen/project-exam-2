@@ -4,6 +4,7 @@ import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 import {  SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
+import { BookingCard, BookingDetail } from "../BookingCard";
 
 function CurrentProfile() {
   const { currentProfile, isError, isLoading} =
@@ -79,7 +80,14 @@ function CurrentProfile() {
         />
       </div>
       <div className="mx-2">
-        <h2>My Bookings</h2>
+        <h2 className="text-center">My Bookings</h2>
+        <div className="flex flex-wrap">
+        {currentProfile &&  currentProfile?.bookings?.map((booking) => (
+              <BookingCard key={booking.id} booking={booking} />
+            ))
+          }
+        </div>
+      
       </div>
       {isEditFormOpen && (
   <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
