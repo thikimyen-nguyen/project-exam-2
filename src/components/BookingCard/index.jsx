@@ -45,13 +45,13 @@ export function BookingCard({
         </div>
         <div>
           <p>
-            Check-in:{" "}
+            From:{" "}
             <span className="font-bold">
               {new Date(dateFrom).toLocaleDateString()}
             </span>
           </p>
           <p>
-            Check-out:{" "}
+            To:{" "}
             <span className="font-bold">
               {new Date(dateTo).toLocaleDateString()}
             </span>

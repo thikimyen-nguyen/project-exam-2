@@ -117,17 +117,17 @@ export function BookingVenueForm({ onClose }) {
       >
         <div className="mb-4">
           <label htmlFor="dateFrom" className="block font-semibold">
-            Check-in Date
+            Start Date
           </label>
           <VenueCalendar bookings={bookings} onDateSelect={handleCheckInDate} />
 
           {selectedDateFrom === null && (
-            <p className="text-red">Please select check-in date</p>
+            <p className="text-red">Please select Start Date of your stay</p>
           )}
         </div>
         <div className="mb-4">
           <label htmlFor="dateTo" className="block font-semibold">
-            Check-out Date
+            End Date
           </label>
 
           <VenueCalendar
@@ -136,7 +136,7 @@ export function BookingVenueForm({ onClose }) {
           />
 
           {selectedDateTo === null && (
-            <p className="text-red">Please select check-out date</p>
+            <p className="text-red">Please select End Date of your stay.</p>
           )}
         </div>
         <div className="mb-4">
