@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function VenueCalendar({ bookings }) {
+function VenueCalendar({ bookings, onDateSelect }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [clickedDate, setClickedDate] = useState(null);
@@ -55,6 +55,7 @@ function VenueCalendar({ bookings }) {
   const handleDateClick = (date) => {
     console.log("Clicked date:", date);
     setClickedDate(date);
+    onDateSelect(date);
   };
 
   const renderCalendar = () => {

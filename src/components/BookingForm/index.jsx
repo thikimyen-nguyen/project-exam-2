@@ -8,27 +8,28 @@ import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
 import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";
+import VenueCalendar from "../BookingCalendar";
 
-const schema = yup
-  .object({
-    dateFrom: yup
-      .date()
-      .required("Check-in date is required")
-      .typeError("Check-in date must be a valid date")
-      .min(new Date(), "Check-in date must be today or later"),
-    dateTo: yup
-      .date()
-      .required("Check-out date is required")
-      .typeError("Check-out date must be a valid date")
-      .min(yup.ref("dateFrom"), "Check-out date must be after check-in date"),
-    guests: yup
-      .number()
-      .required("Number of guests is required")
-      .min(1, "Number of guests must be at least 1")
-      .max(4, "Number of guests must not be more than max Guests")
-      .typeError("Please choose number of Guests"),
-  })
-  .required();
+// const schema = yup
+//   .object({
+//     dateFrom: yup
+//       .date()
+//       .required("Check-in date is required")
+//       .typeError("Check-in date must be a valid date")
+//       .min(new Date(), "Check-in date must be today or later"),
+//     dateTo: yup
+//       .date()
+//       .required("Check-out date is required")
+//       .typeError("Check-out date must be a valid date")
+//       .min(yup.ref("dateFrom"), "Check-out date must be after check-in date"),
+//     guests: yup
+//       .number()
+//       .required("Number of guests is required")
+//       .min(1, "Number of guests must be at least 1")
+//       .max(4, "Number of guests must not be more than max Guests")
+//       .typeError("Please choose number of Guests"),
+//   })
+//   .required();
 
 export function BookingVenueForm({ onClose }) {
   const {
@@ -37,21 +38,38 @@ export function BookingVenueForm({ onClose }) {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    // resolver: yupResolver(schema),
   });
   const { fetchCreateBooking, createBookingSuccess } = useBookingStore();
   const { apiKey } = useProfileStore();
-  const { singleVenue } = useVenuesStore();
+  const { singleVenue, bookings } = useVenuesStore();
+  const [selectedDateFrom, setSelectedDateFrom] = useState(null);
+  const [selectedDateTo, setSelectedDateTo] = useState(null);
 
+  const handleCheckOutDate = (date) => {
+    console.log("checkOutDate", date);
+    setSelectedDateTo(date);
+  };
+  const handleCheckInDate = (date) => {
+    console.log("checkInDate", date);
+    setSelectedDateFrom(date);
+  };
   async function onSubmit(data) {
     reset();
     try {
       const requestData = {
-        dateFrom: new Date(data.dateFrom).toISOString(),
-        dateTo: new Date(data.dateTo).toISOString(),
-        guests: data.guests,
+        dateFrom: selectedDateFrom.toISOString(),
+        dateTo: selectedDateTo.toISOString(),
+        guests: parseInt(data.guests),
         venueId: singleVenue?.id,
       };
+      requestData.dateFrom = new Date(
+        selectedDateFrom.getTime() -
+          selectedDateFrom.getTimezoneOffset() * 60000
+      ).toISOString();
+      requestData.dateTo = new Date(
+        selectedDateTo.getTime() - selectedDateTo.getTimezoneOffset() * 60000
+      ).toISOString();
       console.log(requestData);
 
       await fetchCreateBooking(apiKey, accessToken, requestData);
@@ -101,29 +119,25 @@ export function BookingVenueForm({ onClose }) {
           <label htmlFor="dateFrom" className="block font-semibold">
             Check-in Date
           </label>
-          <input
-            type="date"
-            id="dateFrom"
-            {...register("dateFrom")}
-            className={`mt-1 p-2 text-black ${
-              errors.dateFrom ? "error-border" : "border-primary"
-            } rounded w-full`}
-          />
-          <p className="text-red">{errors.dateFrom?.message}</p>
+          <VenueCalendar bookings={bookings} onDateSelect={handleCheckInDate} />
+
+          {selectedDateFrom === null && (
+            <p className="text-red">Please select check-in date</p>
+          )}
         </div>
         <div className="mb-4">
           <label htmlFor="dateTo" className="block font-semibold">
             Check-out Date
           </label>
-          <input
-            type="date"
-            id="dateTo"
-            {...register("dateTo")}
-            className={`mt-1 p-2 text-black ${
-              errors.dateTo ? "error-border" : "border-primary"
-            } rounded w-full`}
+
+          <VenueCalendar
+            bookings={bookings}
+            onDateSelect={handleCheckOutDate}
           />
-          <p className="text-red">{errors.dateTo?.message}</p>
+
+          {selectedDateTo === null && (
+            <p className="text-red">Please select check-out date</p>
+          )}
         </div>
         <div className="mb-4">
           <label htmlFor="guests" className="block font-semibold">
@@ -139,12 +153,22 @@ export function BookingVenueForm({ onClose }) {
           <input
             id="guests"
             type="number"
-            {...register("guests")}
+            {...register("guests", {
+              required: "Number of guests is required",
+              min: { value: 1, message: "Number of guests must be at least 1" },
+              max: {
+                value: singleVenue?.maxGuests,
+                message: `Number of guests must not be more than ${singleVenue?.maxGuests}`,
+              },
+            })}
             className={`mt-1 p-2 text-black ${
-              errors.banner ? "error-border" : "border-primary"
+              errors.guests ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="0"
-          ></input>
+            max={singleVenue?.maxGuests}
+            min={1}
+          />
+
           <p className="text-red">{errors.guests?.message}</p>
         </div>
 

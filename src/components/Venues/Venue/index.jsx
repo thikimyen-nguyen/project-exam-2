@@ -216,14 +216,14 @@ function SingleVenue() {
             </div>
             <div>
               <h2>Our Availability</h2>
-              <VenueCalendar bookings={bookings} />
+              <VenueCalendar bookings={bookings}/>
             </div>
           </div>
         </div>
       </div>
       {isBookingFormOpen && (
         <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
+          <div className="bg-white rounded-lg w-full md:w-3/4 xl:w-1/2 m-auto">
             <BookingVenueForm onClose={handleCloseBookingForm} />
           </div>
         </div>
