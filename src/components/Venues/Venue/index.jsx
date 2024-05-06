@@ -65,6 +65,9 @@ function SingleVenue() {
   const handleCloseBookingForm = () => {
     setIsBookingFormOpen(false);
   };
+  const handleselectedDate = (date) => {
+    console.log("selectedDate:", date);
+  };
   return (
     <section className="overflow-hidden ">
       <HomeNav />
@@ -216,7 +219,7 @@ function SingleVenue() {
             </div>
             <div>
               <h2>Our Availability</h2>
-              <VenueCalendar bookings={bookings}/>
+              <VenueCalendar bookings={bookings} onDateSelect={handleselectedDate}/>
             </div>
           </div>
         </div>

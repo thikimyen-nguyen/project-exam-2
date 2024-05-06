@@ -53,7 +53,6 @@ function VenueCalendar({ bookings, onDateSelect }) {
   };
 
   const handleDateClick = (date) => {
-    console.log("Clicked date:", date);
     setClickedDate(date);
     onDateSelect(date);
   };
