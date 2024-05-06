@@ -57,7 +57,6 @@ export function BookingVenueForm({ onClose }) {
       await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
-        // useBookingStore.setState({ createBookingSuccess: false });
     }
   }
 
