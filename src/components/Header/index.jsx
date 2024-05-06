@@ -35,7 +35,7 @@ export function Header() {
   function signOutHandle() {
     localStorage.clear();
     setIsSignOut(true);
-    handleVenueManagerClick(); 
+    // handleVenueManagerClick(); 
   }
   
   function returnHome() {

@@ -6,7 +6,7 @@ const useBookingStore = create((set, get) => ({
   isLoading: false,
   isError: false,
   createBookingSuccess: boolean,
-
+errorBookingMessage: "",
   fetchCreateBooking: async (apiKey, accessToken, data) => {
     set({ isLoading: true, isError: false });
 
@@ -28,10 +28,13 @@ const useBookingStore = create((set, get) => ({
         set((state) => ({ ...state, createBookingSuccess: true }));
       } else {
         set((state) => ({ ...state, createBookingSuccess: false }));
+        console.log(json.errors[0].message)
+        set((state) => ({ ...state, errorBookingMessage: json.errors[0].message }));
 
       }
     } catch (error) {
       set((state) => ({ ...state, createBookingSuccess: false }));
+      console.log(error)
     } finally {
       set({ isLoading: false });
     }

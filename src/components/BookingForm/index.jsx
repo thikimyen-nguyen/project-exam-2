@@ -40,7 +40,7 @@ export function BookingVenueForm({ onClose }) {
   } = useForm({
     // resolver: yupResolver(schema),
   });
-  const { fetchCreateBooking, createBookingSuccess } = useBookingStore();
+  const { fetchCreateBooking, createBookingSuccess, errorBookingMessage } = useBookingStore();
   const { apiKey } = useProfileStore();
   const { singleVenue, bookings } = useVenuesStore();
   const [selectedDateFrom, setSelectedDateFrom] = useState(null);
@@ -74,7 +74,7 @@ export function BookingVenueForm({ onClose }) {
 
       await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
-      console.error("Error registering account:", error);
+      console.error(errorBookingMessage);
     }
   }
 
@@ -96,7 +96,7 @@ export function BookingVenueForm({ onClose }) {
       {createBookingSuccess === false && (
         <Alert
           textColor="text-red"
-          message="Error booking. You can try again later."
+          message={`${errorBookingMessage} Please try again!`}
           onClose={closeErrorAlert}
         />
       )}

@@ -85,10 +85,17 @@ function VenueCalendar({ bookings, onDateSelect }) {
         (availableDate) => availableDate.getTime() === currentDate.getTime()
       );
       const isBooked = bookings.some(
-        (booking) =>
-          currentDate >= new Date(booking.dateFrom) &&
-          currentDate < new Date(booking.dateTo)
+        (booking) => {
+          const bookingDateFrom = new Date(booking.dateFrom);
+          const bookingDateTo = new Date(booking.dateTo);
+          // Extract date parts (year, month, day) to compare only the dates
+          bookingDateFrom.setHours(0, 0, 0, 0);
+          bookingDateTo.setHours(0, 0, 0, 0);
+          currentDate.setHours(0, 0, 0, 0);
+          return currentDate >= bookingDateFrom && currentDate <= bookingDateTo;
+        }
       );
+      
 
       calendarDays.push(
         <div
