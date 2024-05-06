@@ -57,7 +57,7 @@ export function BookingVenueForm({ onClose }) {
       await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
-      //   useAuthStore.setState({ isError: true });
+        // useBookingStore.setState({ createBookingSuccess: false });
     }
   }
 
@@ -65,7 +65,7 @@ export function BookingVenueForm({ onClose }) {
     window.location.href = "/profile";
   }
   function closeErrorAlert() {
-    window.location.href = "/profile";
+    window.location.reload();
   }
   return (
     <div className="my-20 p-5">

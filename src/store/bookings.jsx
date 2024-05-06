@@ -26,6 +26,9 @@ const useBookingStore = create((set, get) => ({
       if (response.ok) {
         console.log(json.data)
         set((state) => ({ ...state, createBookingSuccess: true }));
+      } else {
+        set((state) => ({ ...state, createBookingSuccess: false }));
+
       }
     } catch (error) {
       set((state) => ({ ...state, createBookingSuccess: false }));
