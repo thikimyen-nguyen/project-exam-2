@@ -3,6 +3,7 @@ import React, { useState } from "react";
 function VenueCalendar({ bookings }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [clickedDate, setClickedDate] = useState(null);
 
   const getAvailableDates = () => {
     const bookedDates = bookings?.map((booking) => ({
@@ -29,7 +30,7 @@ function VenueCalendar({ bookings }) {
         date <= endDate;
         date.setDate(date.getDate() + 1)
       ) {
-        if (date.getTime() !== endDate.getTime()) { 
+        if (date.getTime() !== endDate.getTime()) {
           const index = availableDates.findIndex(
             (availableDate) => availableDate.getTime() === date.getTime()
           );
@@ -51,27 +52,32 @@ function VenueCalendar({ bookings }) {
     setSelectedYear(parseInt(event.target.value));
   };
 
+  const handleDateClick = (date) => {
+    console.log("Clicked date:", date);
+    setClickedDate(date);
+  };
+
   const renderCalendar = () => {
     const availableDates = getAvailableDates();
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); 
+    today.setHours(0, 0, 0, 0);
 
     const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1);
     const lastDayOfMonth = new Date(selectedYear, selectedMonth + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
-    const startingDay = firstDayOfMonth.getDay(); 
+    const startingDay = firstDayOfMonth.getDay();
 
     const calendarDays = [];
 
-    // Add empty cells for days before the first day of the month
+    // Add empty days before the first day of the month
     for (let i = 0; i < startingDay; i++) {
       calendarDays.push(
         <div key={`empty-${i}`} className="p-2 bg-white"></div>
       );
     }
 
-    // Add cells for each day of the month
+    // Add each day of the month
     for (let i = 1; i <= daysInMonth; i++) {
       const currentDate = new Date(selectedYear, selectedMonth, i);
       const isPastDate = currentDate < today;
@@ -81,21 +87,28 @@ function VenueCalendar({ bookings }) {
       const isBooked = bookings.some(
         (booking) =>
           currentDate >= new Date(booking.dateFrom) &&
-          currentDate < new Date(booking.dateTo) 
+          currentDate < new Date(booking.dateTo)
       );
-      
+
       calendarDays.push(
         <div
           key={i}
-          className={`p-2 text-center ${
+          className={`p-2 text-center  ${
             isPastDate
               ? "text-lightGreen"
               : isBooked
-              ? "bg-lightGreen line-through text-red "
+              ? "bg-lightGreen line-through text-red cursor-not-allowed"
               : isAvailable
-              ? "bg-darkGreen text-lightGreen "
-              : "bg-darkGreen"
-          }`}
+              ? "bg-darkGreen text-lightGreen cursor-pointer "
+              : "bg-lightGreen"
+          } ${
+            clickedDate && clickedDate.getTime() === currentDate.getTime()
+              ? "bg-red border rounded"
+              : ""
+          }`} // Apply focus class if clicked date matches current date
+          onClick={
+            isAvailable && !isBooked ? () => handleDateClick(currentDate) : null
+          }
         >
           {i}
         </div>
@@ -159,4 +172,3 @@ function VenueCalendar({ bookings }) {
 }
 
 export default VenueCalendar;
-
