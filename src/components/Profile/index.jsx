@@ -86,32 +86,40 @@ function CurrentProfile() {
           onClick={handleOpenEditForm}
         />
       </div>
-      <hr className="text-primary my-5" />
-      <div className="mx-2 my-5">
-        <h2 className="text-center my-5">Next Stayings</h2>
-        <div className="flex flex-wrap">
-          {currentProfile && currentProfile.bookings ? (
-            filteredNextBookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
-            ))
-          ) : (
-            <p>No upcoming bookings</p>
-          )}
+      {filteredNextBookings?.length > 0 && (
+        <div>
+          <hr className="text-primary my-5" />
+          <div className="mx-2 my-5">
+            <h2 className="text-center my-5">Next Stayings</h2>
+            <div className="flex flex-wrap">
+              {filteredNextBookings ? (
+                filteredNextBookings.map((booking) => (
+                  <BookingCard key={booking.id} booking={booking} />
+                ))
+              ) : (
+                <p>No upcoming bookings</p>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-      <hr className="text-primary" />
-      <div className="mx-2 my-5">
-        <h2 className="text-center my-5">Last Stayings</h2>
-        <div className="flex flex-wrap">
-          {currentProfile && currentProfile.bookings ? (
-            filteredLastBookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
-            ))
-          ) : (
-            <p>No previous Bookings</p>
-          )}
+      )}
+      {filteredLastBookings?.length > 0 && (
+        <div>
+          <hr className="text-primary" />
+          <div className="mx-2 my-5">
+            <h2 className="text-center my-5">Last Stayings</h2>
+            <div className="flex flex-wrap">
+              {filteredLastBookings ? (
+                filteredLastBookings.map((booking) => (
+                  <BookingCard key={booking.id} booking={booking} />
+                ))
+              ) : (
+                <p>No previous Bookings</p>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
       {isEditFormOpen && (
         <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
           <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
