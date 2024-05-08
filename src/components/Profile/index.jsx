@@ -86,7 +86,7 @@ function CurrentProfile() {
           onClick={handleOpenEditForm}
         />
       </div>
-      <hr className="text-primary my-5"/>
+      <hr className="text-primary my-5" />
       <div className="mx-2 my-5">
         <h2 className="text-center my-5">Next Stayings</h2>
         <div className="flex flex-wrap">
