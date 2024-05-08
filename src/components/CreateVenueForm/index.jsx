@@ -12,23 +12,43 @@ const schema = yup
   .object({
     name: yup
       .string()
-      
+
       .min(5, "Venue name must be at least 5 characters.")
 
       .required("Please enter your venue name."),
-      description: yup
+    description: yup
       .string()
-      
+
       .min(10, "Description must be at least 10 characters.")
 
       .required("Describe your Venue"),
-    password: yup
+    media: yup
       .string()
-      .min(8, "Password must be at least 8 characters.")
-      .required("Please enter correct password."),
+      .url("media must be a valid URL")
+      .test(
+        "is-url",
+        "Venue image must be a valid and accessible URL",
+        (value) => {
+          if (!value) return true;
+          const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+          return urlRegex.test(value);
+        }
+      ),
+    price: yup
+      .number()
+      .required("Price is required")
+      .min(0)
+      .max(10000)
+      .required("Please input the price"),
+    maxGuests: yup
+      .number()
+      .required("Number of Guests is required")
+      .min(1, "Max Guests must be at least 1")
+      .max(100, "Max number of Guests is 100")
+      .required("Please input the max number of guests"),
   })
   .required();
-export function CreateVenueForm({onClose}) {
+export function CreateVenueForm({ onClose }) {
   const {
     register,
     handleSubmit,
@@ -41,16 +61,32 @@ export function CreateVenueForm({onClose}) {
     (state) => state.fetchRegisterAccount
   );
   const { isError, registerSuccess } = useAuthStore();
-  const [isVenueManager, setIsVenueManager] = useState(false);
+  const [isWifi, setIsWifi] = useState(false);
+  const [isParking, setIsParking] = useState(false);
+  const [isBreakfast, setIsBreakfast] = useState(false);
+  const [isPets, setIsPets] = useState(false);
 
   async function onSubmit(data) {
     reset();
 
     try {
-        const requestData = isVenueManager
-        ? { ...data, venueManager: true }
-        : data;
-        console.log(requestData);
+      const requestData = {
+        ...data,
+        meta: {
+          wifi: isWifi,
+          parking: isParking,
+          breakfast: isBreakfast,
+          pets: isPets,
+        },
+      };
+      if (data.media) {
+        requestData.media = {
+          url: data.media,
+          alt: "",
+        };
+      }
+
+      console.log(requestData);
 
       await fetchRegisterAccount(registerUrl, requestData);
     } catch (error) {
@@ -58,8 +94,17 @@ export function CreateVenueForm({onClose}) {
       useAuthStore.setState({ isError: true });
     }
   }
-  function handleVenueManagerToggle() {
-    setIsVenueManager(!isVenueManager);
+  function handleWifiToggle() {
+    setIsWifi(!isWifi);
+  }
+  function handleParkingToggle() {
+    setIsParking(!isParking);
+  }
+  function handleBreakfastToggle() {
+    setIsBreakfast(!isBreakfast);
+  }
+  function handlePetsToggle() {
+    setIsPets(!isPets);
   }
   function closeSuccessAlert() {
     window.location.href = "/signin";
@@ -83,7 +128,7 @@ export function CreateVenueForm({onClose}) {
           onClose={closeErrorAlert}
         />
       )}
-       <div className="text-end">
+      <div className="text-end">
         <SecondaryButton label="X Close" onClick={onClose} />
       </div>
       <form
@@ -101,7 +146,7 @@ export function CreateVenueForm({onClose}) {
             className={`mt-1 p-2 text-black ${
               errors.name ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="Your Venue Name"
+            placeholder="Your venue name"
           />
           <p className="text-red">{errors.name?.message}</p>
         </div>
@@ -114,53 +159,122 @@ export function CreateVenueForm({onClose}) {
             id="description"
             {...register("description")}
             className={`mt-1 p-2 text-black ${
-              errors.email ? "error-border" : "border-primary"
+              errors.description ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="abc@stud.noroff.no"
+            placeholder="Tell something about your venue..."
           />
           <p className="text-red">{errors.description?.message}</p>
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block font-semibold">
-            Password
+          <label htmlFor="media" className="block font-semibold">
+            Image URL
           </label>
           <input
-            id="password"
-            type="password"
-            {...register("password")}
+            id="media"
+            type="url"
+            {...register("media")}
             className={`mt-1 p-2 text-black ${
-              errors.password ? "error-border" : "border-primary"
+              errors.media ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="Your password"
+            placeholder="Image must be a valid and accessible URL"
           ></input>
-          <p className="text-red">{errors.password?.message}</p>
+          <p className="text-red">{errors.media?.message}</p>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="price" className="block font-semibold">
+            Price (NOK)
+          </label>
+          <input
+            id="price"
+            type="number"
+            {...register("price")}
+            className={`mt-1 p-2 text-black ${
+              errors.price ? "error-border" : "border-primary"
+            } rounded w-full`}
+            placeholder="NOK"
+          ></input>
+          <p className="text-red">{errors.price?.message}</p>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="maxGuests" className="block font-semibold">
+            Max Guests
+          </label>
+          <input
+            id="maxGuests"
+            type="number"
+            {...register("maxGuests")}
+            className={`mt-1 p-2 text-black ${
+              errors.maxGuests ? "error-border" : "border-primary"
+            } rounded w-full`}
+            placeholder="1"
+          ></input>
+          <p className="text-red">{errors.maxGuests?.message}</p>
+        </div>
+
+        <div className="my-6 ">
+          <p className="font-bold">Your Facilities </p>
+          <div className="flex justify-around">
+            <div className="flex items-center ">
+              <label htmlFor="wifi" className="block mr-4">
+                Wifi
+              </label>
+              <input
+                type="checkbox"
+                id="wifi"
+                checked={isWifi}
+                onChange={handleWifiToggle}
+                className="text-2xl"
+              />
+            </div>
+            <div className="flex items-center">
+              <label htmlFor="parking" className="block mr-4">
+                Parking
+              </label>
+              <input
+                type="checkbox"
+                id="parking"
+                checked={isParking}
+                onChange={handleParkingToggle}
+                className="text-2xl"
+              />
+            </div>
+          </div>
+          <div className="flex justify-around">
+            <div className="flex items-center">
+              <label htmlFor="breakfast" className="block mr-4">
+                Breakfast
+              </label>
+              <input
+                type="checkbox"
+                id="breakfast"
+                checked={isBreakfast}
+                onChange={handleBreakfastToggle}
+                className="text-2xl"
+              />
+            </div>
+            <div className="flex items-center">
+              <label htmlFor="pets" className="block mr-4">
+                Pets
+              </label>
+              <input
+                type="checkbox"
+                id="pets"
+                checked={isPets}
+                onChange={handlePetsToggle}
+                className="text-2xl"
+              />
+            </div>
+          </div>
         </div>
         <div className="my-6 ">
-            <p>You can be our Partner to list and manage your Venues on Holidaze</p>
-            <div className="flex items-center">
-            <label htmlFor="venueManager" className="block font-semibold mr-4">
-            Register as Venue Manager
-          </label>
-          <input
-            type="checkbox"
-            id="venueManager"
-            checked={isVenueManager}
-            onChange={handleVenueManagerToggle}
-            className="text-2xl"
-          />
-            </div>
-         
+          <p className="font-bold">Location</p>
+
         </div>
+
         <div className="mt-4 text-center">
-          <PrimaryButton label="Register" />
+          <PrimaryButton label="Create" />
         </div>
       </form>
-      <div className="text-center">
-        <p className="mb-4">Already have an account?</p>
-        <a href="/signin">
-          <SecondaryButton label="Sign In" />
-        </a>
-      </div>
     </div>
   );
 }
