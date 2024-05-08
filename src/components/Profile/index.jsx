@@ -5,6 +5,7 @@ import Loader from "../Loader";
 import { SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 import { BookingCard, BookingDetail } from "../BookingCard";
+import { HomeNav } from "../HomeNav";
 
 function CurrentProfile() {
   const { currentProfile, isError, isLoading } = useProfileStore();
@@ -38,6 +39,7 @@ function CurrentProfile() {
   );
   return (
     <div className="-z-20">
+      <HomeNav />
       <h1 className="text-center">MY PROFILE</h1>
       <div className="mb-5 mt-0 relative h-[200px]">
         <div

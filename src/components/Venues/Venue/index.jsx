@@ -6,7 +6,7 @@ import { PrimaryButton } from "../../Buttons";
 import useVenuesStore from "../../../store/venues";
 import VenueCalendar from "../../BookingCalendar";
 import { HomeNav } from "../../HomeNav";
-import { BookingVenueForm } from "../../BookingForm";
+import { BookingVenueForm } from "../../CreateBookingForm";
 import { accessToken } from "../../../store/profile";
 import Alert from "../../Alert";
 import useBookingStore from "../../../store/bookings";
