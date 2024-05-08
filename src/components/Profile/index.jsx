@@ -2,13 +2,12 @@ import { useState } from "react";
 import useProfileStore from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import {  SecondaryButton } from "../Buttons";
+import { SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 import { BookingCard, BookingDetail } from "../BookingCard";
 
 function CurrentProfile() {
-  const { currentProfile, isError, isLoading} =
-    useProfileStore();
+  const { currentProfile, isError, isLoading } = useProfileStore();
 
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
@@ -24,9 +23,19 @@ function CurrentProfile() {
   }
 
   if (isError) {
-    return <ErrorHandling error="Sorry! Cannot load data now. Try to refresh the site." />;
+    return (
+      <ErrorHandling error="Sorry! Cannot load data now. Try to refresh the site." />
+    );
   }
+  const today = new Date();
+  console.log(today);
 
+  const filteredNextBookings = currentProfile?.bookings?.filter(
+    (booking) => new Date(booking.dateTo) >= today
+  );
+  const filteredLastBookings = currentProfile?.bookings?.filter(
+    (booking) => new Date(booking.dateTo) < today
+  );
   return (
     <div className="-z-20">
       <h1 className="text-center">MY PROFILE</h1>
@@ -35,28 +44,26 @@ function CurrentProfile() {
           className="absolute inset-0 bg-cover bg-bottom bg-right"
           style={{ backgroundImage: `url('${currentProfile?.banner?.url}')` }}
           alt={currentProfile?.name}
-        >
-          
-        </div>
+        ></div>
         <div className="absolute w-44 left-5 top-1/4">
-            <img
-              src={currentProfile?.avatar?.url}
-              alt={currentProfile?.name}
-              className="border-2 rounded-full border-primary h-44"
-            />
-            <p className="text-center text-lg font-bold">
-              {currentProfile?.name}
-            </p>
+          <img
+            src={currentProfile?.avatar?.url}
+            alt={currentProfile?.name}
+            className="border-2 rounded-full border-primary h-44"
+          />
+          <p className="text-center text-lg font-bold">
+            {currentProfile?.name}
+          </p>
+        </div>
+        {currentProfile?.bio ? (
+          <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4 ">
+            {currentProfile?.bio}
           </div>
-          {currentProfile?.bio ? (
-            <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4 ">
-              {currentProfile?.bio}
-            </div>
-          ) : (
-            <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4">
-              My Bio goes here.
-            </div>
-          )}
+        ) : (
+          <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4">
+            My Bio goes here.
+          </div>
+        )}
       </div>
       <div className=" text-end">
         <SecondaryButton
@@ -79,23 +86,39 @@ function CurrentProfile() {
           onClick={handleOpenEditForm}
         />
       </div>
-      <div className="mx-2">
-        <h2 className="text-center">My Bookings</h2>
+      <hr className="text-primary my-5"/>
+      <div className="mx-2 my-5">
+        <h2 className="text-center my-5">Next Stayings</h2>
         <div className="flex flex-wrap">
-        {currentProfile &&  currentProfile?.bookings?.map((booking) => (
+          {currentProfile && currentProfile.bookings ? (
+            filteredNextBookings.map((booking) => (
               <BookingCard key={booking.id} booking={booking} />
             ))
-          }
+          ) : (
+            <p>No upcoming bookings</p>
+          )}
         </div>
-      
+      </div>
+      <hr className="text-primary" />
+      <div className="mx-2 my-5">
+        <h2 className="text-center my-5">Last Stayings</h2>
+        <div className="flex flex-wrap">
+          {currentProfile && currentProfile.bookings ? (
+            filteredLastBookings.map((booking) => (
+              <BookingCard key={booking.id} booking={booking} />
+            ))
+          ) : (
+            <p>No previous Bookings</p>
+          )}
+        </div>
       </div>
       {isEditFormOpen && (
-  <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
-    <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
-      <EditProfileForm onClose={handleCloseEditForm} />
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg w-full md:w-1/2 m-auto">
+            <EditProfileForm onClose={handleCloseEditForm} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
