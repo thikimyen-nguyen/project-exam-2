@@ -213,8 +213,9 @@ export function CreateVenueForm({ onClose }) {
 
         <div className="my-6 ">
           <p className="font-bold">Your Facilities </p>
-          <div className="flex justify-around">
-            <div className="flex items-center ">
+          <div className="flex justify-evenly">
+          <div className="flex-col">
+            <div className="flex items-center justify-between ">
               <label htmlFor="wifi" className="block mr-4">
                 Wifi
               </label>
@@ -226,7 +227,7 @@ export function CreateVenueForm({ onClose }) {
                 className="text-2xl"
               />
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-between ">
               <label htmlFor="parking" className="block mr-4">
                 Parking
               </label>
@@ -239,8 +240,8 @@ export function CreateVenueForm({ onClose }) {
               />
             </div>
           </div>
-          <div className="flex justify-around">
-            <div className="flex items-center">
+          <div className="flex-col">
+            <div className="flex items-center justify-between">
               <label htmlFor="breakfast" className="block mr-4">
                 Breakfast
               </label>
@@ -252,7 +253,7 @@ export function CreateVenueForm({ onClose }) {
                 className="text-2xl"
               />
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-between ">
               <label htmlFor="pets" className="block mr-4">
                 Pets
               </label>
@@ -265,10 +266,11 @@ export function CreateVenueForm({ onClose }) {
               />
             </div>
           </div>
+          </div>
+          
         </div>
         <div className="my-6 ">
           <p className="font-bold">Location</p>
-
         </div>
 
         <div className="mt-4 text-center">
