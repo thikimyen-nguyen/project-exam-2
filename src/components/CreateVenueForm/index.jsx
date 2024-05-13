@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import useAuthStore from "../../store/auth";
 import Alert from "../Alert";
+import useVenuesStore from "../../store/venues";
+import useProfileStore, { accessToken } from "../../store/profile";
 
 const schema = yup
   .object({
@@ -50,27 +52,22 @@ const schema = yup
     isPets: yup.boolean().notRequired().default(false),
     address: yup
       .string()
-      .min(3, "Address name must be at least 3 characters.")
       .notRequired()
       .default(null),
     city: yup
       .string()
-      .min(3, "City name must be at least 3 characters.")
       .notRequired()
       .default(null),
     zip: yup
       .string()
-      .min(3, "Zip name must be at least 1 characters.")
       .notRequired()
       .default(null),
     country: yup
       .string()
-      .min(3, "Country name must be at least 3 characters.")
       .notRequired()
       .default(null),
     continent: yup
       .string()
-      .min(3, "Continent name must be at least 3 characters.")
       .notRequired()
       .default(null),
   })
@@ -84,10 +81,10 @@ export function CreateVenueForm({ onClose }) {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const fetchRegisterAccount = useAuthStore(
-    (state) => state.fetchRegisterAccount
-  );
-  const { isError, registerSuccess } = useAuthStore();
+ 
+  const { apiKey } = useProfileStore();
+
+  const { isError, createVenueSuccess, errorVenueMessage, fetchCreateVenue } = useVenuesStore();
 
   async function onSubmit(data) {
     reset();
@@ -118,33 +115,32 @@ export function CreateVenueForm({ onClose }) {
 
       console.log(requestData);
 
-      // Call API to register account
-      // await fetchRegisterAccount(registerUrl, requestData);
+      await fetchCreateVenue(apiKey, accessToken, requestData);
     } catch (error) {
-      console.error("Error registering account:", error);
+      console.error("Error registering venue:", error);
       useAuthStore.setState({ isError: true });
     }
   }
 
   function closeSuccessAlert() {
-    window.location.href = "/signin";
+    window.location.href = "/admin";
   }
   function closeErrorAlert() {
-    window.location.href = "/register";
+    window.location.reload();
   }
   return (
     <div className="m-5">
       <h1 className="text-center">Create New Venue</h1>
-      {registerSuccess && (
+      {createVenueSuccess === true && (
         <Alert
-          message="Your account was registered successfully! Please Sign In."
+          message="Your Venue was registered successfully! "
           onClose={closeSuccessAlert}
         />
       )}
-      {isError && (
+      {createVenueSuccess === false && (
         <Alert
           textColor="text-red"
-          message="Error Registering Account. Your account may exist. Please try again or Sign In."
+          message="Error Registering Venue. Please try again later."
           onClose={closeErrorAlert}
         />
       )}

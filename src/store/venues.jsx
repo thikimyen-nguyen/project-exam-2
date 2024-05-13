@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { allVenuesUrl } from "../api";
+import { boolean } from "yup";
 
 export const currentVenue = JSON.parse(localStorage.getItem('currentVenue'));
 const useVenuesStore = create((set, get) => ({
@@ -8,6 +9,8 @@ const useVenuesStore = create((set, get) => ({
   isLoading: false,
   isError: false,
   bookings: [],
+  createVenueSuccess: boolean,
+  errorVenueMessage: "",
   fetchVenues: async (url) => {
     set({ isLoading: true, isError: false });
     try {
@@ -54,17 +57,17 @@ const useVenuesStore = create((set, get) => ({
       const json = await response.json();
       if (response.ok) {
         console.log(json.data);
-        set((state) => ({ ...state, createBookingSuccess: true }));
+        set((state) => ({ ...state, createVenueSuccess: true }));
       } else {
-        set((state) => ({ ...state, createBookingSuccess: false }));
+        set((state) => ({ ...state, createVenueSuccess: false }));
         console.log(json.errors[0].message);
         set((state) => ({
           ...state,
-          errorBookingMessage: json.errors[0].message,
+          errorVenueMessage: json.errors[0].message,
         }));
       }
     } catch (error) {
-      set((state) => ({ ...state, createBookingSuccess: false }));
+      set((state) => ({ ...state, createVenueSuccess: false }));
       console.log(error);
     } finally {
       set({ isLoading: false });
