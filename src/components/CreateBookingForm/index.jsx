@@ -1,6 +1,4 @@
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../Alert";
@@ -10,26 +8,7 @@ import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";
 import VenueCalendar from "../BookingCalendar";
 
-// const schema = yup
-//   .object({
-//     dateFrom: yup
-//       .date()
-//       .required("Check-in date is required")
-//       .typeError("Check-in date must be a valid date")
-//       .min(new Date(), "Check-in date must be today or later"),
-//     dateTo: yup
-//       .date()
-//       .required("Check-out date is required")
-//       .typeError("Check-out date must be a valid date")
-//       .min(yup.ref("dateFrom"), "Check-out date must be after check-in date"),
-//     guests: yup
-//       .number()
-//       .required("Number of guests is required")
-//       .min(1, "Number of guests must be at least 1")
-//       .max(4, "Number of guests must not be more than max Guests")
-//       .typeError("Please choose number of Guests"),
-//   })
-//   .required();
+
 
 export function BookingVenueForm({ onClose }) {
   const {
@@ -38,7 +17,6 @@ export function BookingVenueForm({ onClose }) {
     formState: { errors },
     reset,
   } = useForm({
-    // resolver: yupResolver(schema),
   });
   const { fetchCreateBooking, createBookingSuccess, errorBookingMessage } = useBookingStore();
   const { apiKey } = useProfileStore();

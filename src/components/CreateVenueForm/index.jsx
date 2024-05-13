@@ -2,18 +2,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import { registerUrl } from "../../api";
 import useAuthStore from "../../store/auth";
 import Alert from "../Alert";
-import { HomeNav } from "../HomeNav";
-import { useState } from "react";
 
 const schema = yup
   .object({
     name: yup
       .string()
 
-      .min(5, "Venue name must be at least 5 characters.")
+      .min(3, "Venue name must be at least 3 characters.")
 
       .required("Please enter your venue name."),
     description: yup
@@ -25,6 +22,7 @@ const schema = yup
     media: yup
       .string()
       .url("media must be a valid URL")
+      .notRequired()
       .test(
         "is-url",
         "Venue image must be a valid and accessible URL",
@@ -46,6 +44,35 @@ const schema = yup
       .min(1, "Max Guests must be at least 1")
       .max(100, "Max number of Guests is 100")
       .required("Please input the max number of guests"),
+    isWifi: yup.boolean().notRequired().default(false),
+    isParking: yup.boolean().notRequired().default(false),
+    isBreakfast: yup.boolean().notRequired().default(false),
+    isPets: yup.boolean().notRequired().default(false),
+    address: yup
+      .string()
+      .min(3, "Address name must be at least 3 characters.")
+      .notRequired()
+      .default(null),
+    city: yup
+      .string()
+      .min(3, "City name must be at least 3 characters.")
+      .notRequired()
+      .default(null),
+    zip: yup
+      .string()
+      .min(3, "Zip name must be at least 1 characters.")
+      .notRequired()
+      .default(null),
+    country: yup
+      .string()
+      .min(3, "Country name must be at least 3 characters.")
+      .notRequired()
+      .default(null),
+    continent: yup
+      .string()
+      .min(3, "Continent name must be at least 3 characters.")
+      .notRequired()
+      .default(null),
   })
   .required();
 export function CreateVenueForm({ onClose }) {
@@ -61,51 +88,44 @@ export function CreateVenueForm({ onClose }) {
     (state) => state.fetchRegisterAccount
   );
   const { isError, registerSuccess } = useAuthStore();
-  const [isWifi, setIsWifi] = useState(false);
-  const [isParking, setIsParking] = useState(false);
-  const [isBreakfast, setIsBreakfast] = useState(false);
-  const [isPets, setIsPets] = useState(false);
 
   async function onSubmit(data) {
     reset();
 
     try {
       const requestData = {
-        ...data,
+        name: data.name,
+        description: data.description,
+        ...(data.media && { media: [{ url: data.media, alt: "" }] }),
+        price: data.price,
+        maxGuests: data.maxGuests,
         meta: {
-          wifi: isWifi,
-          parking: isParking,
-          breakfast: isBreakfast,
-          pets: isPets,
+          wifi: data.isWifi,
+          parking: data.isParking,
+          breakfast: data.isBreakfast,
+          pets: data.isPets,
+        },
+        location: {
+          address: data.address,
+          city: data.city,
+          zip: data.zip,
+          country: data.country,
+          continent: data.continent,
+          lat: 0,
+          lng: 0,
         },
       };
-      if (data.media) {
-        requestData.media = {
-          url: data.media,
-          alt: "",
-        };
-      }
 
       console.log(requestData);
 
-      await fetchRegisterAccount(registerUrl, requestData);
+      // Call API to register account
+      // await fetchRegisterAccount(registerUrl, requestData);
     } catch (error) {
       console.error("Error registering account:", error);
       useAuthStore.setState({ isError: true });
     }
   }
-  function handleWifiToggle() {
-    setIsWifi(!isWifi);
-  }
-  function handleParkingToggle() {
-    setIsParking(!isParking);
-  }
-  function handleBreakfastToggle() {
-    setIsBreakfast(!isBreakfast);
-  }
-  function handlePetsToggle() {
-    setIsPets(!isPets);
-  }
+
   function closeSuccessAlert() {
     window.location.href = "/signin";
   }
@@ -133,7 +153,7 @@ export function CreateVenueForm({ onClose }) {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col md:w-3/4 lg:w-1/2 content-center mx-auto items-center p-3 "
+        className="flex-col md:w-3/4 content-center mx-auto items-center p-3 "
       >
         <div className="mb-4">
           <label htmlFor="name" className="block font-semibold">
@@ -167,7 +187,7 @@ export function CreateVenueForm({ onClose }) {
         </div>
         <div className="mb-4">
           <label htmlFor="media" className="block font-semibold">
-            Image URL
+            Image URL <span className="font-normal">(optional)</span>
           </label>
           <input
             id="media"
@@ -211,66 +231,145 @@ export function CreateVenueForm({ onClose }) {
           <p className="text-red">{errors.maxGuests?.message}</p>
         </div>
 
-        <div className="my-6 ">
-          <p className="font-bold">Your Facilities </p>
+        <div className="my-6">
+          <p className="font-bold">
+            Your Facilities <span className="font-normal">(optional)</span>
+          </p>
           <div className="flex justify-evenly">
-          <div className="flex-col">
-            <div className="flex items-center justify-between ">
-              <label htmlFor="wifi" className="block mr-4">
-                Wifi
-              </label>
-              <input
-                type="checkbox"
-                id="wifi"
-                checked={isWifi}
-                onChange={handleWifiToggle}
-                className="text-2xl"
-              />
+            <div className="flex-col">
+              <div className="flex items-center justify-between">
+                <label htmlFor="wifi" className="block mr-4">
+                  Wifi
+                </label>
+                <input
+                  type="checkbox"
+                  id="wifi"
+                  {...register("isWifi")}
+                  className="text-2xl"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="parking" className="block mr-4">
+                  Parking
+                </label>
+                <input
+                  type="checkbox"
+                  id="parking"
+                  {...register("isParking")}
+                  className="text-2xl"
+                />
+              </div>
             </div>
-            <div className="flex items-center justify-between ">
-              <label htmlFor="parking" className="block mr-4">
-                Parking
-              </label>
-              <input
-                type="checkbox"
-                id="parking"
-                checked={isParking}
-                onChange={handleParkingToggle}
-                className="text-2xl"
-              />
-            </div>
-          </div>
-          <div className="flex-col">
-            <div className="flex items-center justify-between">
-              <label htmlFor="breakfast" className="block mr-4">
-                Breakfast
-              </label>
-              <input
-                type="checkbox"
-                id="breakfast"
-                checked={isBreakfast}
-                onChange={handleBreakfastToggle}
-                className="text-2xl"
-              />
-            </div>
-            <div className="flex items-center justify-between ">
-              <label htmlFor="pets" className="block mr-4">
-                Pets
-              </label>
-              <input
-                type="checkbox"
-                id="pets"
-                checked={isPets}
-                onChange={handlePetsToggle}
-                className="text-2xl"
-              />
+            <div className="flex-col">
+              <div className="flex items-center justify-between">
+                <label htmlFor="breakfast" className="block mr-4">
+                  Breakfast
+                </label>
+                <input
+                  type="checkbox"
+                  id="breakfast"
+                  {...register("isBreakfast")}
+                  className="text-2xl"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="pets" className="block mr-4">
+                  Pets
+                </label>
+                <input
+                  type="checkbox"
+                  id="pets"
+                  {...register("isPets")}
+                  className="text-2xl"
+                />
+              </div>
             </div>
           </div>
-          </div>
-          
         </div>
         <div className="my-6 ">
-          <p className="font-bold">Location</p>
+          <p className="font-bold">
+            Location <span className="font-normal">(optional)</span>
+          </p>
+          <div className="mb-4">
+            <label htmlFor="address" className="block">
+              Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              {...register("address")}
+              className={`mt-1 p-2 text-black ${
+                errors.address ? "error-border" : "border-primary"
+              } rounded w-full`}
+              placeholder="Street 01"
+            />
+            <p className="text-red">{errors.address?.message}</p>
+          </div>
+
+          <div className="mb-4 flex justify-between">
+            <div>
+              <label htmlFor="city" className="block">
+                City
+              </label>
+              <input
+                type="text"
+                id="city"
+                {...register("city")}
+                className={`mt-1 p-2 text-black ${
+                  errors.city ? "error-border" : "border-primary"
+                } rounded w-full`}
+                placeholder="City"
+              />
+              <p className="text-red">{errors.city?.message}</p>
+            </div>
+            <div>
+              <label htmlFor="zip" className="block">
+                Zip
+              </label>
+              <input
+                type="text"
+                id="zip"
+                {...register("zip")}
+                className={`mt-1 p-2 text-black ${
+                  errors.zip ? "error-border" : "border-primary"
+                } rounded w-full`}
+                placeholder="Zip Code"
+              />
+              <p className="text-red">{errors.zip?.message}</p>
+            </div>
+          </div>
+          <div className="mb-4 flex justify-between">
+            <div>
+              <label htmlFor="country" className="block">
+                Country
+              </label>
+              <input
+                type="text"
+                id="country"
+                {...register("country")}
+                className={`mt-1 p-2 text-black ${
+                  errors.country ? "error-border" : "border-primary"
+                } rounded w-full`}
+                placeholder="Country"
+              />
+              <p className="text-red">{errors.country?.message}</p>
+            </div>
+            <div>
+              <label htmlFor="continent" className="block">
+                Continent
+              </label>
+              <input
+                type="text"
+                id="continent"
+                {...register("continent")}
+                className={`mt-1 p-2 text-black ${
+                  errors.continent ? "error-border" : "border-primary"
+                } rounded w-full`}
+                placeholder="Continent"
+              />
+              <p className="text-red">{errors.continent?.message}</p>
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 text-center">
