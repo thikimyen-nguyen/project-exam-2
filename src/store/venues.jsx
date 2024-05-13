@@ -25,7 +25,7 @@ const useVenuesStore = create((set, get) => ({
     }
   },
   fetchVenueById: async (id) => {
-    const singleVenueUrl = `${allVenuesUrl}/${id}?_bookings=true`;
+    const singleVenueUrl = `${allVenuesUrl}/${id}?_bookings=true&_owner=true`;
     set({ isLoading: true, isError: false });
     try {
       const response = await fetch(singleVenueUrl);

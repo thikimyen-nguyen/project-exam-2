@@ -24,19 +24,22 @@ function VenuesListingCard({
     <div
       key={id}
       //   to={`/${id}`}
-      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4 relative flex"
+      className="w-full my-5 bg-white border border-darkGreen"
     >
       <div
         id={id}
-        className="p-3 group flex flex-col flex-grow  overflow-hidden bg-white border border-darkGreen "
+        className="p-3 group flex flex-grow  overflow-hidden  "
       >
+        <div className="mr-3">
         {isImageURL && (
           <img
             src={isImageURL}
             alt={name}
-            className="w-full h-32 object-cover object-center  flex-shrink-0"
+            className="w-20 md:w-32 lg:w-48 xl:w-60 object-cover object-center  flex-shrink-0"
           />
         )}
+        </div>
+       
 
         <div>
           <p className=" text-darkGreen">
@@ -88,12 +91,12 @@ function VenuesListingCard({
             )}
           </p>
         </div>
-        <div className="flex m-auto">
-        <PrimaryButton label='Delete' stylingCss='secondaryButton' />
-        <PrimaryButton label='Update' stylingCss='primaryButton'/>
+       
       </div>
-      </div>
-     
+      <div className="text-center mb-5">
+          <PrimaryButton label="Delete" stylingCss="secondaryButton" />
+          <PrimaryButton label="Update" stylingCss="primaryButton" />
+        </div>
     </div>
   );
 }
