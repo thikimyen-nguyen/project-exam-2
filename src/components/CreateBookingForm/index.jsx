@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { PrimaryButton, SecondaryButton } from "../Buttons";
+import { ExtraButton, PrimaryButton, SecondaryButton } from "../Buttons";
 import { accessToken, currentUserName } from "../../store/profile";
 import Alert from "../Alert";
 import { useEffect, useState } from "react";
@@ -79,7 +79,7 @@ export function BookingVenueForm({ onClose }) {
         />
       )}
       <div className="text-end">
-        <SecondaryButton label="X Close" onClick={onClose} />
+        <ExtraButton label="X Close" onClick={onClose} />
       </div>
       <div>
         <p>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { PrimaryButton, SecondaryButton } from "../Buttons";
+import { ExtraButton, PrimaryButton, SecondaryButton } from "../Buttons";
 import useAuthStore from "../../store/auth";
 import Alert from "../Alert";
 import useVenuesStore from "../../store/venues";
@@ -145,7 +145,7 @@ export function CreateVenueForm({ onClose }) {
         />
       )}
       <div className="text-end">
-        <SecondaryButton label="X Close" onClick={onClose} />
+        <ExtraButton label="X Close" onClick={onClose}  />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -369,7 +369,7 @@ export function CreateVenueForm({ onClose }) {
         </div>
 
         <div className="mt-4 text-center">
-          <PrimaryButton label="Create" />
+          <PrimaryButton label="Create" stylingCss='primaryButton' />
         </div>
       </form>
     </div>

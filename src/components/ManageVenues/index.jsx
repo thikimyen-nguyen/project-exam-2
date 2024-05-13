@@ -4,6 +4,7 @@ import useProfileStore from "../../store/profile";
 import { HomeNav } from "../HomeNav";
 import { useState } from "react";
 import { CreateVenueForm } from "../CreateVenueForm";
+import VenuesListingCard from "./VenuesListing";
 
 function ManageVenues() {
   const { currentProfile, isError, isLoading } = useProfileStore();
@@ -12,9 +13,7 @@ function ManageVenues() {
     setIsCreateVenueFormOpen(true);
   };
 
-  const handleCloseCreateVenueForm = () => {
-    setIsCreateVenueFormOpen(false);
-  };
+  
   const handleCloseForm = () => {
     setIsCreateVenueFormOpen(false);
   };
@@ -39,6 +38,7 @@ function ManageVenues() {
         <PrimaryButton
           label="+ New Venue"
           onClick={handleOpenCreateVenueForm}
+          stylingCss='primaryButton'
         />
       </div>
       {isCreateVenueFormOpen && (
@@ -49,7 +49,9 @@ function ManageVenues() {
         </div>
       )}
       <h2>Your Venues</h2>
-      {/* venueCard */}
+      {currentProfile?.venues?.map((venue) => (
+              <VenuesListingCard key={venue.id} venue={venue} />
+            ))}
     </div>
   );
 }

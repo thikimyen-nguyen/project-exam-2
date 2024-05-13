@@ -154,13 +154,13 @@ export function RegisterForm() {
          
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Register" />
+          <PrimaryButton label="Register" stylingCss='primaryButton' />
         </div>
       </form>
       <div className="text-center">
         <p className="mb-4">Already have an account?</p>
         <a href="/signin">
-          <SecondaryButton label="Sign In" />
+          <PrimaryButton label="Sign In" stylingCss='secondaryButton' />
         </a>
       </div>
     </div>

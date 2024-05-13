@@ -2,7 +2,7 @@ import { useState } from "react";
 import useProfileStore from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import { SecondaryButton } from "../Buttons";
+import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 import { BookingCard, BookingDetail } from "../BookingCard";
 import { HomeNav } from "../HomeNav";
@@ -68,7 +68,7 @@ function CurrentProfile() {
         )}
       </div>
       <div className=" text-end">
-        <SecondaryButton
+        <PrimaryButton
           label={
             <div style={{ display: "flex", alignItems: "center" }}>
               <svg
@@ -86,6 +86,7 @@ function CurrentProfile() {
             </div>
           }
           onClick={handleOpenEditForm}
+          stylingCss='primaryButton'
         />
       </div>
       {filteredNextBookings?.length > 0 && (

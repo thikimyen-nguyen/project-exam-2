@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function VenueCard({
-  product: { id, name, price, media, location, rating, meta },
+  venue: { id, name, price, media, location, rating, meta },
 }) {
   const [isImageURL, setIsImageURL] = useState(false);
 

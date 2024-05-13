@@ -1,11 +1,11 @@
 import styles from "./index.module.css";
-export function PrimaryButton({label, onClick}) {
+export function PrimaryButton({label, onClick, stylingCss}) {
     return (
-        <button className={`${styles.primaryButton}`}  onClick={onClick}>{label}</button>
+        <button className={`${styles[stylingCss]}`} onClick={onClick}>{label}</button>
     );
 }
-export function SecondaryButton({label, onClick}) {
+export function ExtraButton({label, onClick}) {
     return (
-        <button className={styles.secondaryButton} onClick={onClick} >{label}</button>
+        <button className={styles.extraButton} onClick={onClick} >{label}</button>
     );
 }

@@ -6,18 +6,27 @@
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
-   margin-right: 0.3em;
+    margin-right: 0.3em;
+    transition: background-color 0.3s ease;
   }
- 
   .secondaryButton {
     background-color: white;
     color: #15231E;
-    padding: 0em 0.5em ;
-    font-size: 1rem;
+    border: 1px solid #325249;
+    padding: 0.5em 1em;
+    font-size: 1.3rem;
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
-    border: 1px solid #325249;
+    margin-right: 0.3em;
+  }
+  .extraButton {
+    background-color: #15231E;
+    color: white;
+    padding: 0em 0.5em ;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
     margin-right: 0.3em;
 
   }
@@ -25,6 +34,10 @@
     background-color: #E7F4EE;
   }
   .primaryButton:hover {
-    background-color: #325249;
-    color: #E7F4EE;
+    background-color: #8AD8C8;
   }
+  .extraButton:hover {
+    background-color: #325249;
+
+  }
+ 

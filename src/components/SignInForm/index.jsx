@@ -114,13 +114,13 @@ export function SignInForm() {
           <p className="text-red">{errors.password?.message}</p>
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Sign In" />
+          <PrimaryButton label="Sign In" stylingCss='primaryButton' />
         </div>
       </form>
       <div className="text-center">
         <p className="mb-4">Don't have an account?</p>
         <a href="/register">
-          <SecondaryButton label="Register" />
+          <PrimaryButton label="Register" stylingCss='secondaryButton'/>
         </a>
       </div>    </div>
   );

@@ -77,11 +77,11 @@ export function VenuesList() {
 
       <div className="flex flex-wrap">
         {searchInput === ""
-          ? venues?.map((product) => (
-              <VenueCard key={product.id} product={product} />
+          ? venues?.map((venue) => (
+              <VenueCard key={venue.id} venue={venue} />
             ))
-          : searchResults?.map((product) => (
-              <VenueCard key={product.id} product={product} />
+          : searchResults?.map((venue) => (
+              <VenueCard key={venue.id} venue={venue} />
             ))}
       </div>
     </div>
