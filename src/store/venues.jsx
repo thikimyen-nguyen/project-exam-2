@@ -12,6 +12,8 @@ const useVenuesStore = create((set, get) => ({
   createVenueSuccess: boolean,
   errorVenueMessage: "",
   updateVenueSuccess: boolean,
+  deleteVenueSuccess: boolean,
+
   fetchVenues: async (url) => {
     set({ isLoading: true, isError: false });
     try {
@@ -108,6 +110,35 @@ const useVenuesStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
+  fetchDeleteVenue: async (apiKey, accessToken, id) => {
+    set({ isLoading: true, isError: false });
+    const singleVenueUrl = `${allVenuesUrl}/${id}`;
+
+    try {
+      const deleteOption = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+          "X-Noroff-API-Key": apiKey,
+        },
+      };
+      const response = await fetch(singleVenueUrl, deleteOption);
+      if (response.ok) {
+        console.log(response);
+        set((state) => ({ ...state, deleteVenueSuccess: true }));
+      } else {
+        set((state) => ({ ...state, deleteVenueSuccess: false }));
+     
+      }
+    } catch (error) {
+      set((state) => ({ ...state, deleteVenueSuccess: false }));
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
 }));
 
 export default useVenuesStore;

@@ -2,19 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PrimaryButton, SecondaryButton } from "../../Buttons";
 import { UpdateVenueForm } from "../../UpdateVenueForm";
+import { DeleteVenueForm } from "../../DeleteVenueForm";
 
 function VenuesListingCard({
   venue
 }) {
   const [isImageURL, setIsImageURL] = useState(false);
   const [isUpdateVenueFormOpen, setIsUpdateVenueFormOpen] = useState(false);
+  const [isDeleteVenueFormOpen, setIsDeleteVenueFormOpen] = useState(false);
+
   const handleOpenUpdateVenueForm = () => {
     setIsUpdateVenueFormOpen(true);
   };
 
   const handleCloseForm = () => {
     setIsUpdateVenueFormOpen(false);
+    setIsDeleteVenueFormOpen(false)
   };
+  const handleOpenDeleteVenueForm = () => {
+    setIsDeleteVenueFormOpen(true);
+  };
+
+ 
   useEffect(() => {
     let validImageURL = null;
 
@@ -97,7 +106,7 @@ function VenuesListingCard({
         </div>
       </div>
       <div className="text-center mb-5">
-        <PrimaryButton label="Delete" stylingCss="secondaryButton" />
+        <PrimaryButton label="Delete" stylingCss="secondaryButton" onClick={handleOpenDeleteVenueForm}/>
         <PrimaryButton
           label="Update"
           stylingCss="primaryButton"
@@ -108,6 +117,13 @@ function VenuesListingCard({
         <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
           <div className="bg-white rounded-lg w-full md:w-3/4 xl:w-1/2 m-auto">
             <UpdateVenueForm onClose={handleCloseForm} venue={venue} />
+          </div>
+        </div>
+      )}
+       {isDeleteVenueFormOpen && (
+        <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg w-full md:w-3/4 xl:w-1/2 m-auto">
+            <DeleteVenueForm onClose={handleCloseForm} venue={venue} />
           </div>
         </div>
       )}

@@ -36,6 +36,8 @@ function ManageVenues() {
   return (
     <div className="p-5">
       <HomeNav />
+      <h1 className="text-center my-5">VENUE MANAGEMENT</h1>
+
       <div className="bg-lightGreen content-center flex items-center">
         <div className="w-12 ">
           <img
@@ -49,8 +51,7 @@ function ManageVenues() {
           as Venue Manager
         </p>
       </div>
-      <h1 className="text-center my-5">VENUE MANAGEMENT</h1>
-      <div className="text-center">
+      <div className="text-right my-5">
         <PrimaryButton
           label="+ New Venue"
           onClick={handleOpenCreateVenueForm}

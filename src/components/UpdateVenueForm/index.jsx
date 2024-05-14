@@ -117,7 +117,7 @@ export function UpdateVenueForm({
   }
 
   function closeSuccessAlert() {
-    window.location.href = "/admin";
+    window.location.reload();
   }
   function closeErrorAlert() {
     window.location.reload();
