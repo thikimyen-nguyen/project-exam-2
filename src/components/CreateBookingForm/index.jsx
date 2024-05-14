@@ -63,7 +63,7 @@ export function BookingVenueForm({ onClose }) {
     window.location.reload();
   }
   return (
-    <div className="my-20 p-5">
+    <div className="my-20 py-5">
       <h1 className="text-center">Booking</h1>
       {createBookingSuccess === true && (
         <Alert

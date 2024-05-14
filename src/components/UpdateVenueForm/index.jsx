@@ -1,63 +1,72 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ExtraButton, PrimaryButton, SecondaryButton } from "../Buttons";
+import { ExtraButton, PrimaryButton } from "../Buttons";
 import useAuthStore from "../../store/auth";
 import Alert from "../Alert";
 import useVenuesStore from "../../store/venues";
 import useProfileStore, { accessToken } from "../../store/profile";
 
-const schema = yup
-  .object({
-    name: yup
-      .string()
+const schema = yup.object({
+  name: yup
+    .string()
+    .notRequired()
+    .min(3, "Venue name must be at least 3 characters."),
 
-      .min(3, "Venue name must be at least 3 characters.")
+  description: yup
+    .string()
+    .notRequired()
+    .min(10, "Description must be at least 10 characters."),
 
-      .required("Please enter your venue name."),
-    description: yup
-      .string()
+  media: yup
+    .string()
+    .url("media must be a valid URL")
+    .notRequired()
+    .test(
+      "is-url",
+      "Venue image must be a valid and accessible URL",
+      (value) => {
+        if (!value) return true;
+        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        return urlRegex.test(value);
+      }
+    ),
+  price: yup
+    .number()
+    .required("Price is required")
+    .min(0)
+    .max(10000)
+    .notRequired(),
+  maxGuests: yup
+    .number()
+    .required("Number of Guests is required")
+    .min(1, "Max Guests must be at least 1")
+    .max(100, "Max number of Guests is 100")
+    .notRequired(),
+  isWifi: yup.boolean().notRequired(),
+  isParking: yup.boolean().notRequired(),
+  isBreakfast: yup.boolean().notRequired(),
+  isPets: yup.boolean().notRequired(),
+  address: yup.string().notRequired(),
+  city: yup.string().notRequired(),
+  zip: yup.string().notRequired(),
+  country: yup.string().notRequired(),
+  continent: yup.string().notRequired(),
+});
 
-      .min(10, "Description must be at least 10 characters.")
-
-      .required("Describe your Venue"),
-    media: yup
-      .string()
-      .url("media must be a valid URL")
-      .notRequired()
-      .test(
-        "is-url",
-        "Venue image must be a valid and accessible URL",
-        (value) => {
-          if (!value) return true;
-          const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-          return urlRegex.test(value);
-        }
-      ),
-    price: yup
-      .number()
-      .required("Price is required")
-      .min(0)
-      .max(10000)
-      .required("Please input the price"),
-    maxGuests: yup
-      .number()
-      .required("Number of Guests is required")
-      .min(1, "Max Guests must be at least 1")
-      .max(100, "Max number of Guests is 100")
-      .required("Please input the max number of guests"),
-    isWifi: yup.boolean().notRequired().default(false),
-    isParking: yup.boolean().notRequired().default(false),
-    isBreakfast: yup.boolean().notRequired().default(false),
-    isPets: yup.boolean().notRequired().default(false),
-    address: yup.string().notRequired().default(null),
-    city: yup.string().notRequired().default(null),
-    zip: yup.string().notRequired().default(null),
-    country: yup.string().notRequired().default(null),
-    continent: yup.string().notRequired().default(null),
-  })
-  .required();
-export function CreateVenueForm({ onClose }) {
+export function UpdateVenueForm({
+  venue: {
+    id,
+    name,
+    price,
+    media,
+    location,
+    meta,
+    description,
+    maxGuests,
+  },
+  onClose,
+}) {
   const {
     register,
     handleSubmit,
@@ -69,7 +78,7 @@ export function CreateVenueForm({ onClose }) {
 
   const { apiKey } = useProfileStore();
 
-  const { createVenueSuccess, errorVenueMessage, fetchCreateVenue } =
+  const { updateVenueSuccess, errorVenueMessage, fetchUpdateVenue } =
     useVenuesStore();
 
   async function onSubmit(data) {
@@ -101,7 +110,7 @@ export function CreateVenueForm({ onClose }) {
 
       console.log(requestData);
 
-      await fetchCreateVenue(apiKey, accessToken, requestData);
+      await fetchUpdateVenue(apiKey, accessToken, requestData, id);
     } catch (error) {
       console.log(errorVenueMessage);
     }
@@ -113,19 +122,20 @@ export function CreateVenueForm({ onClose }) {
   function closeErrorAlert() {
     window.location.reload();
   }
+
   return (
     <div className="my-20 py-5">
-      <h1 className="text-center">Create New Venue</h1>
-      {createVenueSuccess === true && (
+      <h1 className="text-center">Update Venue</h1>
+      {updateVenueSuccess === true && (
         <Alert
-          message="Your Venue was registered successfully! "
+          message="Your Venue was updated successfully! "
           onClose={closeSuccessAlert}
         />
       )}
-      {createVenueSuccess === false && (
+      {updateVenueSuccess === false && (
         <Alert
           textColor="text-red"
-          message="Error Registering Venue. Please try again later."
+          message="Error updating Venue. Please try again later."
           onClose={closeErrorAlert}
         />
       )}
@@ -147,7 +157,7 @@ export function CreateVenueForm({ onClose }) {
             className={`mt-1 p-2 text-black ${
               errors.name ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="Your venue name"
+            defaultValue={name}
           />
           <p className="text-red">{errors.name?.message}</p>
         </div>
@@ -162,13 +172,13 @@ export function CreateVenueForm({ onClose }) {
             className={`mt-1 p-2 text-black ${
               errors.description ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="Tell something about your venue..."
+            defaultValue={description}
           />
           <p className="text-red">{errors.description?.message}</p>
         </div>
         <div className="mb-4">
           <label htmlFor="media" className="block font-semibold">
-            Image URL <span className="font-normal">(optional)</span>
+            Image URL
           </label>
           <input
             id="media"
@@ -177,7 +187,7 @@ export function CreateVenueForm({ onClose }) {
             className={`mt-1 p-2 text-black ${
               errors.media ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="Image must be a valid and accessible URL"
+            defaultValue={media[0].url}
           ></input>
           <p className="text-red">{errors.media?.message}</p>
         </div>
@@ -192,7 +202,7 @@ export function CreateVenueForm({ onClose }) {
             className={`mt-1 p-2 text-black ${
               errors.price ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="NOK"
+            defaultValue={price}
           ></input>
           <p className="text-red">{errors.price?.message}</p>
         </div>
@@ -207,15 +217,13 @@ export function CreateVenueForm({ onClose }) {
             className={`mt-1 p-2 text-black ${
               errors.maxGuests ? "error-border" : "border-primary"
             } rounded w-full`}
-            placeholder="1"
+            defaultValue={maxGuests}
           ></input>
           <p className="text-red">{errors.maxGuests?.message}</p>
         </div>
 
         <div className="my-6">
-          <p className="font-bold">
-            Your Facilities <span className="font-normal">(optional)</span>
-          </p>
+          <p className="font-bold">Your Facilities</p>
           <div className="flex justify-evenly">
             <div className="flex-col">
               <div className="flex items-center justify-between">
@@ -227,6 +235,7 @@ export function CreateVenueForm({ onClose }) {
                   id="wifi"
                   {...register("isWifi")}
                   className="text-2xl"
+                  defaultChecked={meta.wifi}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -238,6 +247,7 @@ export function CreateVenueForm({ onClose }) {
                   id="parking"
                   {...register("isParking")}
                   className="text-2xl"
+                  defaultChecked={meta.parking}
                 />
               </div>
             </div>
@@ -251,6 +261,7 @@ export function CreateVenueForm({ onClose }) {
                   id="breakfast"
                   {...register("isBreakfast")}
                   className="text-2xl"
+                  defaultChecked={meta.breakfast}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -262,15 +273,14 @@ export function CreateVenueForm({ onClose }) {
                   id="pets"
                   {...register("isPets")}
                   className="text-2xl"
+                  defaultChecked={meta.pets}
                 />
               </div>
             </div>
           </div>
         </div>
         <div className="my-6 ">
-          <p className="font-bold">
-            Location <span className="font-normal">(optional)</span>
-          </p>
+          <p className="font-bold">Location</p>
           <div className="mb-4">
             <label htmlFor="address" className="block">
               Address
@@ -282,7 +292,7 @@ export function CreateVenueForm({ onClose }) {
               className={`mt-1 p-2 text-black ${
                 errors.address ? "error-border" : "border-primary"
               } rounded w-full`}
-              placeholder="Street 01"
+              defaultValue={location.address}
             />
             <p className="text-red">{errors.address?.message}</p>
           </div>
@@ -299,7 +309,8 @@ export function CreateVenueForm({ onClose }) {
                 className={`mt-1 p-2 text-black ${
                   errors.city ? "error-border" : "border-primary"
                 } rounded w-full`}
-                placeholder="City"
+                defaultValue={location.city}
+
               />
               <p className="text-red">{errors.city?.message}</p>
             </div>
@@ -314,8 +325,8 @@ export function CreateVenueForm({ onClose }) {
                 className={`mt-1 p-2 text-black ${
                   errors.zip ? "error-border" : "border-primary"
                 } rounded w-full`}
-                placeholder="Zip Code"
-              />
+                defaultValue={location.zip}
+                />
               <p className="text-red">{errors.zip?.message}</p>
             </div>
           </div>
@@ -331,8 +342,8 @@ export function CreateVenueForm({ onClose }) {
                 className={`mt-1 p-2 text-black ${
                   errors.country ? "error-border" : "border-primary"
                 } rounded w-full`}
-                placeholder="Country"
-              />
+                defaultValue={location.country}
+                />
               <p className="text-red">{errors.country?.message}</p>
             </div>
             <div>
@@ -346,15 +357,15 @@ export function CreateVenueForm({ onClose }) {
                 className={`mt-1 p-2 text-black ${
                   errors.continent ? "error-border" : "border-primary"
                 } rounded w-full`}
-                placeholder="Continent"
-              />
+                defaultValue={location.continent}
+                />
               <p className="text-red">{errors.continent?.message}</p>
             </div>
           </div>
         </div>
 
         <div className="mt-4 text-center">
-          <PrimaryButton label="Create" stylingCss="primaryButton" />
+          <PrimaryButton label="Update" stylingCss="primaryButton" />
         </div>
       </form>
     </div>

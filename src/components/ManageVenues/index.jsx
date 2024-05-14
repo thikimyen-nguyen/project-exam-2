@@ -5,6 +5,8 @@ import { HomeNav } from "../HomeNav";
 import { useState } from "react";
 import { CreateVenueForm } from "../CreateVenueForm";
 import VenuesListingCard from "./VenuesListing";
+import ErrorHandling from "../ErrorHandle";
+import Loader from "../Loader";
 
 function ManageVenues() {
   const { currentProfile, isError, isLoading } = useProfileStore();
@@ -17,6 +19,20 @@ function ManageVenues() {
   const handleCloseForm = () => {
     setIsCreateVenueFormOpen(false);
   };
+  if (isError) {
+    return (
+      <div>
+        <ErrorHandling error='Sorry! There is an error loading data. Please refresh the site.' />
+      </div>
+    );
+  }
+  if (isLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className="p-5">
       <HomeNav />
@@ -48,7 +64,7 @@ function ManageVenues() {
           </div>
         </div>
       )}
-      <h2 className="my-5">Your Venues <span className="font-normal">( Total: {currentProfile?._count?.venues} )</span></h2>
+      <h2 className="my-5">My Venues <span className="font-normal">( Total: {currentProfile?._count?.venues} )</span></h2>
       {currentProfile?.venues?.map((venue) => (
               <VenuesListingCard key={venue.id} venue={venue} />
             ))}

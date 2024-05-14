@@ -12,7 +12,8 @@ import Alert from "../../Alert";
 import useBookingStore from "../../../store/bookings";
 
 function SingleVenue() {
-  const { singleVenue, isError, isLoading, fetchVenueById, bookings } = useVenuesStore();
+  const { singleVenue, isError, isLoading, fetchVenueById, bookings } =
+    useVenuesStore();
   const [mapsUrl, setMapsUrl] = useState("");
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -38,12 +39,11 @@ function SingleVenue() {
       setIsSignedIn(true);
     }
   }, [accessToken]);
- 
 
   if (isError) {
     return (
       <div>
-        <ErrorHandling error='Sorry! There is error loading data. Please try agian later' />
+        <ErrorHandling error="Sorry! There is error loading data. Please try agian later" />
       </div>
     );
   }
@@ -58,7 +58,7 @@ function SingleVenue() {
     if (isSignedIn) {
       setIsBookingFormOpen(true);
     } else {
-      setShowSignInAlert(true); 
+      setShowSignInAlert(true);
     }
   };
 
@@ -85,7 +85,6 @@ function SingleVenue() {
           <div className="w-full px-6 md:flex-1 mt-5">
             <div className="flex items-center my-5">
               <h1 className="mr-5">{singleVenue?.name}</h1>
-              {/* <p>{singleVenue?.owner?.name}</p> */}
 
               <p className="bg-primary px-2 self-center rounded">
                 {singleVenue?.rating}/5
@@ -118,9 +117,16 @@ function SingleVenue() {
                 {singleVenue?.location?.zip}, {singleVenue?.location?.country}
               </a>
             </div>
-            <p className="my-5">{singleVenue?.description}</p>
+            <p className="my-3">
+              Hosted By:{" "}
+              <span className="font-bold">{singleVenue?.owner?.name}</span>
+            </p>
+            <div className="my-4">
+              <h2>Description</h2>
+              <p >{singleVenue?.description}</p>
+            </div>
 
-            <div>
+            <div className="my-4">
               <h2>Our Facilities</h2>
               <div className="flex my-3">
                 {singleVenue?.meta?.breakfast && (
@@ -215,13 +221,16 @@ function SingleVenue() {
                 <PrimaryButton
                   label="Reserve"
                   onClick={handleOpenBookingForm}
-                  stylingCss='primaryButton'
+                  stylingCss="primaryButton"
                 />
               </div>
             </div>
-            <div>
+            <div className="my-4">
               <h2>Our Availability</h2>
-              <VenueCalendar bookings={bookings} onDateSelect={handleselectedDate}/>
+              <VenueCalendar
+                bookings={bookings}
+                onDateSelect={handleselectedDate}
+              />
             </div>
           </div>
         </div>
@@ -239,7 +248,7 @@ function SingleVenue() {
           <Alert
             message="Please sign in to book your stay."
             textColor="text-red"
-            onClose={() => setShowSignInAlert(false)} 
+            onClose={() => setShowSignInAlert(false)}
           />
         </div>
       )}

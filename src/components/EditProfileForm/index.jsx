@@ -107,7 +107,7 @@ export function EditProfileForm({ onClose }) {
     window.location.href = "/profile";
   }
   return (
-    <div className="my-20 p-5">
+    <div className="my-20 py-5">
       <h1 className="text-center">Edit Profile</h1>
       {updateSuccess ===true && (
         <Alert
