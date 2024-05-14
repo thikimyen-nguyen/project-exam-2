@@ -63,7 +63,7 @@ export function BookingVenueForm({ onClose }) {
     window.location.reload();
   }
   return (
-    <div className="my-20 py-5">
+    <div className="my-20 p-5">
       <h1 className="text-center">Booking</h1>
       {createBookingSuccess === true && (
         <Alert
@@ -151,7 +151,7 @@ export function BookingVenueForm({ onClose }) {
         </div>
 
         <div className="mt-4 text-center">
-          <PrimaryButton label="Submit" />{" "}
+          <PrimaryButton label="Submit" stylingCss='primaryButton'/>
         </div>
       </form>
     </div>
