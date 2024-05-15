@@ -22,8 +22,6 @@ const useAuthStore = create((set, get) => ({
       const response = await fetch(url, postOption);
       const json = await response.json();
       set((state) => ({ ...state, registerAccount: json.data }));
-      console.log(json.data);
-
       if (response.ok) {
         set({ registerSuccess: true });
       } else {
@@ -47,16 +45,16 @@ const useAuthStore = create((set, get) => ({
       };
       const response = await fetch(url, postOption);
       const json = await response.json();
-      console.log(json.data);
       set((state) => ({ ...state, loginAccount: json.data }));
       if (response.ok) {
         set({ logInSuccess: true });
-
-       
       } else {
         set({ isError: true });
       }
-      localStorage.setItem("accessToken", JSON.stringify(json.data.accessToken));
+      localStorage.setItem(
+        "accessToken",
+        JSON.stringify(json.data.accessToken)
+      );
       localStorage.setItem("currentUserName", JSON.stringify(json.data.name));
     } catch (error) {
       set({ isError: true });
@@ -64,8 +62,6 @@ const useAuthStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
-  
 }));
-
 
 export default useAuthStore;

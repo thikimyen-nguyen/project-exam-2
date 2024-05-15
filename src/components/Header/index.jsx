@@ -8,20 +8,18 @@ import useProfileStore, {
   currentUserName,
 } from "../../store/profile";
 
-
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignOut, setIsSignOut] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const { currentProfile, fetchSingleProfile, apiKey, fetchApiKey } =
     useProfileStore();
-    useEffect(() => {
-        if (accessToken) {
-         fetchApiKey();
+  useEffect(() => {
+    if (accessToken) {
+      fetchApiKey();
+    }
+  }, [fetchApiKey]);
 
-        }
-      }, [fetchApiKey]);
-      
   useEffect(() => {
     if (apiKey) {
       fetchSingleProfile(currentUserName, apiKey, accessToken);
@@ -36,9 +34,9 @@ export function Header() {
   function signOutHandle() {
     localStorage.clear();
     setIsSignOut(true);
-    // handleVenueManagerClick(); 
+    // handleVenueManagerClick();
   }
-  
+
   function returnHome() {
     window.location.href = "/";
   }
@@ -48,8 +46,7 @@ export function Header() {
       <Alert message="You are signed out sucessfully!" onClose={returnHome} />
     );
   }
-  
-  
+
   const handleVenueManagerClick = () => {
     if (currentProfile?.venueManager === true) {
       setShowErrorAlert(false);
@@ -60,7 +57,7 @@ export function Header() {
       window.location.href = "/signin";
     }
   };
-  
+
   function closeErrorAlert() {
     setShowErrorAlert(false);
     window.location.href = "/profile";
@@ -74,12 +71,12 @@ export function Header() {
         <div className="flex">
           <nav className="mr-4 text-darkGreen font-semibold">
             <ul className=" flex items-center">
-            <li className="text-lg hover:bg-lightGreen border border-primary px-2">
-                    <NavLink onClick={handleVenueManagerClick}>
-                      Manage Venues
-                    </NavLink>
-                  </li>
-             
+              <li className="text-lg hover:bg-lightGreen border border-primary px-2">
+                <NavLink onClick={handleVenueManagerClick}>
+                  Manage Venues
+                </NavLink>
+              </li>
+
               {showErrorAlert && (
                 <Alert
                   textColor="text-red"

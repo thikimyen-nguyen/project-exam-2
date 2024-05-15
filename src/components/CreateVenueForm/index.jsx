@@ -100,7 +100,6 @@ export function CreateVenueForm({ onClose }) {
         },
       };
 
-      console.log(requestData);
 
       await fetchCreateVenue(apiKey, accessToken, requestData);
     } catch (error) {

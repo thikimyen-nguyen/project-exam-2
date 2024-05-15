@@ -15,8 +15,7 @@ export function HomeNav() {
         />
       </svg>
       <div className="hover:bg-lightGreen px-1">
-      <NavLink to="/" >Home</NavLink>
-
+        <NavLink to="/">Home</NavLink>
       </div>
     </div>
   );

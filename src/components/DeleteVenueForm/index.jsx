@@ -1,23 +1,18 @@
-
 import { PrimaryButton } from "../Buttons";
 import Alert from "../Alert";
 import useVenuesStore from "../../store/venues";
 import useProfileStore, { accessToken } from "../../store/profile";
 
 export function DeleteVenueForm({ venue, onClose }) {
- 
-
   const { apiKey } = useProfileStore();
 
   const { deleteVenueSuccess, errorVenueMessage, fetchDeleteVenue } =
     useVenuesStore();
 
   async function handleDeleteVenue() {
-
     try {
-      console.log("delete");
 
-        await fetchDeleteVenue(apiKey, accessToken, venue.id);
+      await fetchDeleteVenue(apiKey, accessToken, venue.id);
     } catch (error) {
       console.log(errorVenueMessage);
     }
@@ -50,7 +45,7 @@ export function DeleteVenueForm({ venue, onClose }) {
       <div className="text-center my-5">
         <p>
           Venue Name: <span className="font-bold">{venue?.name}</span>
-        </p >
+        </p>
         <p className="mt-10 text-xl">Are you sure to delete this venue?</p>
 
         <div className="my-5">
@@ -60,7 +55,11 @@ export function DeleteVenueForm({ venue, onClose }) {
             onClick={onClose}
           />
 
-          <PrimaryButton label="Delete" stylingCss="primaryButton"  onClick={handleDeleteVenue}/>
+          <PrimaryButton
+            label="Delete"
+            stylingCss="primaryButton"
+            onClick={handleDeleteVenue}
+          />
         </div>
       </div>
     </div>

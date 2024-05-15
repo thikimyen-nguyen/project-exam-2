@@ -49,7 +49,6 @@ const useVenuesStore = create((set, get) => ({
       set((state) => ({ ...state, singleVenue: json.data }));
       set((state) => ({ ...state, bookings: json.data.bookings }));
       localStorage.setItem("currentVenue", JSON.stringify(json.data));
-      console.log(json.data);
     } catch (error) {
       set({ isError: true });
     } finally {
@@ -72,11 +71,9 @@ const useVenuesStore = create((set, get) => ({
       const response = await fetch(allVenuesUrl, postOption);
       const json = await response.json();
       if (response.ok) {
-        console.log(json.data);
         set((state) => ({ ...state, createVenueSuccess: true }));
       } else {
         set((state) => ({ ...state, createVenueSuccess: false }));
-        console.log(json.errors[0].message);
         set((state) => ({
           ...state,
           errorVenueMessage: json.errors[0].message,
@@ -84,7 +81,6 @@ const useVenuesStore = create((set, get) => ({
       }
     } catch (error) {
       set((state) => ({ ...state, createVenueSuccess: false }));
-      console.log(error);
     } finally {
       set({ isLoading: false });
     }
@@ -106,11 +102,9 @@ const useVenuesStore = create((set, get) => ({
       const response = await fetch(singleVenueUrl, putOption);
       const json = await response.json();
       if (response.ok) {
-        console.log(json.data);
         set((state) => ({ ...state, updateVenueSuccess: true }));
       } else {
         set((state) => ({ ...state, updateVenueSuccess: false }));
-        console.log(json.errors[0].message);
         set((state) => ({
           ...state,
           errorVenueMessage: json.errors[0].message,
@@ -118,7 +112,6 @@ const useVenuesStore = create((set, get) => ({
       }
     } catch (error) {
       set((state) => ({ ...state, updateVenueSuccess: false }));
-      console.log(error);
     } finally {
       set({ isLoading: false });
     }
@@ -138,20 +131,16 @@ const useVenuesStore = create((set, get) => ({
       };
       const response = await fetch(singleVenueUrl, deleteOption);
       if (response.ok) {
-        console.log(response);
         set((state) => ({ ...state, deleteVenueSuccess: true }));
       } else {
         set((state) => ({ ...state, deleteVenueSuccess: false }));
-     
       }
     } catch (error) {
       set((state) => ({ ...state, deleteVenueSuccess: false }));
-      console.log(error);
     } finally {
       set({ isLoading: false });
     }
   },
-
 }));
 
 export default useVenuesStore;

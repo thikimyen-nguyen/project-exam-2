@@ -1,8 +1,8 @@
 import "./index.css";
 import { Layout } from "../Layout";
 import { Routes, Route } from "react-router-dom";
-import {  SignInForm } from "../SignInForm";
-import {  RegisterForm } from "../RegisterForm";
+import { SignInForm } from "../SignInForm";
+import { RegisterForm } from "../RegisterForm";
 import { VenuesList } from "../Venues";
 import SingleVenue from "../Venues/Venue";
 import ManageVenues from "../ManageVenues";
@@ -37,7 +37,6 @@ function App() {
           <Route path="admin" element={<AdminPage />} />
           <Route path=":id" element={<VenuePage />} />
           <Route path="profile" element={<ProfilePage />} />
-
         </Route>
       </Routes>
     </div>

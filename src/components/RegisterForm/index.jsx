@@ -51,10 +51,9 @@ export function RegisterForm() {
     reset();
 
     try {
-        const requestData = isVenueManager
+      const requestData = isVenueManager
         ? { ...data, venueManager: true }
         : data;
-        console.log(requestData);
 
       await fetchRegisterAccount(registerUrl, requestData);
     } catch (error) {
@@ -73,7 +72,7 @@ export function RegisterForm() {
   }
   return (
     <div className="m-5">
-        <HomeNav />
+      <HomeNav />
       <h1 className="text-center">Register New Account</h1>
       {registerSuccess && (
         <Alert
@@ -138,29 +137,30 @@ export function RegisterForm() {
           <p className="text-red">{errors.password?.message}</p>
         </div>
         <div className="my-6 ">
-            <p>You can be our Partner to list and manage your Venues on Holidaze</p>
-            <div className="flex items-center">
+          <p>
+            You can be our Partner to list and manage your Venues on Holidaze
+          </p>
+          <div className="flex items-center">
             <label htmlFor="venueManager" className="block font-semibold mr-4">
-            Register as Venue Manager
-          </label>
-          <input
-            type="checkbox"
-            id="venueManager"
-            checked={isVenueManager}
-            onChange={handleVenueManagerToggle}
-            className="text-2xl"
-          />
-            </div>
-         
+              Register as Venue Manager
+            </label>
+            <input
+              type="checkbox"
+              id="venueManager"
+              checked={isVenueManager}
+              onChange={handleVenueManagerToggle}
+              className="text-2xl"
+            />
+          </div>
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Register" stylingCss='primaryButton' />
+          <PrimaryButton label="Register" stylingCss="primaryButton" />
         </div>
       </form>
       <div className="text-center">
         <p className="mb-4">Already have an account?</p>
         <a href="/signin">
-          <PrimaryButton label="Sign In" stylingCss='secondaryButton' />
+          <PrimaryButton label="Sign In" stylingCss="secondaryButton" />
         </a>
       </div>
     </div>

@@ -54,16 +54,7 @@ const schema = yup.object({
 });
 
 export function UpdateVenueForm({
-  venue: {
-    id,
-    name,
-    price,
-    media,
-    location,
-    meta,
-    description,
-    maxGuests,
-  },
+  venue: { id, name, price, media, location, meta, description, maxGuests },
   onClose,
 }) {
   const {
@@ -107,7 +98,6 @@ export function UpdateVenueForm({
         },
       };
 
-      console.log(requestData);
 
       await fetchUpdateVenue(apiKey, accessToken, requestData, id);
     } catch (error) {
@@ -309,7 +299,6 @@ export function UpdateVenueForm({
                   errors.city ? "error-border" : "border-primary"
                 } rounded w-full`}
                 defaultValue={location.city}
-
               />
               <p className="text-red">{errors.city?.message}</p>
             </div>
@@ -325,7 +314,7 @@ export function UpdateVenueForm({
                   errors.zip ? "error-border" : "border-primary"
                 } rounded w-full`}
                 defaultValue={location.zip}
-                />
+              />
               <p className="text-red">{errors.zip?.message}</p>
             </div>
           </div>
@@ -342,7 +331,7 @@ export function UpdateVenueForm({
                   errors.country ? "error-border" : "border-primary"
                 } rounded w-full`}
                 defaultValue={location.country}
-                />
+              />
               <p className="text-red">{errors.country?.message}</p>
             </div>
             <div>
@@ -357,7 +346,7 @@ export function UpdateVenueForm({
                   errors.continent ? "error-border" : "border-primary"
                 } rounded w-full`}
                 defaultValue={location.continent}
-                />
+              />
               <p className="text-red">{errors.continent?.message}</p>
             </div>
           </div>

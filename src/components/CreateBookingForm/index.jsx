@@ -8,28 +8,24 @@ import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";
 import VenueCalendar from "../BookingCalendar";
 
-
-
 export function BookingVenueForm({ onClose }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-  });
-  const { fetchCreateBooking, createBookingSuccess, errorBookingMessage } = useBookingStore();
+  } = useForm({});
+  const { fetchCreateBooking, createBookingSuccess, errorBookingMessage } =
+    useBookingStore();
   const { apiKey } = useProfileStore();
   const { singleVenue, bookings } = useVenuesStore();
   const [selectedDateFrom, setSelectedDateFrom] = useState(null);
   const [selectedDateTo, setSelectedDateTo] = useState(null);
 
   const handleCheckOutDate = (date) => {
-    console.log("checkOutDate", date);
     setSelectedDateTo(date);
   };
   const handleCheckInDate = (date) => {
-    console.log("checkInDate", date);
     setSelectedDateFrom(date);
   };
   async function onSubmit(data) {
@@ -48,7 +44,6 @@ export function BookingVenueForm({ onClose }) {
       requestData.dateTo = new Date(
         selectedDateTo.getTime() - selectedDateTo.getTimezoneOffset() * 60000
       ).toISOString();
-      console.log(requestData);
 
       await fetchCreateBooking(apiKey, accessToken, requestData);
     } catch (error) {
@@ -151,7 +146,7 @@ export function BookingVenueForm({ onClose }) {
         </div>
 
         <div className="mt-4 text-center">
-          <PrimaryButton label="Submit" stylingCss='primaryButton'/>
+          <PrimaryButton label="Submit" stylingCss="primaryButton" />
         </div>
       </form>
     </div>

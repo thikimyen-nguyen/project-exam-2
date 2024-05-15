@@ -7,28 +7,26 @@ import Alert from "../Alert";
 import { useEffect, useState } from "react";
 import useProfileStore from "../../store/profile";
 
-const schema = yup
-  .object({
-    bio: yup.string().max(160, "Your Bio must be less than 160 characters."),
-    avatar: yup
-      .string()
-      .url("Avatar must be a valid URL")
-      .test("is-url", "Avatar must be a valid and accessible URL", (value) => {
-        if (!value) return true;
-        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-        return urlRegex.test(value);
-      }),
-    banner: yup
-      .string()
-      .url("Banner must be a valid URL")
-      .test("is-url", "Banner must be a valid and accessible URL", (value) => {
-        if (!value) return true;
-        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-        return urlRegex.test(value);
-      }),
-    venueManager: yup.boolean(), 
-  })
- 
+const schema = yup.object({
+  bio: yup.string().max(160, "Your Bio must be less than 160 characters."),
+  avatar: yup
+    .string()
+    .url("Avatar must be a valid URL")
+    .test("is-url", "Avatar must be a valid and accessible URL", (value) => {
+      if (!value) return true;
+      const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+      return urlRegex.test(value);
+    }),
+  banner: yup
+    .string()
+    .url("Banner must be a valid URL")
+    .test("is-url", "Banner must be a valid and accessible URL", (value) => {
+      if (!value) return true;
+      const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+      return urlRegex.test(value);
+    }),
+  venueManager: yup.boolean(),
+});
 
 export function EditProfileForm({ onClose }) {
   const {
@@ -42,7 +40,7 @@ export function EditProfileForm({ onClose }) {
   const fetchUpdateProfile = useProfileStore(
     (state) => state.fetchUpdateProfile
   );
-  const {  currentProfile, updateSuccess } = useProfileStore();
+  const { currentProfile, updateSuccess } = useProfileStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
 
   const { apiKey } = useProfileStore();
@@ -52,11 +50,9 @@ export function EditProfileForm({ onClose }) {
   }, [currentProfile]);
   function handleVenueManagerToggle() {
     setIsVenueManager(!isVenueManager);
-
   }
-  
-  console.log(isVenueManager)
-  
+
+
   async function onSubmit(data) {
     reset();
 
@@ -66,40 +62,36 @@ export function EditProfileForm({ onClose }) {
           venueManager: isVenueManager, // Include the current state value of venueManager
         };
 
-  
         if (data.bio) {
           requestData.bio = data.bio;
         }
-  
+
         if (data.avatar) {
           requestData.avatar = {
             url: data.avatar,
             alt: "",
           };
         }
-  
+
         if (data.banner) {
           requestData.banner = {
             url: data.banner,
             alt: "",
           };
         }
-        console.log( requestData);
         await fetchUpdateProfile(
           currentUserName,
           apiKey,
           accessToken,
           requestData
         );
-
       } catch (error) {
         console.error("Error updating profile", error);
         useProfileStore.setState({ updateSuccess: false });
       }
     }
   }
- 
-  
+
   function closeSuccessAlert() {
     window.location.href = "/profile";
   }
@@ -109,7 +101,7 @@ export function EditProfileForm({ onClose }) {
   return (
     <div className="my-20 p-5">
       <h1 className="text-center">Edit Profile</h1>
-      {updateSuccess ===true && (
+      {updateSuccess === true && (
         <Alert
           message="Your Profile is now updated."
           onClose={closeSuccessAlert}
@@ -169,7 +161,7 @@ export function EditProfileForm({ onClose }) {
             type="url"
             {...register("banner")}
             className={`mt-1 p-2 text-black ${
-              errors.banner? "error-border" : "border-primary"
+              errors.banner ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="It must be a valid and accessible URL"
           ></input>
@@ -190,7 +182,7 @@ export function EditProfileForm({ onClose }) {
           </div>
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Submit" stylingCss='primaryButton' />
+          <PrimaryButton label="Submit" stylingCss="primaryButton" />
         </div>
       </form>
     </div>

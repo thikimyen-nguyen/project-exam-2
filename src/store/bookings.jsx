@@ -23,11 +23,9 @@ const useBookingStore = create((set, get) => ({
       const response = await fetch(venueBookingUrl, postOption);
       const json = await response.json();
       if (response.ok) {
-        console.log(json.data);
         set((state) => ({ ...state, createBookingSuccess: true }));
       } else {
         set((state) => ({ ...state, createBookingSuccess: false }));
-        console.log(json.errors[0].message);
         set((state) => ({
           ...state,
           errorBookingMessage: json.errors[0].message,
@@ -35,7 +33,6 @@ const useBookingStore = create((set, get) => ({
       }
     } catch (error) {
       set((state) => ({ ...state, createBookingSuccess: false }));
-      console.log(error);
     } finally {
       set({ isLoading: false });
     }

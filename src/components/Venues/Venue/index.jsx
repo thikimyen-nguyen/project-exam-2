@@ -65,7 +65,6 @@ function SingleVenue() {
     setIsBookingFormOpen(false);
   };
   const handleselectedDate = (date) => {
-    console.log("selectedDate:", date);
   };
   return (
     <section className="overflow-hidden ">
@@ -121,7 +120,7 @@ function SingleVenue() {
             </p>
             <div className="my-4">
               <h2>Description</h2>
-              <p >{singleVenue?.description}</p>
+              <p>{singleVenue?.description}</p>
             </div>
 
             <div className="my-4">

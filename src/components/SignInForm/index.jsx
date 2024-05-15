@@ -7,23 +7,21 @@ import { signInUrl } from "../../api";
 import { HomeNav } from "../HomeNav";
 import Alert from "../Alert";
 
-
-
 const schema = yup
   .object({
     email: yup
-    .string()
-    .email("Please enter a valid email address.")
+      .string()
+      .email("Please enter a valid email address.")
 
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/,
-      "Please enter a valid email address @stud.noroff.no"
-    )
-    .required("Please enter your email @stud.noroff.no."),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters.")
-    .required("Please enter correct password."),
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@stud\.noroff\.no$/,
+        "Please enter a valid email address @stud.noroff.no"
+      )
+      .required("Please enter your email @stud.noroff.no."),
+    password: yup
+      .string()
+      .min(8, "Password must be at least 8 characters.")
+      .required("Please enter correct password."),
   })
   .required();
 export function SignInForm() {
@@ -35,32 +33,24 @@ export function SignInForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const fetchSignIn = useAuthStore(state => state.fetchSignIn);
-  const {logInSuccess, isError} = useAuthStore();
+  const fetchSignIn = useAuthStore((state) => state.fetchSignIn);
+  const { logInSuccess, isError } = useAuthStore();
 
   async function onSubmit(data) {
     reset();
 
     try {
-      await fetchSignIn(signInUrl, data); 
-
-   
- 
+      await fetchSignIn(signInUrl, data);
     } catch (error) {
       console.error("Error signing in:", error);
       useAuthStore.setState({ isError: true });
-
     }
-
   }
   function closeSuccessAlert() {
-
-    window.location.href = '/profile'; 
-
-
+    window.location.href = "/profile";
   }
   function closeErrorAlert() {
-    window.location.href = '/signin'; 
+    window.location.href = "/signin";
   }
   return (
     <div className="m-5">
@@ -107,21 +97,22 @@ export function SignInForm() {
             type="password"
             {...register("password")}
             className={`mt-1 p-2 text-black ${
-              errors.password? "error-border" : "border-primary"
+              errors.password ? "error-border" : "border-primary"
             } rounded w-full`}
             placeholder="Your password"
           ></input>
           <p className="text-red">{errors.password?.message}</p>
         </div>
         <div className="mt-4 text-center">
-          <PrimaryButton label="Sign In" stylingCss='primaryButton' />
+          <PrimaryButton label="Sign In" stylingCss="primaryButton" />
         </div>
       </form>
       <div className="text-center">
         <p className="mb-4">Don't have an account?</p>
         <a href="/register">
-          <PrimaryButton label="Register" stylingCss='secondaryButton'/>
+          <PrimaryButton label="Register" stylingCss="secondaryButton" />
         </a>
-      </div>    </div>
+      </div>{" "}
+    </div>
   );
 }

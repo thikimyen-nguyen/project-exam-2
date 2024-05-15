@@ -19,7 +19,11 @@ export function BookingCard({
         />
 
         <div className="flex justify-between content-center mt-3">
-          <Link key={id} to={`/${venue.id}`} className="font-bold text-lg hover:underline-offset-1">
+          <Link
+            key={id}
+            to={`/${venue.id}`}
+            className="font-bold text-lg hover:underline-offset-1"
+          >
             {venue.name}
           </Link>{" "}
         </div>

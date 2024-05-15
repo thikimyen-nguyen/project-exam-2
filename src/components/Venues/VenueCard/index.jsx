@@ -10,7 +10,7 @@ function VenueCard({
     let validImageURL = null;
 
     for (const mediaItem of media) {
-      if (mediaItem.url ) {
+      if (mediaItem.url) {
         validImageURL = mediaItem.url;
         break; // Stop iterating once a valid image URL is found
       }
@@ -19,7 +19,6 @@ function VenueCard({
     setIsImageURL(validImageURL);
   }, [media]);
 
-  
   return (
     <Link
       key={id}
@@ -36,7 +35,7 @@ function VenueCard({
             alt={name}
             className="w-full h-48 object-cover object-center group-hover:opacity-75 flex-shrink-0"
           />
-        ) }
+        )}
 
         <div className="flex justify-between content-center mt-3">
           <h2 className=" text-darkGreen">{name}</h2>

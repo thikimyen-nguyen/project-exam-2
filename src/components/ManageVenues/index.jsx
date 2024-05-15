@@ -8,22 +8,20 @@ import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 
 function ManageVenues() {
-  const { currentProfile, isError, isLoading} = useProfileStore();
+  const { currentProfile, isError, isLoading } = useProfileStore();
   const [isCreateVenueFormOpen, setIsCreateVenueFormOpen] = useState(false);
-  
-  
+
   const handleOpenCreateVenueForm = () => {
     setIsCreateVenueFormOpen(true);
   };
 
-  console.log(currentProfile?.venues)
   const handleCloseForm = () => {
     setIsCreateVenueFormOpen(false);
   };
   if (isError) {
     return (
       <div>
-        <ErrorHandling error='Sorry! There is an error loading data. Please refresh the site.' />
+        <ErrorHandling error="Sorry! There is an error loading data. Please refresh the site." />
       </div>
     );
   }
@@ -56,7 +54,7 @@ function ManageVenues() {
         <PrimaryButton
           label="+ New Venue"
           onClick={handleOpenCreateVenueForm}
-          stylingCss='primaryButton'
+          stylingCss="primaryButton"
         />
       </div>
       {isCreateVenueFormOpen && (
@@ -66,10 +64,15 @@ function ManageVenues() {
           </div>
         </div>
       )}
-      <h2 className="my-5">My Venues <span className="font-normal">( Total: {currentProfile?._count?.venues} )</span></h2>
+      <h2 className="my-5">
+        My Venues{" "}
+        <span className="font-normal">
+          ( Total: {currentProfile?._count?.venues} )
+        </span>
+      </h2>
       {currentProfile?.venues?.map((venue) => (
-              <VenuesListingCard key={venue.id} venue={venue} />
-            ))}
+        <VenuesListingCard key={venue.id} venue={venue} />
+      ))}
     </div>
   );
 }
