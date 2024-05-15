@@ -1,12 +1,11 @@
 import { PrimaryButton } from "../Buttons";
 import useProfileStore from "../../store/profile";
 import { HomeNav } from "../HomeNav";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CreateVenueForm } from "../CreateVenueForm";
 import VenuesListingCard from "./VenuesListing";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import { allVenuesUrl } from "../../api";
 
 function ManageVenues() {
   const { currentProfile, isError, isLoading} = useProfileStore();
