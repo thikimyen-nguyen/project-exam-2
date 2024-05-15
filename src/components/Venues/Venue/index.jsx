@@ -85,7 +85,6 @@ function SingleVenue() {
           <div className="w-full px-6 md:flex-1 mt-5">
             <div className="flex items-center my-5">
               <h1 className="mr-5">{singleVenue?.name}</h1>
-
               <p className="bg-primary px-2 self-center rounded">
                 {singleVenue?.rating}/5
               </p>

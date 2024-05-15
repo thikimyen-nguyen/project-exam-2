@@ -67,7 +67,7 @@ function ManageVenues() {
       )}
       <h2 className="my-5">My Venues <span className="font-normal">( Total: {currentProfile?._count?.venues} )</span></h2>
       {currentProfile?.venues?.map((venue) => (
-              <VenuesListingCard key={venue.id} venue={venue} />
+              <VenuesListingCard key={venue.id} id={venue.id} />
             ))}
     </div>
   );
