@@ -2,7 +2,7 @@ import { useState } from "react";
 import useProfileStore from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import { PrimaryButton} from "../Buttons";
+import { PrimaryButton } from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
 import { BookingCard } from "../BookingCard";
 import { HomeNav } from "../HomeNav";
@@ -29,7 +29,6 @@ function CurrentProfile() {
     );
   }
   const today = new Date();
-  console.log(today);
 
   const filteredNextBookings = currentProfile?.bookings?.filter(
     (booking) => new Date(booking.dateTo) >= today
@@ -86,7 +85,7 @@ function CurrentProfile() {
             </div>
           }
           onClick={handleOpenEditForm}
-          stylingCss='primaryButton'
+          stylingCss="primaryButton"
         />
       </div>
       {filteredNextBookings?.length > 0 && (

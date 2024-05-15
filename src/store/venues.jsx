@@ -13,14 +13,27 @@ const useVenuesStore = create((set, get) => ({
   errorVenueMessage: "",
   updateVenueSuccess: boolean,
   deleteVenueSuccess: boolean,
+  searchVenues: {},
 
   fetchVenues: async (url) => {
     set({ isLoading: true, isError: false });
     try {
       const response = await fetch(url);
       const json = await response.json();
-      console.log(json.data);
       set((state) => ({ ...state, venues: json.data }));
+    } catch (error) {
+      set({ isError: true });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  fetchSearchVenues: async (query) => {
+    set({ isLoading: true, isError: false });
+    const searchVenueUrl = `${allVenuesUrl}/search?q=${query}`;
+    try {
+      const response = await fetch(searchVenueUrl);
+      const json = await response.json();
+      set((state) => ({ ...state, searchVenues: json.data }));
     } catch (error) {
       set({ isError: true });
     } finally {

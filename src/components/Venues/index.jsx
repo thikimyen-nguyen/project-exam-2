@@ -5,11 +5,19 @@ import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 import VenueCard from "./VenueCard";
 import Banner from "./holidaze-banner-4.jpg";
+import { PrimaryButton } from "../Buttons";
 
 export function VenuesList() {
-  const { venues, isError, isLoading, fetchVenues } = useVenuesStore();
+  const {
+    venues,
+    isError,
+    isLoading,
+    fetchVenues,
+    fetchSearchVenues,
+    searchVenues,
+  } = useVenuesStore();
   const [searchInput, setSearchInput] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(false);
 
   useEffect(() => {
     fetchVenues(allVenuesUrl);
@@ -18,7 +26,7 @@ export function VenuesList() {
   if (isError) {
     return (
       <div>
-        <ErrorHandling error='Sorry! There is an error loading data. Please refresh the site.' />
+        <ErrorHandling error="Sorry! There is an error loading data. Please refresh the site." />
       </div>
     );
   }
@@ -31,21 +39,15 @@ export function VenuesList() {
   }
 
   // Search
-
   const handleSearchChange = (event) => {
     const input = event.target.value;
     setSearchInput(input);
+  };
 
-    const filteredVenues = venues.filter(
-      (venue) =>
-        venue.name?.toLowerCase().includes(input.toLowerCase()) ||
-        venue.description?.toLowerCase().includes(input.toLowerCase()) ||
-        venue.location?.address?.toLowerCase().includes(input.toLowerCase()) ||
-        venue.location?.city?.toLowerCase().includes(input.toLowerCase()) ||
-        venue.location?.country?.toLowerCase().includes(input.toLowerCase()) ||
-        venue.location?.continent?.toLowerCase().includes(input.toLowerCase())
-    );
-    setSearchResults(filteredVenues);
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    fetchSearchVenues(searchInput);
+    setSearchResults(true);
   };
 
   return (
@@ -60,27 +62,34 @@ export function VenuesList() {
           </div>
         </div>
       </div>
-      <div className="mb-8 text-center">
+      <form
+        className="mb-8 text-center w-full mx-auto"
+        onSubmit={handleSearchSubmit}
+      >
         <input
           type="text"
           placeholder="Search venues..."
           value={searchInput}
           onChange={handleSearchChange}
-          className="w-3/4 md:w-1/2 lg:w-1/3 p-3 border-2 border-primary text-black  rounded-lg"
+          className="p-3 border-2 border-primary text-black rounded-lg mx-1"
         />
-      </div>
-      {searchInput === "" ? (
+        <PrimaryButton
+          type="submit"
+          label="Search"
+          stylingCss="primaryButton"
+        />
+      </form>
+
+      {!searchResults || searchInput === "" ? (
         <h1 className="mb-4 text-center">All Venues</h1>
       ) : (
         <h1 className="mb-4 text-center">Search Results</h1>
       )}
 
       <div className="flex flex-wrap">
-        {searchInput === ""
-          ? venues?.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} />
-            ))
-          : searchResults?.map((venue) => (
+        {!searchResults || searchInput === ""
+          ? venues?.map((venue) => <VenueCard key={venue.id} venue={venue} />)
+          : searchVenues?.map((venue) => (
               <VenueCard key={venue.id} venue={venue} />
             ))}
       </div>
