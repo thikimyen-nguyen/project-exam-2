@@ -38,12 +38,14 @@ const schema = yup
       .required("Price is required")
       .min(0)
       .max(10000)
+      .typeError("Price must be a number")
       .required("Please input the price"),
     maxGuests: yup
       .number()
       .required("Number of Guests is required")
       .min(1, "Max Guests must be at least 1")
       .max(100, "Max number of Guests is 100")
+      .typeError("Max Guests must be a number")
       .required("Please input the max number of guests"),
     isWifi: yup.boolean().notRequired().default(false),
     isParking: yup.boolean().notRequired().default(false),
