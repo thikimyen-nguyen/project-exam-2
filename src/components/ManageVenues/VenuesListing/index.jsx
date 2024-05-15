@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { ExtraButton, PrimaryButton} from "../../Buttons";
+import { ExtraButton, PrimaryButton } from "../../Buttons";
 import { UpdateVenueForm } from "../../UpdateVenueForm";
 import { DeleteVenueForm } from "../../DeleteVenueForm";
-import useVenuesStore from "../../../store/venues";
 import ShowBookingsDetail from "../../ShowVenueBookings";
+import { allVenuesUrl } from "../../../api";
 
-function VenuesListingCard({ id }) {
+function VenuesListingCard({ venue }) {
   const [isImageURL, setIsImageURL] = useState(false);
   const [isUpdateVenueFormOpen, setIsUpdateVenueFormOpen] = useState(false);
   const [isDeleteVenueFormOpen, setIsDeleteVenueFormOpen] = useState(false);
-  const { singleVenue, fetchVenueById, bookings } = useVenuesStore();
   const [isShowBookingsOpen, setIsShowBookingsOpen] = useState(false);
+  const [venueBookings, setVenueBookings] = useState([]);
 
-  useEffect(() => {
-    fetchVenueById(id);
-  }, [fetchVenueById, id]);
   const handleOpenUpdateVenueForm = () => {
     setIsUpdateVenueFormOpen(true);
   };
@@ -26,18 +23,31 @@ function VenuesListingCard({ id }) {
   const handleOpenDeleteVenueForm = () => {
     setIsDeleteVenueFormOpen(true);
   };
+
   const handleShowBookings = () => {
     setIsShowBookingsOpen(true);
+    const fetchBookings = async (id) => {
+      try {
+        const singleVenueUrl = `${allVenuesUrl}/${id}?_bookings=true&_owner=true`;
+        const response = await fetch(singleVenueUrl);
+        const json = await response.json();
+        setVenueBookings(json.data.bookings);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchBookings(venue?.id);
   };
   const handleHideBookings = () => {
     setIsShowBookingsOpen(false);
   };
 
   useEffect(() => {
-    if (singleVenue && singleVenue.media) {
+    if (venue && venue.media) {
       let validImageURL = null;
 
-      for (const mediaItem of singleVenue.media) {
+      for (const mediaItem of venue.media) {
         if (mediaItem?.url) {
           validImageURL = mediaItem.url;
           break;
@@ -46,23 +56,23 @@ function VenuesListingCard({ id }) {
 
       setIsImageURL(validImageURL);
     }
-  }, [singleVenue]);
+  }, [venue]);
 
   return (
     <div
-      key={singleVenue?.id}
+      key={venue?.id}
       //   to={`/${id}`}
       className="w-full my-5 bg-white border border-darkGreen"
     >
       <div
-        id={singleVenue?.id}
+        id={venue?.id}
         className="p-3 group flex flex-grow  overflow-hidden  "
       >
         <div className="mr-3">
           {isImageURL && (
             <img
               src={isImageURL}
-              alt={singleVenue?.name}
+              alt={venue?.name}
               className="w-20 md:w-32 lg:w-48 xl:w-60 object-cover object-center  flex-shrink-0"
             />
           )}
@@ -70,25 +80,25 @@ function VenuesListingCard({ id }) {
 
         <div>
           <p className=" text-darkGreen">
-            Venue Name: <span className="font-bold"> {singleVenue?.name}</span>
+            Venue Name: <span className="font-bold"> {venue?.name}</span>
           </p>
           <p>
-            Rating: <span className="font-bold"> {singleVenue?.rating}/5</span>
+            Rating: <span className="font-bold"> {venue?.rating}/5</span>
           </p>
           <p>
             Address:{" "}
             <span className="font-bold">
-              {singleVenue?.location?.address}, {singleVenue?.location?.city},{" "}
-              {singleVenue?.location?.country}, {singleVenue?.location?.zip}{" "}
-              {singleVenue?.location?.continent}
+              {venue?.location?.address}, {venue?.location?.city},{" "}
+              {venue?.location?.country}, {venue?.location?.zip}{" "}
+              {venue?.location?.continent}
             </span>{" "}
           </p>
           <p>
-            Price: <span className="font-bold">NOK {singleVenue?.price}</span>
+            Price: <span className="font-bold">NOK {venue?.price}</span>
           </p>
           <p>
             Breakfast:{" "}
-            {singleVenue?.meta?.breakfast ? (
+            {venue?.meta?.breakfast ? (
               <span className="font-bold">Yes</span>
             ) : (
               <span className="font-bold text-red">No</span>
@@ -96,7 +106,7 @@ function VenuesListingCard({ id }) {
           </p>
           <p>
             Wifi:{" "}
-            {singleVenue?.meta?.wifi ? (
+            {venue?.meta?.wifi ? (
               <span className="font-bold">Yes</span>
             ) : (
               <span className="font-bold text-red">No</span>
@@ -104,7 +114,7 @@ function VenuesListingCard({ id }) {
           </p>
           <p>
             Parking:{" "}
-            {singleVenue?.meta?.parking ? (
+            {venue?.meta?.parking ? (
               <span className="font-bold">Yes</span>
             ) : (
               <span className="font-bold text-red">No</span>
@@ -112,7 +122,7 @@ function VenuesListingCard({ id }) {
           </p>
           <p>
             Pets:{" "}
-            {singleVenue?.meta?.pets ? (
+            {venue?.meta?.pets ? (
               <span className="font-bold">Yes</span>
             ) : (
               <span className="font-bold text-red">No</span>
@@ -141,14 +151,14 @@ function VenuesListingCard({ id }) {
       {isUpdateVenueFormOpen && (
         <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
           <div className="bg-white rounded-lg w-full md:w-3/4 xl:w-1/2 m-auto">
-            <UpdateVenueForm onClose={handleCloseForm} venue={singleVenue} />
+            <UpdateVenueForm onClose={handleCloseForm} venue={venue} />
           </div>
         </div>
       )}
       {isDeleteVenueFormOpen && (
         <div className="fixed inset-0 z-50 items-center justify-center overflow-auto bg-black bg-opacity-50">
           <div className="bg-white rounded-lg w-full md:w-3/4 xl:w-1/2 m-auto">
-            <DeleteVenueForm onClose={handleCloseForm} venue={singleVenue} />
+            <DeleteVenueForm onClose={handleCloseForm} venue={venue} />
           </div>
         </div>
       )}
@@ -168,12 +178,12 @@ function VenuesListingCard({ id }) {
                 </tr>
               </thead>
               <tbody className="text-center divide-y divide-primary dark:divide-lightGreen">
-                {bookings?.map((booking) => (
+                {venueBookings?.map((booking) => (
                   <ShowBookingsDetail
-                    customerName={booking.customer.name}
-                    dateFrom={booking.dateFrom}
-                    dateTo={booking.dateTo}
-                    guests={booking.guests}
+                    customerName={booking?.customer?.name}
+                    dateFrom={booking?.dateFrom}
+                    dateTo={booking?.dateTo}
+                    guests={booking?.guests}
                   />
                 ))}
                 <tr></tr>

@@ -1,20 +1,23 @@
 import { PrimaryButton } from "../Buttons";
 import useProfileStore from "../../store/profile";
 import { HomeNav } from "../HomeNav";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateVenueForm } from "../CreateVenueForm";
 import VenuesListingCard from "./VenuesListing";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
+import { allVenuesUrl } from "../../api";
 
 function ManageVenues() {
-  const { currentProfile, isError, isLoading } = useProfileStore();
+  const { currentProfile, isError, isLoading} = useProfileStore();
   const [isCreateVenueFormOpen, setIsCreateVenueFormOpen] = useState(false);
+  
+  
   const handleOpenCreateVenueForm = () => {
     setIsCreateVenueFormOpen(true);
   };
 
-  
+  console.log(currentProfile?.venues)
   const handleCloseForm = () => {
     setIsCreateVenueFormOpen(false);
   };
@@ -66,7 +69,7 @@ function ManageVenues() {
       )}
       <h2 className="my-5">My Venues <span className="font-normal">( Total: {currentProfile?._count?.venues} )</span></h2>
       {currentProfile?.venues?.map((venue) => (
-              <VenuesListingCard key={venue.id} id={venue.id} />
+              <VenuesListingCard key={venue.id} venue={venue} />
             ))}
     </div>
   );
