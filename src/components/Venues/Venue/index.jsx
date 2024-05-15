@@ -9,7 +9,6 @@ import { HomeNav } from "../../HomeNav";
 import { BookingVenueForm } from "../../CreateBookingForm";
 import { accessToken } from "../../../store/profile";
 import Alert from "../../Alert";
-import useBookingStore from "../../../store/bookings";
 
 function SingleVenue() {
   const { singleVenue, isError, isLoading, fetchVenueById, bookings } =
@@ -38,7 +37,7 @@ function SingleVenue() {
     if (accessToken) {
       setIsSignedIn(true);
     }
-  }, [accessToken]);
+  }, []);
 
   if (isError) {
     return (

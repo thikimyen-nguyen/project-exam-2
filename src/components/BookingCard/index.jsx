@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { PrimaryButton } from "../Buttons";
 
 export function BookingCard({
   booking: { id, venue, dateFrom, dateTo, guests },

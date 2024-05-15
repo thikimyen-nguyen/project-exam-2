@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { apiKeyUrl, singleProfileUrl, venueBookingUrl } from "../api";
+import { venueBookingUrl } from "../api";
 import { boolean } from "yup";
 
 const useBookingStore = create((set, get) => ({

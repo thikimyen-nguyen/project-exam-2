@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ExtraButton, PrimaryButton, SecondaryButton } from "../../Buttons";
+import { ExtraButton, PrimaryButton} from "../../Buttons";
 import { UpdateVenueForm } from "../../UpdateVenueForm";
 import { DeleteVenueForm } from "../../DeleteVenueForm";
 import useVenuesStore from "../../../store/venues";

@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { ExtraButton, PrimaryButton, SecondaryButton } from "../Buttons";
-import { accessToken, currentUserName } from "../../store/profile";
+import { ExtraButton, PrimaryButton } from "../Buttons";
+import { accessToken } from "../../store/profile";
 import Alert from "../Alert";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useProfileStore from "../../store/profile";
 import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";

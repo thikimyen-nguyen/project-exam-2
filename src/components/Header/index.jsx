@@ -20,7 +20,8 @@ export function Header() {
          fetchApiKey();
 
         }
-      }, []);
+      }, [fetchApiKey]);
+      
   useEffect(() => {
     if (apiKey) {
       fetchSingleProfile(currentUserName, apiKey, accessToken);

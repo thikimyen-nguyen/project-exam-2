@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ExtraButton, PrimaryButton } from "../Buttons";
-import useAuthStore from "../../store/auth";
 import Alert from "../Alert";
 import useVenuesStore from "../../store/venues";
 import useProfileStore, { accessToken } from "../../store/profile";

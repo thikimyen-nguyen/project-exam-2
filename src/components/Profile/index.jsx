@@ -2,9 +2,9 @@ import { useState } from "react";
 import useProfileStore from "../../store/profile";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
-import { PrimaryButton, SecondaryButton } from "../Buttons";
+import { PrimaryButton} from "../Buttons";
 import { EditProfileForm } from "../EditProfileForm";
-import { BookingCard, BookingDetail } from "../BookingCard";
+import { BookingCard } from "../BookingCard";
 import { HomeNav } from "../HomeNav";
 
 function CurrentProfile() {
