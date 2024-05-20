@@ -39,7 +39,7 @@ function CurrentProfile() {
   return (
     <div className="-z-20">
       <HomeNav />
-      <h1 className="text-center">MY PROFILE</h1>
+      <h1 className="text-center">My profile</h1>
       <div className="mb-5 mt-0 relative h-[200px]">
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-right"
@@ -57,11 +57,11 @@ function CurrentProfile() {
           </p>
         </div>
         {currentProfile?.bio ? (
-          <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4 ">
+          <div className="text-darkGreen font-bold content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4 ">
             {currentProfile?.bio}
           </div>
         ) : (
-          <div className="text-darkGreen content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4">
+          <div className="text-darkGreen font-bold content-center text-right pr-2 lg:text-center text-lg bg-lightGreen bg-opacity-85 absolute h-1/4 right-0 top-1/2 w-1/2 lg:w-3/4">
             My Bio goes here.
           </div>
         )}
