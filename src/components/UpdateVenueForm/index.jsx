@@ -113,7 +113,7 @@ export function UpdateVenueForm({
   }
 
   return (
-    <div className="my-20 py-5">
+    <div className="my-20 p-5">
       <h1 className="text-center">Update Venue</h1>
       {updateVenueSuccess === true && (
         <Alert
