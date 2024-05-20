@@ -133,7 +133,7 @@ export function UpdateVenueForm({
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col md:w-3/4 content-center mx-auto items-center p-3 "
+        className="flex-col  content-center mx-auto items-center p-3 "
       >
         <div className="mb-4">
           <label htmlFor="name" className="block font-semibold">
@@ -286,8 +286,8 @@ export function UpdateVenueForm({
             <p className="text-red">{errors.address?.message}</p>
           </div>
 
-          <div className="mb-4 flex justify-between">
-            <div>
+          <div className="mb-4 flex ">
+            <div className="mr-3">
               <label htmlFor="city" className="block">
                 City
               </label>
@@ -318,8 +318,8 @@ export function UpdateVenueForm({
               <p className="text-red">{errors.zip?.message}</p>
             </div>
           </div>
-          <div className="mb-4 flex justify-between">
-            <div>
+          <div className="mb-4 flex">
+            <div className="mr-3">
               <label htmlFor="country" className="block">
                 Country
               </label>
