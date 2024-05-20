@@ -47,8 +47,8 @@ function VenuesListingCard({ venue }) {
     if (venue && venue.media) {
       let validImageURL = null;
 
-      for (const mediaItem of venue.media) {
-        if (mediaItem?.url) {
+      for (const mediaItem of venue?.media) {
+        if (mediaItem.url) {
           validImageURL = mediaItem.url;
           break;
         }
@@ -66,7 +66,7 @@ function VenuesListingCard({ venue }) {
     >
       <div
         id={venue?.id}
-        className="p-3 group flex flex-grow  overflow-hidden  "
+        className="p-3 group md:flex md:flex-grow  overflow-hidden  "
       >
         <div className="mr-3">
           {isImageURL && (
@@ -92,6 +92,9 @@ function VenuesListingCard({ venue }) {
               {venue?.location?.country}, {venue?.location?.zip}{" "}
               {venue?.location?.continent}
             </span>{" "}
+          </p>
+          <p>
+            Description: <span>"{venue?.description}"</span>
           </p>
           <p>
             Price: <span className="font-bold">NOK {venue?.price}</span>
