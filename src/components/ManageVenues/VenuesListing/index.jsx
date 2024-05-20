@@ -97,6 +97,10 @@ function VenuesListingCard({ venue }) {
             Price: <span className="font-bold">NOK {venue?.price}</span>
           </p>
           <p>
+            Max Guests:{" "}
+            <span className="font-bold">{venue?.maxGuests}</span>
+          </p>
+          <p>
             Breakfast:{" "}
             {venue?.meta?.breakfast ? (
               <span className="font-bold">Yes</span>
