@@ -68,7 +68,7 @@ function VenuesListingCard({ venue }) {
         id={venue?.id}
         className="p-3 group md:flex md:flex-grow  overflow-hidden  "
       >
-        <div className="mr-3">
+        <div className="mr-3 ">
           {isImageURL && (
             <img
               src={isImageURL}

@@ -39,7 +39,7 @@ function CurrentProfile() {
   return (
     <div className="-z-20">
       <HomeNav />
-      <h1 className="text-center">My profile</h1>
+      <h1 className="text-center mb-5">My Profile</h1>
       <div className="mb-5 mt-0 relative h-[200px]">
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-right"
@@ -92,7 +92,7 @@ function CurrentProfile() {
         <div>
           <hr className="text-primary my-5" />
           <div className="mx-2 my-5">
-            <h2 className="text-center my-5">Next Stayings</h2>
+            <h2 className="text-center my-5 font-bold">Next Stayings</h2>
             <div className="flex flex-wrap">
               {filteredNextBookings ? (
                 filteredNextBookings.map((booking) => (
@@ -109,7 +109,7 @@ function CurrentProfile() {
         <div>
           <hr className="text-primary" />
           <div className="mx-2 my-5">
-            <h2 className="text-center my-5">Last Stayings</h2>
+            <h2 className="text-center my-5 font-bold">Last Stayings</h2>
             <div className="flex flex-wrap">
               {filteredLastBookings ? (
                 filteredLastBookings.map((booking) => (

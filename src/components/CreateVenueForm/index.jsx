@@ -114,7 +114,7 @@ export function CreateVenueForm({ onClose }) {
     window.location.reload();
   }
   return (
-    <div className="my-20 py-5">
+    <div className="my-20 p-5">
       <h1 className="text-center">Create New Venue</h1>
       {createVenueSuccess === true && (
         <Alert
@@ -134,7 +134,7 @@ export function CreateVenueForm({ onClose }) {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-col md:w-3/4 content-center mx-auto items-center p-3 "
+        className="flex-col content-center mx-auto items-center p-3 "
       >
         <div className="mb-4">
           <label htmlFor="name" className="block font-semibold">

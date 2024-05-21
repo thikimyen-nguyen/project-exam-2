@@ -57,7 +57,7 @@ export function VenuesList() {
           className="absolute inset-0 bg-cover bg-bottom bg-right "
           style={{ backgroundImage: `url('${Banner}')` }}
         >
-          <div className="text-darkGreen content-center text-center text-xl bg-lightGreen bg-opacity-65 font-bold absolute h-1/3 right-0 top-1/2 w-1/2">
+          <div className="text-darkGreen content-center text-center text-xl bg-lightGreen bg-opacity-65 font-bold absolute h-1/3 right-0 top-1/2  w-3/4 md:w-1/2">
             YOUR STAY, OUR PLEASURE!
           </div>
         </div>
