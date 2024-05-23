@@ -4,6 +4,7 @@ import { UpdateVenueForm } from "../../UpdateVenueForm";
 import { DeleteVenueForm } from "../../DeleteVenueForm";
 import ShowBookingsDetail from "../../ShowVenueBookings";
 import { allVenuesUrl } from "../../../api";
+import { Link } from "react-router-dom";
 
 function VenuesListingCard({ venue }) {
   const [isImageURL, setIsImageURL] = useState(false);
@@ -61,14 +62,13 @@ function VenuesListingCard({ venue }) {
   return (
     <div
       key={venue?.id}
-      //   to={`/${id}`}
       className="w-full my-5 bg-white border border-darkGreen"
     >
       <div
         id={venue?.id}
         className="p-3 group md:flex md:flex-grow  overflow-hidden  "
       >
-        <div className="mr-3 ">
+        <Link className="mr-3" to={`/${venue?.id}`}>
           {isImageURL && (
             <img
               src={isImageURL}
@@ -76,12 +76,12 @@ function VenuesListingCard({ venue }) {
               className="w-20 md:w-32 lg:w-48 xl:w-60 object-cover object-center  flex-shrink-0"
             />
           )}
-        </div>
+        </Link>
 
         <div>
-          <p className=" text-darkGreen">
+          <Link className=" text-darkGreen" to={`/${venue?.id}`}>
             Venue Name: <span className="font-bold"> {venue?.name}</span>
-          </p>
+          </Link>
           <p>
             Rating: <span className="font-bold"> {venue?.rating}/5</span>
           </p>
@@ -100,8 +100,7 @@ function VenuesListingCard({ venue }) {
             Price: <span className="font-bold">NOK {venue?.price}</span>
           </p>
           <p>
-            Max Guests:{" "}
-            <span className="font-bold">{venue?.maxGuests}</span>
+            Max Guests: <span className="font-bold">{venue?.maxGuests}</span>
           </p>
           <p>
             Breakfast:{" "}

@@ -77,7 +77,6 @@ function VenueCalendar({ bookings, onDateSelect }) {
       );
     }
 
-    // Add each day of the month
     for (let i = 1; i <= daysInMonth; i++) {
       const currentDate = new Date(selectedYear, selectedMonth, i);
       const isPastDate = currentDate < today;
@@ -87,7 +86,6 @@ function VenueCalendar({ bookings, onDateSelect }) {
       const isBooked = bookings.some((booking) => {
         const bookingDateFrom = new Date(booking.dateFrom);
         const bookingDateTo = new Date(booking.dateTo);
-        // Extract date parts (year, month, day) to compare only the dates
         bookingDateFrom.setHours(0, 0, 0, 0);
         bookingDateTo.setHours(0, 0, 0, 0);
         currentDate.setHours(0, 0, 0, 0);
@@ -119,7 +117,6 @@ function VenueCalendar({ bookings, onDateSelect }) {
       );
     }
 
-    // Render the calendar
     return (
       <div className="calendar">
         <div className="flex justify-center mb-4">
