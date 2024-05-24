@@ -1,5 +1,20 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Renders a booking card for a venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.booking - The booking details (with properties: id, venue, dateFrom, dateTo, guests).
+ * @param {string} props.booking.id - The unique identifier for the booking.
+ * @param {Object} props.booking.venue - The venue details (with properties: name, media).
+ * @param {string} props.booking.venue.name - The name of the venue.
+ * @param {Array} props.booking.venue.media - An array of media objects (e.g., images) for the venue.
+ * @param {string} props.booking.venue.media[0].url - The URL of the first media item (image) for the venue.
+ * @param {Date} props.booking.dateFrom - The start date of the booking.
+ * @param {Date} props.booking.dateTo - The end date of the booking.
+ * @param {number} props.booking.guests - The number of guests for the booking.
+ * @returns {JSX.Element} - The rendered booking card.
+ */
 export function BookingCard({
   booking: { id, venue, dateFrom, dateTo, guests },
 }) {

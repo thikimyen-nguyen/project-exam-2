@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 
+/**
+ * Renders a venue calendar with available dates and handles date selection.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.bookings - An array of booked dates (objects with `dateFrom` and `dateTo` properties).
+ * @param {Function} props.onDateSelect - Callback function to handle date selection.
+ * @returns {JSX.Element} - The rendered venue calendar.
+ */
 function VenueCalendar({ bookings, onDateSelect }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [clickedDate, setClickedDate] = useState(null);
 
+  /**
+   * Calculates and returns an array of available dates based on booked dates.
+   *
+   * @returns {Date[]} - Array of available dates.
+   */
   const getAvailableDates = () => {
     const bookedDates = bookings?.map((booking) => ({
       start: new Date(booking.dateFrom),
@@ -57,6 +70,11 @@ function VenueCalendar({ bookings, onDateSelect }) {
     onDateSelect(date);
   };
 
+  /**
+   * Renders the calendar with available dates and handles date selection.
+   *
+   * @returns {JSX.Element[]} - An array of JSX elements representing the calendar days.
+   */
   const renderCalendar = () => {
     const availableDates = getAvailableDates();
 
