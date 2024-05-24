@@ -8,6 +8,13 @@ import useVenuesStore from "../../store/venues";
 import useBookingStore from "../../store/bookings";
 import VenueCalendar from "../BookingCalendar";
 
+/**
+ * Represents a form for booking a venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onClose - The callback function to close the form.
+ * @returns {JSX.Element} - A form element for booking a venue.
+ */
 export function BookingVenueForm({ onClose }) {
   const {
     register,

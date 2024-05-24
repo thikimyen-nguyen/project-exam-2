@@ -58,6 +58,13 @@ const schema = yup
     continent: yup.string().notRequired().default(null),
   })
   .required();
+/**
+ * Represents a form for creating a new venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onClose - The callback function to close the form.
+ * @returns {JSX.Element} - A form element for creating a new venue.
+ */
 export function CreateVenueForm({ onClose }) {
   const {
     register,

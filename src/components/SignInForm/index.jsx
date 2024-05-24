@@ -24,6 +24,13 @@ const schema = yup
       .required("Please enter correct password."),
   })
   .required();
+/**
+ * SignInForm component handles user sign-in functionality.
+
+ *
+ * @export
+ * @return {JSX.Element} The SignInForm component.
+ */
 export function SignInForm() {
   const {
     register,

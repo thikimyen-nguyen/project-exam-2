@@ -7,6 +7,11 @@ import { EditProfileForm } from "../EditProfileForm";
 import { BookingCard } from "../BookingCard";
 import { HomeNav } from "../HomeNav";
 
+/**
+ * Renders the current user profile.
+ *
+ * @return {JSX.Element} The profile component.
+ */
 function CurrentProfile() {
   const { currentProfile, isError, isLoading } = useProfileStore();
 

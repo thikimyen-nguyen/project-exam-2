@@ -7,6 +7,11 @@ import VenuesListingCard from "./VenuesListing";
 import ErrorHandling from "../ErrorHandle";
 import Loader from "../Loader";
 
+/**
+ * Represents a component for managing venues.
+ *
+ * @returns {JSX.Element} - A component for venue management to show on admin page
+ */
 function ManageVenues() {
   const { currentProfile, isError, isLoading } = useProfileStore();
   const [isCreateVenueFormOpen, setIsCreateVenueFormOpen] = useState(false);

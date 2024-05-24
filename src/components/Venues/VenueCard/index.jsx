@@ -1,6 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Renders a card displaying information about a venue.
+ *
+ * @component
+ * @example
+ * const venue = {
+ *   id: "1",
+ *   name: "Sample Venue",
+ *   price: 200,
+ *   media: [{ url: "https://example.com/image.jpg" }],
+ *   location: { city: "Oslo", country: "Norway" },
+ *   rating: 4.5,
+ *   meta: { breakfast: true }
+ * };
+ * return <VenueCard venue={venue} />;
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.venue - The venue details.
+ * @param {string} props.venue.id - The venue ID.
+ * @param {string} props.venue.name - The venue name.
+ * @param {number} props.venue.price - The venue price.
+ * @param {Array<Object>} props.venue.media - Array of media objects.
+ * @param {string} props.venue.media.url - The URL of the media.
+ * @param {Object} props.venue.location - The location details.
+ * @param {string} props.venue.location.city - The city of the venue.
+ * @param {string} props.venue.location.country - The country of the venue.
+ * @param {number} props.venue.rating - The venue rating.
+ * @param {Object} props.venue.meta - Metadata about the venue.
+ * @param {boolean} props.venue.meta.breakfast - Indicates if breakfast is included.
+ * @returns {JSX.Element} The rendered VenueCard component.
+ */
 function VenueCard({
   venue: { id, name, price, media, location, rating, meta },
 }) {

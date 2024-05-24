@@ -6,6 +6,13 @@ import ShowBookingsDetail from "../../ShowVenueBookings";
 import { allVenuesUrl } from "../../../api";
 import { Link } from "react-router-dom";
 
+/**
+ * Represents a card component for displaying venue information.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.venue - The venue object to display.
+ * @returns {JSX.Element} - A card element for the venue. 
+ */
 function VenuesListingCard({ venue }) {
   const [isImageURL, setIsImageURL] = useState(false);
   const [isUpdateVenueFormOpen, setIsUpdateVenueFormOpen] = useState(false);

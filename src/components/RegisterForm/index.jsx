@@ -32,6 +32,10 @@ const schema = yup
       .required("Please enter correct password."),
   })
   .required();
+/**
+ * Registration form component.
+ * @returns {JSX.Element} The registration form. 
+ */
 export function RegisterForm() {
   const {
     register,
@@ -47,6 +51,11 @@ export function RegisterForm() {
   const { isError, registerSuccess } = useAuthStore();
   const [isVenueManager, setIsVenueManager] = useState(false);
 
+  /**
+   * Handles form submission.
+   * @param {Object} data - Form data.
+   * @returns {Promise<void>} A promise representing the completion of form submission.
+   */
   async function onSubmit(data) {
     reset();
 

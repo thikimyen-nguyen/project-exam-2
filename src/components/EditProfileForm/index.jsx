@@ -28,6 +28,13 @@ const schema = yup.object({
   venueManager: yup.boolean(),
 });
 
+/**
+ * Represents a form for editing user profile information.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onClose - The callback function to close the form.
+ * @returns {JSX.Element} - A form element for editing user profile. 
+ */
 export function EditProfileForm({ onClose }) {
   const {
     register,

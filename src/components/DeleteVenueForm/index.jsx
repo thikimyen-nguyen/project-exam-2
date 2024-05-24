@@ -3,6 +3,14 @@ import Alert from "../Alert";
 import useVenuesStore from "../../store/venues";
 import useProfileStore, { accessToken } from "../../store/profile";
 
+/**
+ * Represents a form for deleting a venue.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.venue - The venue object to be deleted.
+ * @param {Function} props.onClose - The callback function to close the form.
+ * @returns {JSX.Element} - A form element for deleting a venue. 
+ */
 export function DeleteVenueForm({ venue, onClose }) {
   const { apiKey } = useProfileStore();
 

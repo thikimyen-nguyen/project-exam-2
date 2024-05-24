@@ -7,6 +7,14 @@ import VenueCard from "./VenueCard";
 import Banner from "./holidaze-banner-4.jpg";
 import { PrimaryButton } from "../Buttons";
 
+/**
+ * Renders a list of venues with search functionality.
+ *
+ * @export
+ * return <VenuesList />;
+ *
+ * @returns {JSX.Element} The rendered VenuesList component. 
+ */
 export function VenuesList() {
   const {
     venues,

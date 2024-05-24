@@ -10,6 +10,16 @@ import { BookingVenueForm } from "../../CreateBookingForm";
 import { accessToken } from "../../../store/profile";
 import Alert from "../../Alert";
 
+/**
+ * SingleVenue functional component.
+ * Fetches and displays a single venue's details based on the venue ID from the URL parameters.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <SingleVenue />
+ * )
+ */
 function SingleVenue() {
   const { singleVenue, isError, isLoading, fetchVenueById, bookings } =
     useVenuesStore();

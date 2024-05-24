@@ -53,6 +53,25 @@ const schema = yup.object({
   continent: yup.string().notRequired(),
 });
 
+/**
+ *
+ * UpdateVenueForm component handles updating venue details.
+ * 
+ * 
+ * @param {Object} props - The component props.
+ * @param {Object} props.venue - The venue details.
+ * @param {string} props.venue.id - The venue ID.
+ * @param {string} props.venue.name - The venue name.
+ * @param {number} props.venue.price - The venue price.
+ * @param {Array} props.venue.media - The venue media.
+ * @param {Object} props.venue.location - The venue location details.
+ * @param {Object} props.venue.meta - The venue meta details.
+ * @param {string} props.venue.description - The venue description.
+ * @param {number} props.venue.maxGuests - The maximum number of guests.
+ * @param {function} props.onClose - The function to close the form.
+ * 
+ * @returns {JSX.Element} The UpdateVenueForm component.
+ */
 export function UpdateVenueForm({
   venue: { id, name, price, media, location, meta, description, maxGuests },
   onClose,

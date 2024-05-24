@@ -1,5 +1,14 @@
 import React from "react";
 
+/**
+ * Renders booking details in a table row.
+ * @param {Object} props - Component props.
+ * @param {string} props.customerName - The customer's name.
+ * @param {string} props.dateFrom - The start date of the booking.
+ * @param {string} props.dateTo - The end date of the booking.
+ * @param {number} props.guests - The number of guests.
+ * @returns {JSX.Element} The booking details row. 
+ */
 const ShowBookingsDetail = ({ customerName, dateFrom, dateTo, guests }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
