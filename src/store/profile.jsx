@@ -6,7 +6,7 @@ export const currentUserName = JSON.parse(
   localStorage.getItem("currentUserName")
 );
 
-const useProfileStore = create((set, get) => ({
+const useProfileStore = create((set) => ({
   currentProfile: {},
   isLoading: false,
   isError: false,

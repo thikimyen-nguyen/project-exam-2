@@ -3,7 +3,7 @@ import { allVenuesUrl } from "../api";
 import { boolean } from "yup";
 
 export const currentVenue = JSON.parse(localStorage.getItem("currentVenue"));
-const useVenuesStore = create((set, get) => ({
+const useVenuesStore = create((set) => ({
   venues: [],
   singleVenue: {},
   isLoading: false,

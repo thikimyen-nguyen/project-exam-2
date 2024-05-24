@@ -1,4 +1,3 @@
-import "./index.css";
 import { Layout } from "../Layout";
 import { Routes, Route } from "react-router-dom";
 import { SignInForm } from "../SignInForm";
