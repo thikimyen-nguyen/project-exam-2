@@ -49,12 +49,12 @@ function CurrentProfile() {
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-right"
           style={{ backgroundImage: `url('${currentProfile?.banner?.url}')` }}
-          alt={currentProfile?.name}
+          alt={`${currentProfile?.name} banner`}
         ></div>
         <div className="absolute w-44 left-5 top-1/4">
           <img
             src={currentProfile?.avatar?.url}
-            alt={currentProfile?.name}
+            alt={`${currentProfile?.name} avatar`}
             className="border-2 rounded-full border-primary h-44"
           />
           <p className="text-center text-lg font-bold">
