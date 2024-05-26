@@ -7,13 +7,13 @@ import useVenuesStore from "../../../store/venues";
 import VenueCalendar from "../../BookingCalendar";
 import { HomeNav } from "../../HomeNav";
 import { BookingVenueForm } from "../../CreateBookingForm";
-import { accessToken } from "../../../store/profile";
+import useProfileStore, { accessToken } from "../../../store/profile";
 import Alert from "../../Alert";
 
 /**
  * SingleVenue functional component.
  * Fetches and displays a single venue's details based on the venue ID from the URL parameters.
- * 
+ *
  * @component
  * @example
  * return (
@@ -27,7 +27,7 @@ function SingleVenue() {
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [showSignInAlert, setShowSignInAlert] = useState(false);
-
+  const { currentProfile } = useProfileStore();
   let { id } = useParams();
   useEffect(() => {
     fetchVenueById(id);
@@ -74,8 +74,7 @@ function SingleVenue() {
   const handleCloseBookingForm = () => {
     setIsBookingFormOpen(false);
   };
-  const handleselectedDate = (date) => {
-  };
+  const handleselectedDate = (date) => {};
   return (
     <section className="overflow-hidden ">
       <HomeNav />
@@ -124,10 +123,19 @@ function SingleVenue() {
                 {singleVenue?.location?.zip}, {singleVenue?.location?.country}
               </a>
             </div>
-            <p className="my-3">
-              Hosted By:{" "}
-              <span className="font-bold">{singleVenue?.owner?.name}</span>
-            </p>
+            {currentProfile?.name === singleVenue?.owner?.name ? (
+              <p className="my-3">
+                Hosted By: {" "}
+                <span className="font-bold">{singleVenue?.owner?.name}</span>
+                <span className="text-red"> (This is your own venue)</span>
+              </p>
+            ) : (
+              <p className="my-3">
+                Hosted By:{" "}
+                <span className="font-bold">{singleVenue?.owner?.name}</span>
+              </p>
+            )}
+
             <div className="my-4">
               <h2>Description</h2>
               <p>{singleVenue?.description}</p>
