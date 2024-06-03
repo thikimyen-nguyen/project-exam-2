@@ -1,4 +1,5 @@
 # Holidaze - A booking accommodation Application
+![image](./holidaze.webp)
 
 This is my final project as a front-end development student at Noroff. The site is built with React, Tailwind and skills acquired in the past two years for a comprehensive project showcasing overall development, as well as visual and technical competence.
 
